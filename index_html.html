@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f7cff">
+<title>化学公式计算器</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+       background:#f2f4f7;color:#1f2937;font-size:14px}
+  .app{display:flex;height:100vh;overflow:hidden}
+
+  /* ---------- 侧栏 ---------- */
+  .sidebar{width:300px;flex:0 0 300px;background:#fff;border-right:1px solid #e4e7ec;
+           overflow-y:auto;padding:14px 12px 40px;-webkit-overflow-scrolling:touch}
+  .sidebar h1{font-size:15px;margin:0 0 10px;color:#111827;letter-spacing:.5px}
+  .search{width:100%;padding:10px 12px;border:1px solid #d7dbe0;border-radius:8px;
+          outline:none;font-size:16px;margin-bottom:10px}
+  .search:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.15)}
+  details{margin-bottom:4px}
+  summary{cursor:pointer;padding:8px;border-radius:6px;font-weight:600;color:#374151;
+          font-size:13.5px;user-select:none}
+  summary:hover{background:#f0f3f9}
+  details details{margin-left:8px}
+  details details>summary{font-weight:500;color:#5b6472;font-size:13px}
+  .item{padding:9px 12px;margin:1px 0;border-radius:6px;cursor:pointer;
+        font-size:13.5px;color:#3b4351;display:flex;justify-content:space-between;align-items:center}
+  .item:hover{background:#eef3ff;color:#1d4ed8}
+  .item.active{background:#4f7cff;color:#fff}
+  .item .del{border:none;background:transparent;color:#b91c1c;cursor:pointer;font-size:17px;
+             line-height:1;padding:0 6px;border-radius:4px}
+  .item .del:hover{background:#fee2e2}
+  .addbtn{width:100%;margin-top:10px;padding:10px;border:1px dashed #b6bfcd;background:#fbfcfe;
+          border-radius:8px;cursor:pointer;color:#374151;font-size:13.5px}
+  .addbtn:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+
+  /* ---------- 主区 ---------- */
+  .main{flex:1;overflow-y:auto;padding:26px 34px;-webkit-overflow-scrolling:touch}
+  .panel{max-width:920px;background:#fff;border-radius:14px;padding:24px 26px;
+         box-shadow:0 1px 3px rgba(16,24,40,.08)}
+  .f-title{font-size:20px;font-weight:700;margin:0 0 4px}
+  .f-crumb{font-size:12px;color:#8b93a1;margin-bottom:14px}
+  .f-eq{font-family:"Cambria Math",Georgia,serif;font-size:21px;color:#1d4ed8;
+        background:#f5f8ff;border-left:3px solid #4f7cff;padding:12px 16px;border-radius:6px;
+        margin-bottom:18px;letter-spacing:.5px;word-break:break-all;line-height:1.5}
+
+  .toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+           padding-bottom:14px;border-bottom:1px solid #eef0f3;margin-bottom:16px}
+  .toolbar label{font-size:13px;color:#4b5563;display:flex;align-items:center;gap:6px}
+  select{padding:8px 10px;border:1px solid #d7dbe0;border-radius:6px;font-size:14px;
+         outline:none;background:#fff;color:#1f2937}
+  #modeSel{font-weight:600;color:#1d4ed8;border-color:#b9cbff;background:#f5f8ff}
+
+  .var-row{display:grid;grid-template-columns:26px minmax(100px,140px) 1fr 104px minmax(0,1fr);
+           gap:10px;align-items:center;padding:7px 8px;border-radius:8px}
+  .var-row:hover{background:#fafbfd}
+  .var-row.is-unknown{background:#fff8e6}
+  .var-row input[type=radio]{width:18px;height:18px;cursor:pointer;accent-color:#4f7cff}
+  .vlabel{font-family:"Cambria Math",Georgia,serif;font-size:16px;color:#111827;
+          overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vlabel small{font-family:system-ui;font-size:11px;color:#8b93a1;margin-left:4px}
+  .var-row input[type=number],.var-row input[type=text]{
+      padding:9px 10px;border:1px solid #d7dbe0;border-radius:7px;font-size:16px;
+      outline:none;width:100%;font-family:ui-monospace,Consolas,monospace;background:#fff}
+  .var-row input:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .var-row input:disabled{background:#f3f4f6;color:#9ca3af}
+  .sigsel{padding:8px 4px;border:1px solid #d7dbe0;border-radius:6px;font-size:13px;
+          outline:none;background:#fff;width:100%;cursor:pointer;color:#1f2937;
+          font-family:ui-monospace,Consolas,monospace;text-align:center}
+  .sigsel:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .var-row.is-unknown .sigsel{border-color:#f0b429;background:#fffdf5;color:#92570a;font-weight:600}
+  .vdesc{font-size:12px;color:#8b93a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .actions{margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  button.primary{background:#4f7cff;color:#fff;border:none;padding:12px 26px;border-radius:8px;
+                 font-size:15px;cursor:pointer;font-weight:600}
+  button.primary:hover{background:#3b6bf0}
+  button.ghost{background:#fff;border:1px solid #d7dbe0;padding:12px 18px;border-radius:8px;
+               cursor:pointer;font-size:15px;color:#374151}
+  button.ghost:hover{background:#f5f7fb}
+
+  .result{margin-top:18px;padding:18px 22px;border-radius:12px;background:#f0f9f4;
+          border:1px solid #cdebd9;display:none}
+  .result.show{display:block}
+  .result .rlab{font-size:13px;color:#4b7a5e;margin-bottom:6px}
+  .result .rval{font-size:32px;font-weight:700;color:#0f7a4a;
+                font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+  .result .runit{font-size:15px;color:#4b7a5e;margin-left:8px;font-weight:500}
+  .result .rnote{font-size:12px;color:#7c8b82;margin-top:8px;line-height:1.6}
+  .err{margin-top:16px;padding:12px 16px;border-radius:10px;background:#fef2f2;
+       border:1px solid #fecaca;color:#b91c1c;font-size:13px;display:none;line-height:1.6}
+  .err.show{display:block}
+
+  /* ---------- 计算过程 ---------- */
+  .process{margin-top:20px;padding:18px 20px;border-radius:12px;background:#f7f9fc;
+           border:1px solid #e4ebf5;display:none}
+  .process.show{display:block}
+  .proc-h{font-size:15px;font-weight:700;color:#1f2937;margin-bottom:14px;
+          display:flex;align-items:center;gap:6px}
+  .proc-block{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed #e4ebf5}
+  .proc-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+  .proc-sub{font-size:13px;font-weight:600;color:#4f7cff;margin-bottom:8px}
+  .ptable{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+  .ptable th{text-align:left;color:#8b93a1;font-weight:500;padding:5px 6px;
+             border-bottom:1px solid #e4ebf5;font-size:11.5px}
+  .ptable td{padding:6px;font-family:ui-monospace,Consolas,monospace;color:#1f2937;
+             font-size:12.5px;word-break:break-all}
+  .ptable td.vcol{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;font-weight:600}
+  .ptable td.arr{color:#c4cad4;text-align:center}
+  .ptable td.sigcol{color:#7c8b82;text-align:right;white-space:nowrap}
+  .ptable tbody tr:hover{background:#fff}
+  .proc-eq{font-family:"Cambria Math",Georgia,serif;font-size:14.5px;color:#1f2937;
+           background:#fff;padding:9px 12px;border-radius:6px;margin-top:6px;
+           border:1px solid #e4ebf5;word-break:break-all;line-height:1.7}
+  .proc-eq-sub{color:#4b5563;font-size:13.5px}
+  .proc-eq .val{color:#1d4ed8;font-weight:600}
+
+  /* ---------- 自定义编辑器 ---------- */
+  .field{display:block;margin-bottom:14px}
+  .field span{display:block;font-size:13px;color:#4b5563;margin-bottom:6px}
+  .field input{width:100%;padding:11px 12px;border:1px solid #d7dbe0;border-radius:8px;
+               font-size:16px;outline:none;font-family:ui-monospace,Consolas,monospace;background:#fff}
+  .field input:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .hint{font-size:12.5px;color:#8b93a1;line-height:1.8;margin:0 0 16px}
+  .hint code{background:#f1f3f7;padding:1px 5px;border-radius:4px;font-size:12px}
+  .symgroup{margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .symgroup .glabel{font-size:11.5px;color:#9aa2b1;width:100%;margin-bottom:2px}
+  .sym{padding:7px 11px;border:1px solid #dfe3ea;background:#fff;border-radius:6px;
+       cursor:pointer;font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#374151}
+  .sym:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+  .var-def{display:grid;grid-template-columns:110px 1fr 1fr;gap:10px;margin-bottom:8px;align-items:center}
+  .var-def .vname{font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#111827}
+  .var-def input{padding:8px 10px;border:1px solid #d7dbe0;border-radius:6px;font-size:14px;outline:none;background:#fff}
+  .row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .msg{margin-top:12px;font-size:13px;line-height:1.6}
+  .msg.ok{color:#0f7a4a}
+  .msg.bad{color:#b91c1c}
+  .welcome{color:#8b93a1;font-size:15px;line-height:2}
+
+  /* ===== 手机竖屏适配 ===== */
+  @media (max-width:760px){
+    .app{flex-direction:column}
+    .sidebar{width:100%;flex:0 0 auto;max-height:40vh;
+             border-right:none;border-bottom:1px solid #e4e7ec;padding:10px 10px 16px}
+    .main{padding:14px}
+    .panel{padding:16px 16px 22px;border-radius:12px}
+    .f-title{font-size:17px}
+    .f-eq{font-size:17px;padding:10px 12px;line-height:1.5}
+    .toolbar{gap:10px}
+    .var-row{grid-template-columns:24px 1fr 100px;gap:6px 8px;padding:10px 6px}
+    .var-row input[type=radio]{grid-column:1;grid-row:1}
+    .var-row .vlabel{grid-column:2/4;grid-row:1;font-size:15px}
+    .var-row input[data-var]{grid-column:2;grid-row:2}
+    .var-row .sigsel{grid-column:3;grid-row:2}
+    .var-row .vdesc{grid-column:2/4;grid-row:3;font-size:11.5px}
+    .result .rval{font-size:26px}
+    .var-def{grid-template-columns:88px 1fr;gap:8px}
+    .var-def input[data-d]{grid-column:2}
+    button.primary{flex:1;min-width:140px}
+    .item{padding:10px}
+    .sym{padding:8px 12px}
+    .ptable td{font-size:11.5px;padding:5px 4px}
+    .ptable th{font-size:10.5px;padding:4px 4px}
+    .proc-eq{font-size:13px;padding:8px 10px}
+    .process{padding:14px 12px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <h1>⚗️ 化学公式计算器</h1>
+    <input id="search" class="search" placeholder="🔍 搜索公式…">
+    <div id="tree" class="tree"></div>
+  </aside>
+  <main class="main" id="main">
+    <div class="panel"><div class="welcome">
+      从上方选择一个公式开始计算 👆<br>
+      公式中任意一个量都可以留作未知量。<br>
+      顶端可切换「有效数字 / 小数位数」两种计算方式，<br>
+      每个变量还能单独设定各自的位数。
+    </div></div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   1. 表达式引擎
+   ========================================================= */
+const FUNCS = {
+  ln:Math.log, lg:Math.log10, log:Math.log10, exp:Math.exp,
+  sqrt:Math.sqrt, cbrt:Math.cbrt, abs:Math.abs,
+  sin:Math.sin, cos:Math.cos, tan:Math.tan,
+  asin:Math.asin, acos:Math.acos, atan:Math.atan,
+  pow:Math.pow, min:Math.min, max:Math.max
+};
+const CONSTS = { pi: Math.PI };
+
+function tokenize(src){
+  const tokens = [];
+  let i = 0;
+  const n = src.length;
+  const isDigit = c => c >= '0' && c <= '9';
+  const isOp = c => '+-*/^()=,'.indexOf(c) >= 0;
+  while (i < n){
+    const c = src[i];
+    if (/\s/.test(c)) { i++; continue; }
+    if (isDigit(c) || (c === '.' && isDigit(src[i+1]))){
+      let j = i;
+      while (j < n && (isDigit(src[j]) || src[j] === '.')) j++;
+      if (j < n && (src[j] === 'e' || src[j] === 'E')){
+        let k = j + 1;
+        if (k < n && (src[k] === '+' || src[k] === '-')) k++;
+        if (k < n && isDigit(src[k])){
+          while (k < n && isDigit(src[k])) k++;
+          j = k;
+        }
+      }
+      tokens.push({ t:'num', v: parseFloat(src.slice(i, j)) });
+      i = j; continue;
+    }
+    if (isOp(c)) { tokens.push({ t:'op', v:c }); i++; continue; }
+    let j = i;
+    while (j < n && !isOp(src[j]) && !/\s/.test(src[j])) j++;
+    if (j === i) throw new Error('无法识别的字符：' + c);
+    tokens.push({ t:'id', v: src.slice(i, j) });
+    i = j;
+  }
+  return tokens;
+}
+
+function parse(tokens){
+  let pos = 0;
+  const peek = () => tokens[pos];
+  const next = () => tokens[pos++];
+  function parseExpr(){
+    let left = parseTerm();
+    while (peek() && peek().t === 'op' && (peek().v === '+' || peek().v === '-')){
+      const op = next().v;
+      left = { type:'bin', op, left, right: parseTerm() };
+    }
+    return left;
+  }
+  function parseTerm(){
+    let left = parseUnary();
+    while (peek() && peek().t === 'op' && (peek().v === '*' || peek().v === '/')){
+      const op = next().v;
+      left = { type:'bin', op, left, right: parseUnary() };
+    }
+    return left;
+  }
+  function parseUnary(){
+    if (peek() && peek().t === 'op' && (peek().v === '-' || peek().v === '+')){
+      const op = next().v;
+      const operand = parseUnary();
+      return op === '-' ? { type:'neg', operand } : operand;
+    }
+    return parsePower();
+  }
+  function parsePower(){
+    const base = parsePrimary();
+    if (peek() && peek().t === 'op' && peek().v === '^'){
+      next();
+      return { type:'bin', op:'^', left: base, right: parseUnary() };
+    }
+    return base;
+  }
+  function parsePrimary(){
+    const t = next();
+    if (!t) throw new Error('表达式意外结束');
+    if (t.t === 'num') return { type:'num', value: t.v };
+    if (t.t === 'id'){
+      if (peek() && peek().t === 'op' && peek().v === '('){
+        next();
+        const args = [];
+        if (!(peek() && peek().t === 'op' && peek().v === ')')){
+          args.push(parseExpr());
+          while (peek() && peek().t === 'op' && peek().v === ','){ next(); args.push(parseExpr()); }
+        }
+        const close = next();
+        if (!close || close.v !== ')') throw new Error('缺少右括号');
+        return { type:'call', name: t.v, args };
+      }
+      return { type:'var', name: t.v };
+    }
+    if (t.t === 'op' && t.v === '('){
+      const e = parseExpr();
+      const close = next();
+      if (!close || close.v !== ')') throw new Error('缺少右括号');
+      return e;
+    }
+    throw new Error('无法解析的符号：' + JSON.stringify(t.v));
+  }
+  const ast = parseExpr();
+  if (pos < tokens.length) throw new Error('表达式存在多余内容');
+  return ast;
+}
+
+function evalNode(node, env){
+  switch (node.type){
+    case 'num': return node.value;
+    case 'var': {
+      if (Object.prototype.hasOwnProperty.call(env, node.name)) return env[node.name];
+      if (node.name in CONSTS) return CONSTS[node.name];
+      throw new Error('未赋值的符号：' + node.name);
+    }
+    case 'neg': return -evalNode(node.operand, env);
+    case 'bin': {
+      const a = evalNode(node.left, env), b = evalNode(node.right, env);
+      switch (node.op){
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        case '^': return Math.pow(a, b);
+      }
+      throw new Error('未知运算符');
+    }
+    case 'call': {
+      const fn = FUNCS[node.name];
+      if (!fn) throw new Error('未知函数：' + node.name);
+      return fn.apply(null, node.args.map(a => evalNode(a, env)));
+    }
+  }
+  throw new Error('坏节点');
+}
+
+function parseEq(eq){
+  const idx = eq.indexOf('=');
+  if (idx < 0) throw new Error('公式缺少等号 "="');
+  return {
+    l: parse(tokenize(eq.slice(0, idx))),
+    r: parse(tokenize(eq.slice(idx + 1)))
+  };
+}
+function walkVars(node, set){
+  if (!node) return;
+  if (node.type === 'var') set.add(node.name);
+  else if (node.type === 'neg') walkVars(node.operand, set);
+  else if (node.type === 'bin'){ walkVars(node.left, set); walkVars(node.right, set); }
+  else if (node.type === 'call') node.args.forEach(a => walkVars(a, set));
+}
+function varNames(ast){
+  const s = new Set();
+  walkVars(ast.l, s); walkVars(ast.r, s);
+  return [...s].filter(n => !(n in CONSTS));
+}
+
+/* AST → 带数值的可读字符串（用于「代入公式」展示） */
+function precOf(op){ return op === '+' || op === '-' ? 1 : op === '*' || op === '/' ? 2 : 3; }
+function astToStr(node, env, sigOf){
+  switch (node.type){
+    case 'num': return String(node.value);
+    case 'var': {
+      if (env && Object.prototype.hasOwnProperty.call(env, node.name)){
+        const s = sigOf && sigOf[node.name];
+        return s !== undefined ? s : String(env[node.name]);
+      }
+      if (node.name in CONSTS) return String(CONSTS[node.name]);
+      return node.name;
+    }
+    case 'neg': {
+      const s = astToStr(node.operand, env, sigOf);
+      return node.operand.type === 'bin' ? '-(' + s + ')' : '-' + s;
+    }
+    case 'bin': {
+      const l = astToStr(node.left, env, sigOf);
+      const r = astToStr(node.right, env, sigOf);
+      let ls = l, rs = r;
+      if (node.left.type === 'bin'){
+        const pl = precOf(node.left.op), pc = precOf(node.op);
+        if (pl < pc || (pl === pc && node.op === '^')) ls = '(' + l + ')';
+      }
+      if (node.right.type === 'bin'){
+        const pr = precOf(node.right.op), pc = precOf(node.op);
+        if (pr < pc || (pr === pc && (node.op === '-' || node.op === '/' || node.op === '^'))) rs = '(' + r + ')';
+      }
+      const sym = node.op === '*' ? ' × ' : node.op === '/' ? ' ÷ ' : node.op === '^' ? ' ^ ' : ' ' + node.op + ' ';
+      return ls + sym + rs;
+    }
+    case 'call': {
+      return node.name + '(' + node.args.map(a => astToStr(a, env, sigOf)).join(', ') + ')';
+    }
+  }
+  return '';
+}
+
+/* =========================================================
+   2. 数值求解
+   ========================================================= */
+function bisect(f, a, b, fa){
+  let lo = a, hi = b, flo = fa;
+  for (let i = 0; i < 300; i++){
+    const mid = (lo + hi) / 2;
+    if (mid === lo || mid === hi) break;
+    let fm;
+    try { fm = f(mid); } catch(e){ break; }
+    if (!isFinite(fm)) break;
+    if (fm === 0) return mid;
+    if (flo * fm < 0) hi = mid; else { lo = mid; flo = fm; }
+  }
+  return (lo + hi) / 2;
+}
+function newton(f, x0){
+  let x = x0;
+  for (let i = 0; i < 120; i++){
+    let y;
+    try { y = f(x); } catch(e){ return null; }
+    if (!isFinite(y)) return null;
+    if (Math.abs(y) < 1e-13) return x;
+    const h = Math.max(1e-10, Math.abs(x) * 1e-7);
+    let y1, y2;
+    try { y1 = f(x + h); y2 = f(x - h); } catch(e){ return null; }
+    const d = (y1 - y2) / (2 * h);
+    if (!isFinite(d) || d === 0) return null;
+    const nx = x - y / d;
+    if (!isFinite(nx)) return null;
+    if (Math.abs(nx - x) < 1e-15 * Math.max(1, Math.abs(nx))) return nx;
+    x = nx;
+  }
+  return null;
+}
+function autoSolve(f){
+  const raw = [0, 1, -1];
+  for (let k = -15; k <= 15; k++){
+    const v = Math.pow(10, k);
+    raw.push(v, -v, 2*v, -2*v, 5*v, -5*v);
+  }
+  raw.sort((a, b) => a - b);
+  const xs = [];
+  for (const v of raw) if (!xs.length || v !== xs[xs.length - 1]) xs.push(v);
+  const ys = xs.map(x => { try { const y = f(x); return typeof y === 'number' ? y : NaN; } catch(e){ return NaN; } });
+
+  for (let i = 0; i < xs.length - 1; i++){
+    const fa = ys[i], fb = ys[i+1];
+    if (!isFinite(fa) || !isFinite(fb)) continue;
+    if (fa === 0) return xs[i];
+    if (fb === 0) return xs[i+1];
+    if (fa * fb < 0) return bisect(f, xs[i], xs[i+1], fa);
+  }
+  let best = null, bestAbs = Infinity;
+  for (let i = 0; i < xs.length; i++){
+    if (isFinite(ys[i]) && Math.abs(ys[i]) < bestAbs){ bestAbs = Math.abs(ys[i]); best = xs[i]; }
+  }
+  if (best !== null){
+    if (bestAbs < 1e-12) return best;
+    const cands = [best, 1, -1, 10, 0.1, best * 2, best / 2];
+    for (const c of cands){
+      const r = newton(f, c);
+      if (r !== null && isFinite(r)){
+        let chk;
+        try { chk = f(r); } catch(e){ continue; }
+        if (isFinite(chk) && Math.abs(chk) <= Math.max(1e-8, Math.abs(bestAbs) * 1e-6)) return r;
+      }
+    }
+  }
+  return null;
+}
+
+/* =========================================================
+   3. 数值格式化 —— 有效数字 & 小数位
+   ========================================================= */
+const SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻','+':'⁺'};
+const supStr = s => String(s).split('').map(c => SUP[c] || c).join('');
+
+/* ---- 有效数字 ---- */
+function toSigFig(x, n){
+  if (typeof x !== 'number' || !isFinite(x)) return String(x);
+  if (x === 0) return '0';
+  const neg = x < 0;
+  const ax = Math.abs(x);
+  const e = Math.floor(Math.log10(ax));
+  let s;
+  if (e >= n || e <= -5){
+    const parts = ax.toExponential(n - 1).split('e');
+    s = parts[0] + '×10' + supStr(String(parseInt(parts[1], 10)));
+  } else {
+    s = ax.toFixed(Math.max(0, n - 1 - e));
+  }
+  return (neg ? '-' : '') + s;
+}
+function roundSigFig(x, n){
+  if (typeof x !== 'number' || !isFinite(x) || x === 0) return x;
+  const e = Math.floor(Math.log10(Math.abs(x)));
+  const factor = Math.pow(10, n - 1 - e);
+  return Math.sign(x) * Math.round(Math.abs(x) * factor) / factor;
+}
+
+/* ---- 小数位数 ---- */
+function roundDec(x, n){
+  if (typeof x !== 'number' || !isFinite(x)) return x;
+  const f = Math.pow(10, n);
+  return Math.round(x * f) / f;
+}
+function toDecStr(x, n){
+  if (typeof x !== 'number' || !isFinite(x)) return String(x);
+  if (x === 0) return (0).toFixed(n);
+  const neg = x < 0;
+  const ax = Math.abs(x);
+  // 数值太大或太小，用指数形式（保证显示可读）
+  if (ax >= 1e15 || ax < Math.pow(10, -n - 1)){
+    const r = roundDec(x, n);
+    if (r === 0) return (0).toFixed(n);
+    const e = Math.floor(Math.log10(Math.abs(r)));
+    let md = n + e;              // 尾数应保留的小数位
+    if (md < 0) md = 0;
+    if (md > 18) md = 18;
+    const parts = r.toExponential(md).split('e');
+    return (neg ? '-' : '') + parts[0] + '×10' + supStr(String(parseInt(parts[1], 10)));
+  }
+  return x.toFixed(n);
+}
+
+/* ---- 输入值自动推断位数 ---- */
+function inferSigFigs(str){
+  if (str === null || str === undefined) return null;
+  str = String(str).trim();
+  if (!str) return null;
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(str)) return null;
+  str = str.replace(/^[+-]/, '');
+  const eIdx = str.search(/[eE]/);
+  if (eIdx >= 0){
+    const mantissa = str.slice(0, eIdx).replace(/\./g, '').replace(/^0+/, '');
+    return mantissa.length || null;
+  }
+  const dotIdx = str.indexOf('.');
+  if (dotIdx >= 0){
+    const before = str.slice(0, dotIdx).replace(/^0+/, '');
+    const after = str.slice(dotIdx + 1);
+    const trimmed = (before + after).replace(/^0+/, '');
+    return trimmed.length || null;
+  }
+  const trimmed = str.replace(/^0+/, '');
+  return trimmed.length || null;
+}
+function inferDecimals(str){
+  if (str === null || str === undefined) return null;
+  str = String(str).trim();
+  if (!str) return null;
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(str)) return null;
+  if (/[eE]/.test(str)) return null;      // 科学计数法不推断小数位
+  const dotIdx = str.indexOf('.');
+  if (dotIdx < 0) return null;            // 整数不自动推断小数位
+  return str.length - dotIdx - 1;
+}
+
+/* 展示"原始解"等用的干净格式 */
+function cleanNum(x){
+  if (typeof x !== 'number' || !isFinite(x)) return String(x);
+  if (x === 0) return '0';
+  const a = Math.abs(x);
+  if (a >= 1e-4 && a < 1e16){
+    return x.toFixed(12).replace(/0+$/, '').replace(/\.$/, '');
+  }
+  return x.toExponential(8).replace(/\.?0+e/, 'e');
+}
+
+/* =========================================================
+   4. 公式数据
+   ========================================================= */
+const DATA = [
+{
+  cat:'物理化学',
+  subs:[
+    { sub:'气体与状态方程', items:[
+      { name:'理想气体状态方程', eq:'p*V = n*R*T',
+        vars:{ p:{u:'Pa',d:'压力'}, V:{u:'m³',d:'体积'}, n:{u:'mol',d:'物质的量'},
+               R:{u:'J/(mol·K)',d:'摩尔气体常数',v:8.314}, T:{u:'K',d:'热力学温度'} } },
+      { name:'范德华方程', eq:'(p + a*n^2/V^2)*(V - n*b) = n*R*T',
+        vars:{ p:{u:'Pa'}, a:{u:'Pa·m⁶/mol²',d:'引力常数'}, n:{u:'mol'}, V:{u:'m³'},
+               b:{u:'m³/mol',d:'体积常数'}, R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'} } },
+      { name:'道尔顿分压定律', eq:'p_A = x_A*P',
+        vars:{ p_A:{u:'Pa',d:'组分A分压'}, x_A:{u:'—',d:'A的摩尔分数'}, P:{u:'Pa',d:'总压'} } },
+      { name:'格拉罕姆扩散定律', eq:'r_1/r_2 = sqrt(M_2/M_1)',
+        vars:{ r_1:{u:'—',d:'气体1扩散速率'}, r_2:{u:'—'}, M_1:{u:'g/mol'}, M_2:{u:'g/mol'} } }
+    ]},
+    { sub:'热力学', items:[
+      { name:'热力学第一定律', eq:'ΔU = Q + W',
+        vars:{ ΔU:{u:'J',d:'内能变化'}, Q:{u:'J',d:'吸热为正'}, W:{u:'J',d:'环境对系统做功为正'} } },
+      { name:'焓的定义式', eq:'H = U + p*V',
+        vars:{ H:{u:'J'}, U:{u:'J'}, p:{u:'Pa'}, V:{u:'m³'} } },
+      { name:'等压热效应', eq:'Q = n*C_p*ΔT',
+        vars:{ Q:{u:'J'}, n:{u:'mol'}, C_p:{u:'J/(mol·K)',d:'等压摩尔热容'}, ΔT:{u:'K'} } },
+      { name:'等容热效应', eq:'Q = n*C_V*ΔT',
+        vars:{ Q:{u:'J'}, n:{u:'mol'}, C_V:{u:'J/(mol·K)',d:'等容摩尔热容'}, ΔT:{u:'K'} } },
+      { name:'反应焓变与内能变', eq:'ΔH = ΔU + Δn*R*T',
+        vars:{ ΔH:{u:'J'}, ΔU:{u:'J'}, Δn:{u:'mol',d:'产物与反应物气体物质的量之差'},
+               R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'} } },
+      { name:'熵变定义式', eq:'ΔS = Q_r/T',
+        vars:{ ΔS:{u:'J/K'}, Q_r:{u:'J',d:'可逆过程热效应'}, T:{u:'K'} } },
+      { name:'吉布斯自由能', eq:'ΔG = ΔH - T*ΔS',
+        vars:{ ΔG:{u:'J'}, ΔH:{u:'J'}, T:{u:'K'}, ΔS:{u:'J/K'} } },
+      { name:'亥姆霍兹自由能', eq:'ΔA = ΔU - T*ΔS',
+        vars:{ ΔA:{u:'J'}, ΔU:{u:'J'}, T:{u:'K'}, ΔS:{u:'J/K'} } },
+      { name:'标准吉布斯自由能与平衡常数', eq:'ΔG = -R*T*ln(K)',
+        vars:{ ΔG:{u:'J'}, R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'}, K:{u:'—',d:'平衡常数'} } },
+      { name:'范特霍夫方程', eq:'ln(K_2/K_1) = -ΔH/R*(1/T_2 - 1/T_1)',
+        vars:{ K_1:{u:'—'}, K_2:{u:'—'}, ΔH:{u:'J/mol'}, R:{u:'J/(mol·K)',v:8.314},
+               T_1:{u:'K'}, T_2:{u:'K'} } },
+      { name:'克劳修斯-克拉佩龙方程', eq:'ln(p_2/p_1) = -ΔH_vap/R*(1/T_2 - 1/T_1)',
+        vars:{ p_1:{u:'Pa'}, p_2:{u:'Pa'}, ΔH_vap:{u:'J/mol',d:'摩尔蒸发热'},
+               R:{u:'J/(mol·K)',v:8.314}, T_1:{u:'K'}, T_2:{u:'K'} } },
+      { name:'化学势', eq:'μ = μ_0 + R*T*ln(a)',
+        vars:{ μ:{u:'J/mol'}, μ_0:{u:'J/mol',d:'标准化学势'}, R:{u:'J/(mol·K)',v:8.314},
+               T:{u:'K'}, a:{u:'—',d:'活度'} } }
+    ]},
+    { sub:'相平衡与依数性', items:[
+      { name:'拉乌尔定律', eq:'p = x_A*p_A_star',
+        vars:{ p:{u:'Pa',d:'溶液上方蒸汽压'}, x_A:{u:'—'}, p_A_star:{u:'Pa',d:'纯溶剂饱和蒸汽压'} } },
+      { name:'亨利定律', eq:'p = k_x*x',
+        vars:{ p:{u:'Pa'}, k_x:{u:'Pa',d:'亨利常数'}, x:{u:'—'} } },
+      { name:'渗透压', eq:'π = c*R*T',
+        vars:{ π:{u:'Pa'}, c:{u:'mol/m³'}, R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'} } },
+      { name:'沸点升高', eq:'ΔT_b = K_b*b',
+        vars:{ ΔT_b:{u:'K'}, K_b:{u:'K·kg/mol',d:'沸点升高常数'}, b:{u:'mol/kg',d:'质量摩尔浓度'} } },
+      { name:'凝固点降低', eq:'ΔT_f = K_f*b',
+        vars:{ ΔT_f:{u:'K'}, K_f:{u:'K·kg/mol',d:'凝固点降低常数'}, b:{u:'mol/kg'} } }
+    ]},
+    { sub:'化学平衡', items:[
+      { name:'Kp 与 Kc 的关系', eq:'K_p = K_c*(R*T)^Δn',
+        vars:{ K_p:{u:'—'}, K_c:{u:'—'}, R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'},
+               Δn:{u:'mol',d:'气体产物与反应物物质的量之差'} } }
+    ]},
+    { sub:'化学动力学', items:[
+      { name:'零级反应速率方程', eq:'c = c_0 - k*t',
+        vars:{ c:{u:'mol/L'}, c_0:{u:'mol/L',d:'初始浓度'}, k:{u:'mol/(L·s)'}, t:{u:'s'} } },
+      { name:'一级反应速率方程', eq:'c = c_0*exp(-k*t)',
+        vars:{ c:{u:'mol/L'}, c_0:{u:'mol/L'}, k:{u:'s⁻¹'}, t:{u:'s'} } },
+      { name:'二级反应速率方程', eq:'1/c - 1/c_0 = k*t',
+        vars:{ c:{u:'mol/L'}, c_0:{u:'mol/L'}, k:{u:'L/(mol·s)'}, t:{u:'s'} } },
+      { name:'阿伦尼乌斯方程', eq:'k = A*exp(-E_a/(R*T))',
+        vars:{ k:{u:'s⁻¹'}, A:{u:'s⁻¹',d:'指前因子'}, E_a:{u:'J/mol',d:'活化能'},
+               R:{u:'J/(mol·K)',v:8.314}, T:{u:'K'} } },
+      { name:'一级反应半衰期', eq:'t_half = ln(2)/k',
+        vars:{ t_half:{u:'s'}, k:{u:'s⁻¹'} } },
+      { name:'二级反应半衰期', eq:'t_half = 1/(k*c_0)',
+        vars:{ t_half:{u:'s'}, k:{u:'L/(mol·s)'}, c_0:{u:'mol/L'} } },
+      { name:'由两温度求活化能', eq:'ln(k_2/k_1) = -E_a/R*(1/T_2 - 1/T_1)',
+        vars:{ k_1:{u:'—'}, k_2:{u:'—'}, E_a:{u:'J/mol'}, R:{u:'J/(mol·K)',v:8.314},
+               T_1:{u:'K'}, T_2:{u:'K'} } }
+    ]},
+    { sub:'电化学', items:[
+      { name:'能斯特方程', eq:'E = E_0 - (R*T/(z*F))*ln(Q)',
+        vars:{ E:{u:'V'}, E_0:{u:'V',d:'标准电极电势'}, R:{u:'J/(mol·K)',v:8.314},
+               T:{u:'K'}, z:{u:'—',d:'转移电子数'}, F:{u:'C/mol',v:96485},
+               Q:{u:'—',d:'反应商'} } },
+      { name:'电动势与吉布斯自由能', eq:'ΔG = -z*F*E',
+        vars:{ ΔG:{u:'J'}, z:{u:'—'}, F:{u:'C/mol',v:96485}, E:{u:'V'} } },
+      { name:'摩尔电导率', eq:'Λ_m = κ/c',
+        vars:{ Λ_m:{u:'S·m²/mol'}, κ:{u:'S/m',d:'电导率'}, c:{u:'mol/m³'} } },
+      { name:'法拉第电解定律', eq:'m = M*I*t/(z*F)',
+        vars:{ m:{u:'g',d:'析出物质质量'}, M:{u:'g/mol'}, I:{u:'A'}, t:{u:'s'},
+               z:{u:'—'}, F:{u:'C/mol',v:96485} } }
+    ]},
+    { sub:'表面与胶体', items:[
+      { name:'朗缪尔吸附等温式', eq:'θ = b*p/(1 + b*p)',
+        vars:{ θ:{u:'—',d:'覆盖度'}, b:{u:'Pa⁻¹',d:'吸附常数'}, p:{u:'Pa'} } },
+      { name:'开尔文方程', eq:'ln(p/p_0) = (2*γ*M)/(ρ*R*T*r)',
+        vars:{ p:{u:'Pa'}, p_0:{u:'Pa',d:'平面液体饱和蒸汽压'}, γ:{u:'N/m',d:'表面张力'},
+               M:{u:'kg/mol'}, ρ:{u:'kg/m³'}, R:{u:'J/(mol·K)',v:8.314},
+               T:{u:'K'}, r:{u:'m',d:'液滴半径'} } }
+    ]}
+  ]
+},
+{
+  cat:'分析化学',
+  subs:[
+    { sub:'误差与数据处理', items:[
+      { name:'算术平均值', eq:'x_bar = S/n',
+        vars:{ x_bar:{u:'—',d:'平均值',label:'x̄'}, S:{u:'—',d:'各测量值之和'}, n:{u:'—',d:'测量次数'} } },
+      { name:'标准偏差', eq:'s = sqrt(SS/(n-1))',
+        vars:{ s:{u:'—',d:'标准偏差'}, SS:{u:'—',d:'Σ(xᵢ-x̄)²'}, n:{u:'—',d:'测量次数'} } },
+      { name:'相对标准偏差 RSD', eq:'RSD = s/x_bar*100',
+        vars:{ RSD:{u:'%'}, s:{u:'—'}, x_bar:{u:'—',label:'x̄'} } },
+      { name:'相对平均偏差', eq:'d_rel = d_bar/x_bar*100',
+        vars:{ d_rel:{u:'%'}, d_bar:{u:'—',d:'平均偏差',label:'d̄'}, x_bar:{u:'—',label:'x̄'} } },
+      { name:'置信区间半宽', eq:'Δ = t*s/sqrt(n)',
+        vars:{ Δ:{u:'—'}, t:{u:'—',d:'t 分布临界值'}, s:{u:'—'}, n:{u:'—'} } },
+      { name:'绝对误差', eq:'E = x - x_T',
+        vars:{ E:{u:'—'}, x:{u:'—',d:'测量值'}, x_T:{u:'—',d:'真值'} } },
+      { name:'相对误差', eq:'RE = (x - x_T)/x_T*100',
+        vars:{ RE:{u:'%'}, x:{u:'—'}, x_T:{u:'—'} } }
+    ]},
+    { sub:'酸碱平衡', items:[
+      { name:'pH 定义式', eq:'pH = -lg(c_H)',
+        vars:{ pH:{u:'—'}, c_H:{u:'mol/L',d:'H⁺ 浓度'} } },
+      { name:'pOH 定义式', eq:'pOH = -lg(c_OH)',
+        vars:{ pOH:{u:'—'}, c_OH:{u:'mol/L',d:'OH⁻ 浓度'} } },
+      { name:'水的离子积', eq:'K_w = c_H*c_OH',
+        vars:{ K_w:{u:'—',v:1e-14}, c_H:{u:'mol/L'}, c_OH:{u:'mol/L'} } },
+      { name:'亨德森-哈塞尔巴赫方程', eq:'pH = pK_a + lg(c_A/c_HA)',
+        vars:{ pH:{u:'—'}, pK_a:{u:'—'}, c_A:{u:'mol/L',d:'共轭碱浓度'},
+               c_HA:{u:'mol/L',d:'弱酸浓度'} } },
+      { name:'一元弱酸溶液 c(H⁺)', eq:'c_H = sqrt(K_a*c)',
+        vars:{ c_H:{u:'mol/L'}, K_a:{u:'—'}, c:{u:'mol/L',d:'弱酸总浓度'} } },
+      { name:'一元弱碱溶液 c(OH⁻)', eq:'c_OH = sqrt(K_b*c)',
+        vars:{ c_OH:{u:'mol/L'}, K_b:{u:'—'}, c:{u:'mol/L'} } },
+      { name:'缓冲溶液 pH', eq:'pH = pK_a + lg(n_A/n_HA)',
+        vars:{ pH:{u:'—'}, pK_a:{u:'—'}, n_A:{u:'mol'}, n_HA:{u:'mol'} } },
+      { name:'弱酸解离度', eq:'α = sqrt(K_a/c)',
+        vars:{ α:{u:'—'}, K_a:{u:'—'}, c:{u:'mol/L'} } }
+    ]},
+    { sub:'沉淀溶解平衡', items:[
+      { name:'溶度积', eq:'K_sp = c_A^m*c_B^n',
+        vars:{ K_sp:{u:'—'}, c_A:{u:'mol/L'}, m:{u:'—'}, c_B:{u:'mol/L'}, n:{u:'—'} } },
+      { name:'AB 型沉淀溶解度', eq:'s = sqrt(K_sp)',
+        vars:{ s:{u:'mol/L'}, K_sp:{u:'—'} } },
+      { name:'AB₂ 型沉淀溶解度', eq:'s = (K_sp/4)^(1/3)',
+        vars:{ s:{u:'mol/L'}, K_sp:{u:'—'} } }
+    ]},
+    { sub:'配位平衡', items:[
+      { name:'配合物稳定常数', eq:'K_f = c_ML/(c_M*c_L)',
+        vars:{ K_f:{u:'—'}, c_ML:{u:'mol/L'}, c_M:{u:'mol/L'}, c_L:{u:'mol/L'} } }
+    ]},
+    { sub:'氧化还原与电位分析', items:[
+      { name:'条件电极电势（25℃）', eq:'E = E_0 + (0.0592/z)*lg(c_Ox/c_Red)',
+        vars:{ E:{u:'V'}, E_0:{u:'V',d:'条件电极电势'}, z:{u:'—',d:'转移电子数'},
+               c_Ox:{u:'mol/L'}, c_Red:{u:'mol/L'} } }
+    ]},
+    { sub:'滴定分析', items:[
+      { name:'物质的量浓度', eq:'c = n/V',
+        vars:{ c:{u:'mol/L'}, n:{u:'mol'}, V:{u:'L'} } },
+      { name:'滴定度', eq:'T = m/V',
+        vars:{ T:{u:'g/mL'}, m:{u:'g'}, V:{u:'mL'} } },
+      { name:'质量分数', eq:'w = m/m_s*100',
+        vars:{ w:{u:'%'}, m:{u:'g',d:'待测组分质量'}, m_s:{u:'g',d:'试样质量'} } },
+      { name:'回收率', eq:'R = m_found/m_added*100',
+        vars:{ R:{u:'%'}, m_found:{u:'g',d:'测得量'}, m_added:{u:'g',d:'加入量'} } }
+    ]},
+    { sub:'吸光光度法', items:[
+      { name:'朗伯-比尔定律', eq:'A = ε*b*c',
+        vars:{ A:{u:'—',d:'吸光度'}, ε:{u:'L/(mol·cm)',d:'摩尔吸光系数'},
+               b:{u:'cm',d:'液层厚度'}, c:{u:'mol/L'} } },
+      { name:'吸光度与透光率', eq:'A = -lg(T)',
+        vars:{ A:{u:'—'}, T:{u:'—',d:'透光率(0~1)'} } },
+      { name:'桑德尔灵敏度', eq:'S = M/ε',
+        vars:{ S:{u:'μg/cm²'}, M:{u:'g/mol'}, ε:{u:'L/(mol·cm)'} } }
+    ]},
+    { sub:'色谱分析', items:[
+      { name:'保留因子', eq:'k = (t_R - t_0)/t_0',
+        vars:{ k:{u:'—'}, t_R:{u:'min',d:'保留时间'}, t_0:{u:'min',d:'死时间'} } },
+      { name:'分离度', eq:'R_s = 2*(t_2 - t_1)/(w_1 + w_2)',
+        vars:{ R_s:{u:'—'}, t_1:{u:'min'}, t_2:{u:'min'},
+               w_1:{u:'min',d:'峰宽1'}, w_2:{u:'min',d:'峰宽2'} } },
+      { name:'理论塔板数', eq:'N = 16*(t_R/w)^2',
+        vars:{ N:{u:'—'}, t_R:{u:'min'}, w:{u:'min',d:'峰宽'} } },
+      { name:'选择性因子', eq:'α = k_2/k_1',
+        vars:{ α:{u:'—'}, k_2:{u:'—'}, k_1:{u:'—'} } }
+    ]}
+  ]
+}
+];
+
+/* =========================================================
+   5. 状态
+   ========================================================= */
+const state = {
+  formula: null,
+  unknown: null,
+  values: {},        // 字符串
+  mode: 'sig',       // 'sig' 有效数字 | 'dec' 小数位数
+  sigfigs: {},       // 每个变量的有效数字位数
+  decimals: {},      // 每个变量的小数位数
+  sigManual: {},     // 用户是否手动改过（sig 模式）
+  decManual: {},     // 用户是否手动改过（dec 模式）
+  defaultSig: 4,
+  defaultDec: 2
+};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const labelOf = (nm, meta) => (meta && meta[nm] && meta[nm].label) ? meta[nm].label : nm;
+
+const LS_KEY = 'chemcalc_custom_v1';
+function loadCustom(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch(e){ return []; }
+}
+function saveCustomList(list){ localStorage.setItem(LS_KEY, JSON.stringify(list)); }
+
+/* 取某变量在当前模式下的位数 */
+function getDigits(nm){
+  if (state.mode === 'sig'){
+    const d = state.sigfigs[nm];
+    return (d >= 1 && d <= 8) ? d : state.defaultSig;
+  } else {
+    const d = state.decimals[nm];
+    return (d >= 0 && d <= 8) ? d : state.defaultDec;
+  }
+}
+function getGlobalDigits(){
+  return state.mode === 'sig' ? state.defaultSig : state.defaultDec;
+}
+
+/* 统一的舍入 / 显示入口 */
+function roundBy(x, n){
+  return state.mode === 'sig' ? roundSigFig(x, n) : roundDec(x, n);
+}
+function fmtBy(x, n){
+  return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n);
+}
+function unitWord(){
+  return state.mode === 'sig' ? '位有效数字' : '位小数';
+}
+
+/* =========================================================
+   6. 侧边栏
+   ========================================================= */
+function renderSidebar(filter){
+  const tree = $('tree');
+  tree.innerHTML = '';
+  const f = (filter || '').trim().toLowerCase();
+
+  DATA.forEach(cat => {
+    const catEl = document.createElement('details');
+    catEl.open = true;
+    const cs = document.createElement('summary');
+    cs.textContent = cat.cat;
+    catEl.appendChild(cs);
+    let catHas = false;
+    cat.subs.forEach(sub => {
+      const subEl = document.createElement('details');
+      subEl.open = true;
+      const ss = document.createElement('summary');
+      ss.textContent = sub.sub;
+      subEl.appendChild(ss);
+      let subHas = false;
+      sub.items.forEach(item => {
+        if (f && !(item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f))) return;
+        const el = document.createElement('div');
+        el.className = 'item';
+        el.textContent = item.name;
+        el.onclick = () => { markActive(el); openFormula(item, cat.cat + ' / ' + sub.sub); };
+        subEl.appendChild(el);
+        subHas = true;
+      });
+      if (subHas){ catEl.appendChild(subEl); catHas = true; }
+    });
+    if (catHas || !f) tree.appendChild(catEl);
+  });
+
+  const custom = loadCustom();
+  if (custom.length){
+    const d = document.createElement('details');
+    d.open = true;
+    const s = document.createElement('summary');
+    s.textContent = '自定义公式';
+    d.appendChild(s);
+    custom.forEach((item, idx) => {
+      const el = document.createElement('div');
+      el.className = 'item';
+      const span = document.createElement('span');
+      span.textContent = item.name;
+      span.style.flex = '1';
+      span.onclick = () => { markActive(el); openFormula(item, '自定义公式'); };
+      const del = document.createElement('button');
+      del.className = 'del';
+      del.textContent = '×';
+      del.onclick = ev => {
+        ev.stopPropagation();
+        if (confirm('删除公式「' + item.name + '」？')){
+          const list = loadCustom(); list.splice(idx, 1); saveCustomList(list);
+          renderSidebar($('search').value);
+        }
+      };
+      el.appendChild(span); el.appendChild(del);
+      d.appendChild(el);
+    });
+    tree.appendChild(d);
+  }
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'addbtn';
+  addBtn.textContent = '＋ 新建自定义公式';
+  addBtn.onclick = renderCustomEditor;
+  tree.appendChild(addBtn);
+}
+function markActive(el){
+  document.querySelectorAll('#tree .item').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+}
+$('search').addEventListener('input', e => renderSidebar(e.target.value));
+
+/* =========================================================
+   7. 公式面板
+   ========================================================= */
+function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
+function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
+function hideProc(){ const p = $('procbox'); if (p){ p.classList.remove('show'); p.innerHTML = ''; } }
+function showErr(msg){ const b = $('errbox'); if (b){ b.textContent = msg; b.classList.add('show'); } }
+
+function openFormula(f, crumb){
+  state.formula = f;
+  state.values = {};
+  state.sigfigs = {};
+  state.decimals = {};
+  state.sigManual = {};
+  state.decManual = {};
+
+  let ast;
+  try { ast = parseEq(f.eq); }
+  catch(e){
+    $('main').innerHTML = '<div class="panel"><div class="err show">公式解析失败：' + esc(e.message) + '</div></div>';
+    return;
+  }
+  const names = varNames(ast);
+  const meta = f.vars || {};
+
+  names.forEach(nm => {
+    if (meta[nm] && meta[nm].v !== undefined) state.values[nm] = String(meta[nm].v);
+    else state.values[nm] = '';
+  });
+  state.unknown = names.find(nm => state.values[nm] === '') || names[names.length - 1];
+
+  // 从已有值推断默认位数
+  names.forEach(nm => {
+    const infS = inferSigFigs(state.values[nm]);
+    state.sigfigs[nm] = infS || state.defaultSig;
+    const infD = inferDecimals(state.values[nm]);
+    state.decimals[nm] = (infD !== null) ? infD : state.defaultDec;
+  });
+
+  renderFormulaPanel(f, crumb || '', ast, names, meta);
+}
+
+/* 生成一个变量的位数下拉框选项 */
+function digitOptions(nm){
+  const cur = getDigits(nm);
+  const list = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
+  return list.map(n => `<option value="${n}" ${n === cur ? 'selected' : ''}>${n}位${state.mode === 'sig' ? '有效' : '小数'}</option>`).join('');
+}
+
+function renderFormulaPanel(f, crumb, ast, names, meta){
+  const main = $('main');
+
+  const varsHTML = names.map(nm => {
+    const m = meta[nm] || {};
+    const val = state.values[nm] ?? '';
+    const isUnk = nm === state.unknown;
+    return `
+      <div class="var-row ${isUnk ? 'is-unknown' : ''}" data-row="${esc(nm)}">
+        <input type="radio" name="unknown" value="${esc(nm)}" ${isUnk ? 'checked' : ''}>
+        <div class="vlabel" title="${esc(nm)}">${esc(labelOf(nm, meta))}${m.u ? `<small>${esc(m.u)}</small>` : ''}</div>
+        <input type="number" step="any" inputmode="decimal" data-var="${esc(nm)}" value="${esc(val)}"
+               ${isUnk ? 'disabled' : ''} placeholder="${isUnk ? '待求' : '输入数值'}">
+        <select class="sigsel" data-sig="${esc(nm)}"
+                title="${isUnk ? '结果保留位数' : '输入值取舍位数'}">
+          ${digitOptions(nm)}
+        </select>
+        <div class="vdesc" title="${esc(m.d || '')}">${esc(m.d || '')}</div>
+      </div>`;
+  }).join('');
+
+  const globalDigits = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
+  const globalCur = getGlobalDigits();
+  const globalOpts = globalDigits.map(n =>
+    `<option value="${n}" ${n === globalCur ? 'selected' : ''}>${n} ${state.mode === 'sig' ? '位有效' : '位小数'}</option>`
+  ).join('');
+
+  main.innerHTML = `
+    <div class="panel">
+      <h2 class="f-title">${esc(f.name)}</h2>
+      ${crumb ? `<div class="f-crumb">${esc(crumb)}</div>` : ''}
+      <div class="f-eq">${esc(f.eq.replace(/\*/g, '·').replace(/\^2/g, '²').replace(/\^3/g, '³'))}</div>
+
+      <div class="toolbar">
+        <label>计算方式
+          <select id="modeSel">
+            <option value="sig" ${state.mode === 'sig' ? 'selected' : ''}>保留有效数字</option>
+            <option value="dec" ${state.mode === 'dec' ? 'selected' : ''}>保留小数位数</option>
+          </select>
+        </label>
+        <label>统一位数
+          <select id="globalDigit">${globalOpts}</select>
+        </label>
+        <span style="font-size:12px;color:#8b93a1;line-height:1.5">
+          选圆圈 → 未知量；每行右侧可单独设位数
+        </span>
+      </div>
+
+      <div id="varlist">${varsHTML || '<div class="vdesc">该公式没有可输入的变量。</div>'}</div>
+
+      <div class="actions">
+        <button class="primary" id="btnCalc">计 算</button>
+        <button class="ghost" id="btnReset">重置</button>
+      </div>
+
+      <div class="err" id="errbox"></div>
+      <div class="process" id="procbox"></div>
+
+      <div class="result" id="resultbox">
+        <div class="rlab" id="rlab"></div>
+        <div><span class="rval" id="rval"></span><span class="runit" id="runit"></span></div>
+        <div class="rnote" id="rnote"></div>
+      </div>
+    </div>`;
+
+  /* ---- 输入框：更新值 + 自动推断位数 ---- */
+  main.querySelectorAll('input[data-var]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const nm = inp.dataset.var;
+      state.values[nm] = inp.value;
+      const row = inp.closest('.var-row');
+      const sel = row ? row.querySelector('.sigsel') : null;
+
+      if (state.mode === 'sig'){
+        if (!state.sigManual[nm]){
+          const inf = inferSigFigs(inp.value);
+          if (inf && inf >= 1 && inf <= 8){
+            state.sigfigs[nm] = inf;
+            if (sel) sel.value = String(inf);
+          }
+        }
+      } else {
+        if (!state.decManual[nm]){
+          const inf = inferDecimals(inp.value);
+          if (inf !== null && inf >= 0 && inf <= 8){
+            state.decimals[nm] = inf;
+            if (sel) sel.value = String(inf);
+          }
+        }
+      }
+    });
+  });
+
+  /* ---- 每个变量的位数选择器 ---- */
+  main.querySelectorAll('.sigsel').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const nm = sel.dataset.sig;
+      const v = parseInt(sel.value, 10);
+      if (state.mode === 'sig'){
+        state.sigfigs[nm] = v;
+        state.sigManual[nm] = true;
+      } else {
+        state.decimals[nm] = v;
+        state.decManual[nm] = true;
+      }
+      hideErr(); hideResult(); hideProc();
+    });
+  });
+
+  /* ---- 切换未知量 ---- */
+  main.querySelectorAll('input[name="unknown"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      state.unknown = radio.value;
+      main.querySelectorAll('.var-row').forEach(row => {
+        const nm = row.dataset.row;
+        const isUnk = nm === state.unknown;
+        row.classList.toggle('is-unknown', isUnk);
+        const inp = row.querySelector('input[data-var]');
+        inp.disabled = isUnk;
+        inp.placeholder = isUnk ? '待求' : '输入数值';
+        const sel = row.querySelector('.sigsel');
+        if (sel) sel.title = isUnk ? '结果保留位数' : '输入值取舍位数';
+      });
+      hideErr(); hideResult(); hideProc();
+    });
+  });
+
+  /* ---- 顶部：切换计算方式 ---- */
+  $('modeSel').addEventListener('change', e => {
+    state.mode = e.target.value;
+    // 切换后，未手动改过的变量按当前模式的规则重新推断
+    names.forEach(nm => {
+      if (nm === state.unknown) return;
+      if (state.mode === 'sig'){
+        if (!state.sigManual[nm]){
+          const inf = inferSigFigs(state.values[nm]);
+          if (inf && inf >= 1 && inf <= 8) state.sigfigs[nm] = inf;
+        }
+      } else {
+        if (!state.decManual[nm]){
+          const inf = inferDecimals(state.values[nm]);
+          if (inf !== null && inf >= 0 && inf <= 8) state.decimals[nm] = inf;
+        }
+      }
+    });
+    renderFormulaPanel(f, crumb, ast, names, meta);
+  });
+
+  /* ---- 顶部：统一位数 ---- */
+  const gsel = $('globalDigit');
+  if (gsel){
+    gsel.addEventListener('change', () => {
+      const n = parseInt(gsel.value, 10);
+      if (state.mode === 'sig') state.defaultSig = n;
+      else state.defaultDec = n;
+      names.forEach(nm => {
+        if (state.mode === 'sig') state.sigfigs[nm] = n;
+        else state.decimals[nm] = n;
+      });
+      main.querySelectorAll('.sigsel').forEach(s => { s.value = String(n); });
+      hideErr(); hideResult(); hideProc();
+    });
+  }
+
+  $('btnCalc').addEventListener('click', () => doCompute(f, ast, names, meta));
+  $('btnReset').addEventListener('click', () => {
+    names.forEach(nm => {
+      state.values[nm] = (meta[nm] && meta[nm].v !== undefined) ? String(meta[nm].v) : '';
+      const infS = inferSigFigs(state.values[nm]);
+      state.sigfigs[nm] = infS || state.defaultSig;
+      const infD = inferDecimals(state.values[nm]);
+      state.decimals[nm] = (infD !== null) ? infD : state.defaultDec;
+      state.sigManual[nm] = false;
+      state.decManual[nm] = false;
+    });
+    renderFormulaPanel(f, crumb, ast, names, meta);
+  });
+}
+
+/* =========================================================
+   8. 计算 + 过程展示
+   ========================================================= */
+function doCompute(f, ast, names, meta){
+  hideErr(); hideResult(); hideProc();
+  const unknown = state.unknown;
+  if (!unknown){ showErr('请选择未知量'); return; }
+
+  const env = {};         // 舍入后的值，用于求解与展示
+  const dispOf = {};      // 每个变量的展示字符串
+  const inputs = [];
+
+  for (const nm of names){
+    if (nm === unknown) continue;
+    const raw = state.values[nm];
+    if (raw === '' || raw === null || raw === undefined){
+      showErr('请填写「' + labelOf(nm, meta) + '」的数值' + (meta[nm] && meta[nm].u ? '（单位：' + meta[nm].u + '）' : ''));
+      return;
+    }
+    const v = Number(raw);
+    if (!isFinite(v)){ showErr('「' + labelOf(nm, meta) + '」不是有效数字'); return; }
+
+    const digits = getDigits(nm);
+    const rv = roundBy(v, digits);
+    env[nm] = rv;
+    dispOf[nm] = fmtBy(rv, digits);
+    inputs.push({
+      nm, label: labelOf(nm, meta),
+      rawStr: String(raw).trim(),
+      rounded: rv,
+      digits
+    });
+  }
+
+  const resDigits = getDigits(unknown);
+
+  const fOfX = x => {
+    env[unknown] = x;
+    return evalNode(ast.l, env) - evalNode(ast.r, env);
+  };
+
+  let res = null;
+  try { res = autoSolve(fOfX); }
+  catch(e){ showErr('计算出错：' + e.message); return; }
+  if (res === null || !isFinite(res)){
+    showErr('无法求解。请检查已知量是否合理（例如是否出现 0、负数导致的非法运算）。');
+    return;
+  }
+
+  const resRounded = roundBy(res, resDigits);
+  const u = (meta[unknown] && meta[unknown].u) ? meta[unknown].u : '';
+  const lab = labelOf(unknown, meta);
+  const rawSolStr = cleanNum(res);
+  const finalStr = fmtBy(resRounded, resDigits);
+
+  /* ---------- 计算过程 ---------- */
+  const inputRows = inputs.map(inp => `
+    <tr>
+      <td class="vcol">${esc(inp.label)}</td>
+      <td>${esc(inp.rawStr)}</td>
+      <td class="arr">→</td>
+      <td class="val">${esc(fmtBy(inp.rounded, inp.digits))}</td>
+      <td class="sigcol">${inp.digits} ${state.mode === 'sig' ? '位有效' : '位小数'}</td>
+    </tr>`).join('');
+
+  const rawEqStr = f.eq.replace(/\*/g, ' × ').replace(/\//g, ' ÷ ').replace(/=/g, ' = ');
+
+  const subEnv = Object.assign({}, env);
+  const subDisp = Object.assign({}, dispOf);
+  const subL = astToStr(ast.l, subEnv, subDisp);
+  const subR = astToStr(ast.r, subEnv, subDisp);
+
+  const modeLabel = state.mode === 'sig' ? '有效数字' : '小数位数';
+
+  const procHTML = `
+    <div class="proc-h">📋 计算过程（按 ${modeLabel}）</div>
+
+    <div class="proc-block">
+      <div class="proc-sub">1. 输入值按各自设定的位数取舍</div>
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th style="width:20%">变量</th>
+            <th style="width:22%">输入值</th>
+            <th style="width:6%"></th>
+            <th style="width:34%">取舍后</th>
+            <th style="width:18%;text-align:right">位数</th>
+          </tr>
+        </thead>
+        <tbody>${inputRows || '<tr><td colspan="5" style="color:#8b93a1">无已知量</td></tr>'}</tbody>
+      </table>
+    </div>
+
+    <div class="proc-block">
+      <div class="proc-sub">2. 代入公式</div>
+      <div class="proc-eq">${esc(rawEqStr)}</div>
+      <div class="proc-eq proc-eq-sub">${esc(subL)} = ${esc(subR)}</div>
+    </div>
+
+    <div class="proc-block">
+      <div class="proc-sub">3. 数值求解 ${esc(lab)}（未取舍）</div>
+      <div class="proc-eq">${esc(lab)} = ${esc(rawSolStr)}</div>
+    </div>
+
+    <div class="proc-block">
+      <div class="proc-sub">4. 结果按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}取舍</div>
+      <div class="proc-eq">${esc(lab)} = ${esc(rawSolStr)}  →  <span class="val">${esc(finalStr)}</span>${u ? ' ' + esc(u) : ''}</div>
+    </div>`;
+
+  const procBox = $('procbox');
+  procBox.innerHTML = procHTML;
+  procBox.classList.add('show');
+
+  /* ---------- 结果 ---------- */
+  $('rlab').textContent = '最终结果';
+  $('rval').textContent = finalStr;
+  $('runit').textContent = u ? u : '';
+  $('rnote').textContent = `${lab} = ${rawSolStr}  →  按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}输出`;
+  $('resultbox').classList.add('show');
+}
+
+/* =========================================================
+   9. 自定义公式编辑器
+   ========================================================= */
+const SYM_GROUPS = [
+  ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
+  ['希腊字母', ['α','β','γ','δ','ε','θ','κ','λ','μ','ν','π','ρ','σ','τ','φ','ω','η','Δ','Λ','Ω']],
+  ['化学常用', ['pH','pOH','pK_a','pK_b','K_w','K_a','K_b','K_sp','K_f','c_H','c_OH','c_A','c_HA',
+                'E_0','Q_r','ΔG','ΔH','ΔS','ΔU','ΔA','ΔT','Δn','ΔT_b','ΔT_f','ΔH_vap',
+                'R_s','t_R','t_0','t_half','x_bar','Λ_m','K_p','K_c']]
+];
+
+function renderCustomEditor(){
+  const main = $('main');
+  const groupsHTML = SYM_GROUPS.map(([gname, arr]) => `
+    <div class="symgroup">
+      <div class="glabel">${gname}</div>
+      ${arr.map(s => `<button class="sym" data-sym="${esc(s)}">${esc(s)}</button>`).join('')}
+    </div>`).join('');
+
+  main.innerHTML = `
+    <div class="panel">
+      <h2 class="f-title">新建自定义公式</h2>
+      <p class="hint">
+        语法：<code>*</code> 乘法、<code>/</code> 除法、<code>^</code> 乘方；
+        函数支持 <code>ln</code>、<code>lg</code>、<code>sqrt</code>、<code>exp</code>、<code>abs</code>、
+        <code>sin</code>、<code>cos</code>、<code>tan</code>；常数支持 <code>pi</code>。
+        必须写成 <code>左式 = 右式</code>，例如 <code>c = n/V</code>。
+      </p>
+      <label class="field"><span>公式名称</span>
+        <input id="cf-name" placeholder="例如：我的浓度公式" autocomplete="off">
+      </label>
+      <label class="field"><span>公式表达式</span>
+        <input id="cf-eq" placeholder="例如：c = n/V" autocomplete="off">
+      </label>
+      <div style="margin-bottom:16px">${groupsHTML}</div>
+      <div style="font-size:13px;color:#4b5563;margin-bottom:8px">变量设置（点「解析变量」自动生成）</div>
+      <div id="cf-vars"></div>
+      <div class="row">
+        <button class="primary" id="cf-save">保存公式</button>
+        <button class="ghost" id="cf-parse">解析变量</button>
+        <button class="ghost" id="cf-cancel">取消</button>
+      </div>
+      <div class="msg" id="cf-msg"></div>
+    </div>`;
+
+  main.querySelectorAll('.sym').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const inp = $('cf-eq');
+      const s = btn.dataset.sym;
+      const st = inp.selectionStart ?? inp.value.length;
+      const en = inp.selectionEnd ?? inp.value.length;
+      inp.value = inp.value.slice(0, st) + s + inp.value.slice(en);
+      inp.focus();
+      inp.setSelectionRange(st + s.length, st + s.length);
+    });
+  });
+
+  $('cf-parse').addEventListener('click', parseCustomVars);
+  $('cf-save').addEventListener('click', saveCustomFormula);
+  $('cf-cancel').addEventListener('click', () => {
+    $('main').innerHTML = '<div class="panel"><div class="welcome">已取消。</div></div>';
+  });
+}
+
+function cfMsg(text, ok){
+  const m = $('cf-msg');
+  m.textContent = text;
+  m.className = 'msg ' + (ok ? 'ok' : 'bad');
+}
+
+function parseCustomVars(){
+  const eq = $('cf-eq').value.trim();
+  if (!eq){ cfMsg('请先填写公式表达式', false); return; }
+  let ast;
+  try { ast = parseEq(eq); }
+  catch(e){ cfMsg('公式解析失败：' + e.message, false); return; }
+
+  const names = varNames(ast);
+  const box = $('cf-vars');
+  const prevU = {}, prevD = {};
+  box.querySelectorAll('input[data-k]').forEach(i => { prevU[i.dataset.k] = i.value; });
+  box.querySelectorAll('input[data-d]').forEach(i => { prevD[i.dataset.d] = i.value; });
+
+  if (!names.length){ box.innerHTML = '<div class="vdesc">公式中没有变量。</div>'; cfMsg('解析成功，但未发现变量', false); return; }
+
+  box.innerHTML = names.map(nm => `
+    <div class="var-def">
+      <div class="vname">${esc(nm)}</div>
+      <input data-k="${esc(nm)}" placeholder="单位（可留空）" value="${esc(prevU[nm] || '')}">
+      <input data-d="${esc(nm)}" placeholder="说明（可留空）" value="${esc(prevD[nm] || '')}">
+    </div>`).join('');
+  cfMsg('解析成功，共 ' + names.length + ' 个变量：' + names.join('、'), true);
+}
+
+function saveCustomFormula(){
+  const name = $('cf-name').value.trim();
+  const eq = $('cf-eq').value.trim();
+  if (!name){ cfMsg('请填写公式名称', false); return; }
+  if (!eq){ cfMsg('请填写公式表达式', false); return; }
+
+  let ast;
+  try { ast = parseEq(eq); }
+  catch(e){ cfMsg('公式解析失败：' + e.message, false); return; }
+
+  const names = varNames(ast);
+  const testEnv = {};
+  names.forEach(nm => testEnv[nm] = 1);
+  try { evalNode(ast.l, testEnv); evalNode(ast.r, testEnv); }
+  catch(e){ cfMsg('公式无法计算：' + e.message, false); return; }
+
+  const vars = {};
+  document.querySelectorAll('#cf-vars input[data-k]').forEach(i => {
+    vars[i.dataset.k] = { u: i.value.trim() };
+  });
+  document.querySelectorAll('#cf-vars input[data-d]').forEach(i => {
+    const k = i.dataset.d;
+    if (vars[k]) vars[k].d = i.value.trim();
+  });
+  names.forEach(nm => { if (!vars[nm]) vars[nm] = { u:'', d:'' }; });
+
+  const list = loadCustom();
+  list.push({ name, eq, vars, custom:true });
+  saveCustomList(list);
+  renderSidebar($('search').value);
+  openFormula(list[list.length - 1], '自定义公式');
+}
+
+/* =========================================================
+   10. 启动
+   ========================================================= */
+renderSidebar();
+</script>
+</body>
+</html>
