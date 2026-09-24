@@ -11,7 +11,6 @@
        background:#f2f4f7;color:#1f2937;font-size:14px}
   .app{display:flex;height:100vh;overflow:hidden}
 
-  /* ---------- 侧栏 ---------- */
   .sidebar{width:300px;flex:0 0 300px;background:#fff;border-right:1px solid #e4e7ec;
            overflow-y:auto;padding:14px 12px 40px;-webkit-overflow-scrolling:touch}
   .sidebar h1{font-size:15px;margin:0 0 10px;color:#111827;letter-spacing:.5px}
@@ -24,18 +23,20 @@
   summary:hover{background:#f0f3f9}
   details details{margin-left:8px}
   details details>summary{font-weight:500;color:#5b6472;font-size:13px}
-  .item{padding:9px 12px;margin:1px 0;border-radius:6px;cursor:pointer;
-        font-size:13.5px;color:#3b4351;display:flex;justify-content:space-between;align-items:center}
+  .item{padding:9px 6px 9px 12px;margin:1px 0;border-radius:6px;cursor:pointer;
+        font-size:13.5px;color:#3b4351;display:flex;justify-content:space-between;align-items:center;gap:2px}
   .item:hover{background:#eef3ff;color:#1d4ed8}
   .item.active{background:#4f7cff;color:#fff}
   .item .del{border:none;background:transparent;color:#b91c1c;cursor:pointer;font-size:17px;
-             line-height:1;padding:0 6px;border-radius:4px}
+             line-height:1;padding:0 5px;border-radius:4px}
   .item .del:hover{background:#fee2e2}
+  .item .edit{border:none;background:transparent;color:#4f7cff;cursor:pointer;font-size:14px;
+              line-height:1;padding:0 5px;border-radius:4px}
+  .item .edit:hover{background:#e0e9ff}
   .addbtn{width:100%;margin-top:10px;padding:10px;border:1px dashed #b6bfcd;background:#fbfcfe;
           border-radius:8px;cursor:pointer;color:#374151;font-size:13.5px}
   .addbtn:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
 
-  /* ---------- 主区 ---------- */
   .main{flex:1;overflow-y:auto;padding:26px 34px;-webkit-overflow-scrolling:touch}
   .panel{max-width:920px;background:#fff;border-radius:14px;padding:24px 26px;
          box-shadow:0 1px 3px rgba(16,24,40,.08)}
@@ -83,6 +84,9 @@
   button.ghost{background:#fff;border:1px solid #d7dbe0;padding:12px 18px;border-radius:8px;
                cursor:pointer;font-size:15px;color:#374151}
   button.ghost:hover{background:#f5f7fb}
+  button.warn{background:#d97706;color:#fff;border:none;padding:12px 26px;border-radius:8px;
+              font-size:15px;cursor:pointer;font-weight:600}
+  button.warn:hover{background:#b45309}
 
   .result{margin-top:18px;padding:18px 22px;border-radius:12px;background:#f0f9f4;
           border:1px solid #cdebd9;display:none}
@@ -95,8 +99,10 @@
   .err{margin-top:16px;padding:12px 16px;border-radius:10px;background:#fef2f2;
        border:1px solid #fecaca;color:#b91c1c;font-size:13px;display:none;line-height:1.6}
   .err.show{display:block}
+  .info{margin-top:16px;padding:12px 16px;border-radius:10px;background:#fff7ed;
+        border:1px solid #fed7aa;color:#9a3412;font-size:13px;display:none;line-height:1.6}
+  .info.show{display:block}
 
-  /* ---------- 计算过程 ---------- */
   .process{margin-top:20px;padding:18px 20px;border-radius:12px;background:#f7f9fc;
            border:1px solid #e4ebf5;display:none}
   .process.show{display:block}
@@ -124,12 +130,30 @@
   .proc-eq sub{font-size:.72em;color:#2563eb}
   .proc-eq sup{font-size:.72em;color:#2563eb}
 
-  /* ---------- 自定义编辑器 ---------- */
+  .rev-block{margin-top:20px;padding:18px 20px;border-radius:12px;background:#fef3c7;
+             border:1px solid #fcd34d;display:none}
+  .rev-block.show{display:block}
+  .rev-h{font-size:15px;font-weight:700;color:#92400e;margin-bottom:14px}
+  .rev-card{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;
+            border:1px solid #fcd34d}
+  .rev-card:last-child{margin-bottom:0}
+  .rev-title{font-size:13.5px;font-weight:600;color:#92400e;margin-bottom:8px}
+  .rev-var{font-size:13px;color:#1f2937;margin-bottom:4px;
+           font-family:ui-monospace,Consolas,monospace}
+  .rev-var-name{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;font-weight:600}
+  .rev-var-name sub{font-size:.72em;color:#2563eb}
+  .rev-var-name sup{font-size:.72em;color:#2563eb}
+  .rev-var-dig{color:#d97706;font-weight:600}
+  .rev-var-val{color:#0f7a4a;font-weight:600}
+  .rev-msg{font-size:13px;color:#7c2d12;line-height:1.7}
+
   .field{display:block;margin-bottom:14px}
   .field span{display:block;font-size:13px;color:#4b5563;margin-bottom:6px}
   .field input{width:100%;padding:11px 12px;border:1px solid #d7dbe0;border-radius:8px;
                font-size:16px;outline:none;font-family:ui-monospace,Consolas,monospace;background:#fff}
   .field input:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .field .row2{display:flex;gap:8px;flex-wrap:wrap}
+  .field .row2 input{flex:1;min-width:120px}
   .hint{font-size:12.5px;color:#8b93a1;line-height:1.8;margin:0 0 16px}
   .hint code{background:#f1f3f7;padding:1px 5px;border-radius:4px;font-size:12px}
   .symgroup{margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -148,7 +172,6 @@
   .msg.bad{color:#b91c1c}
   .welcome{color:#8b93a1;font-size:15px;line-height:2}
 
-  /* ---------- 历史记录模态框 ---------- */
   .modal-mask{position:fixed;top:0;left:0;width:100%;height:100%;
               background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
               z-index:999;padding:16px}
@@ -180,7 +203,6 @@
   .h-val{font-family:ui-monospace,monospace;color:#1f2937;font-weight:600}
   .h-digits{color:#8b93a1;font-size:11px;margin-left:4px}
 
-  /* ===== 手机竖屏适配 ===== */
   @media (max-width:760px){
     .app{flex-direction:column}
     .sidebar{width:100%;flex:0 0 auto;max-height:40vh;
@@ -207,6 +229,8 @@
     .proc-eq{font-size:13px;padding:8px 10px}
     .process{padding:14px 12px}
     .modal-content{max-height:85vh}
+    .rev-block{padding:14px 12px}
+    .rev-card{padding:12px}
   }
 </style>
 </head>
@@ -223,12 +247,12 @@
       公式中任意一个量都可以留作未知量。<br>
       顶端可切换「有效数字 / 小数位数」两种计算方式，<br>
       每个变量还能单独设定各自的位数。<br>
-      每次计算会自动保存历史记录，可点「📋 历史」查看。
+      每次计算会自动保存历史记录，可点「📋 历史」查看。<br>
+      点击「🔬 反推模式」可以根据已知结果反推输入的舍入位数。
     </div></div>
   </main>
 </div>
 
-<!-- 历史记录模态框 -->
 <div class="modal-mask" id="historyModal" style="display:none">
   <div class="modal-content">
     <div class="modal-header">
@@ -270,10 +294,7 @@ function tokenize(src){
       if (j < n && (src[j] === 'e' || src[j] === 'E')){
         let k = j + 1;
         if (k < n && (src[k] === '+' || src[k] === '-')) k++;
-        if (k < n && isDigit(src[k])){
-          while (k < n && isDigit(src[k])) k++;
-          j = k;
-        }
+        if (k < n && isDigit(src[k])){ while (k < n && isDigit(src[k])) k++; j = k; }
       }
       tokens.push({ t:'num', v: parseFloat(src.slice(i, j)) });
       i = j; continue;
@@ -387,10 +408,7 @@ function evalNode(node, env){
 function parseEq(eq){
   const idx = eq.indexOf('=');
   if (idx < 0) throw new Error('公式缺少等号 "="');
-  return {
-    l: parse(tokenize(eq.slice(0, idx))),
-    r: parse(tokenize(eq.slice(idx + 1)))
-  };
+  return { l: parse(tokenize(eq.slice(0, idx))), r: parse(tokenize(eq.slice(idx + 1))) };
 }
 function walkVars(node, set){
   if (!node) return;
@@ -405,18 +423,13 @@ function varNames(ast){
   return [...s].filter(n => !(n in CONSTS));
 }
 
-/* AST → 带数值的可读字符串 */
 function precOf(op){ return op === '+' || op === '-' ? 1 : op === '*' || op === '/' ? 2 : 3; }
 function astToStr(node, env, dispOf){
   switch (node.type){
     case 'num': return String(node.value);
     case 'var': {
-      if (dispOf && Object.prototype.hasOwnProperty.call(dispOf, node.name)){
-        return dispOf[node.name];
-      }
-      if (env && Object.prototype.hasOwnProperty.call(env, node.name)){
-        return String(env[node.name]);
-      }
+      if (dispOf && Object.prototype.hasOwnProperty.call(dispOf, node.name)) return dispOf[node.name];
+      if (env && Object.prototype.hasOwnProperty.call(env, node.name)) return String(env[node.name]);
       if (node.name in CONSTS) return String(CONSTS[node.name]);
       return node.name;
     }
@@ -439,9 +452,7 @@ function astToStr(node, env, dispOf){
       const sym = node.op === '*' ? ' × ' : node.op === '/' ? ' ÷ ' : node.op === '^' ? ' ^ ' : ' ' + node.op + ' ';
       return ls + sym + rs;
     }
-    case 'call': {
-      return node.name + '(' + node.args.map(a => astToStr(a, env, dispOf)).join(', ') + ')';
-    }
+    case 'call': return node.name + '(' + node.args.map(a => astToStr(a, env, dispOf)).join(', ') + ')';
   }
   return '';
 }
@@ -449,8 +460,6 @@ function astToStr(node, env, dispOf){
 /* =========================================================
    2. 公式字符串渲染（上下标）
    ========================================================= */
-/* 把 'p*V = n*R*T'、'c_H = sqrt(K_a*c)'、'V^2'、'^(1/3)' 等
-   渲染成带 <sub>、<sup> 的 HTML。 */
 function renderFormulaHTML(eq){
   if (!eq) return '';
   let out = '';
@@ -470,7 +479,7 @@ function renderFormulaHTML(eq){
           else if (eq[i] === '}'){ depth--; if (depth === 0) break; }
           content += eq[i]; i++;
         }
-        i++; // skip '}'
+        i++;
       } else if (eq[i] === '('){
         i++;
         let depth = 1;
@@ -479,22 +488,14 @@ function renderFormulaHTML(eq){
           else if (eq[i] === ')'){ depth--; if (depth === 0) break; }
           content += eq[i]; i++;
         }
-        i++; // skip ')'
+        i++;
       } else {
-        while (i < n && /[A-Za-z0-9_]/.test(eq[i])){
-          content += eq[i]; i++;
-        }
+        while (i < n && /[A-Za-z0-9_]/.test(eq[i])){ content += eq[i]; i++; }
       }
-      if (!content){
-        out += esc(c);
-      } else {
-        out += isSub
-          ? '<sub>' + esc(content) + '</sub>'
-          : '<sup>' + esc(content) + '</sup>';
-      }
+      if (!content){ out += esc(c); }
+      else { out += isSub ? '<sub>' + esc(content) + '</sub>' : '<sup>' + esc(content) + '</sup>'; }
     } else {
-      out += esc(c);
-      i++;
+      out += esc(c); i++;
     }
   }
   return out.replace(/\*/g, '·');
@@ -532,6 +533,38 @@ function newton(f, x0){
     if (!isFinite(nx)) return null;
     if (Math.abs(nx - x) < 1e-15 * Math.max(1, Math.abs(nx))) return nx;
     x = nx;
+  }
+  return null;
+}
+function fastNewton(f, x0){
+  // 快速牛顿迭代，用于反推模式（大量重复调用）
+  let x = x0;
+  for (let i = 0; i < 25; i++){
+    let y;
+    try { y = f(x); } catch(e){ return null; }
+    if (!isFinite(y)) return null;
+    if (Math.abs(y) < 1e-12) return x;
+    const h = Math.max(1e-10, Math.abs(x) * 1e-7);
+    let y1, y2;
+    try { y1 = f(x + h); y2 = f(x - h); } catch(e){ return null; }
+    const d = (y1 - y2) / (2 * h);
+    if (!isFinite(d) || d === 0) return null;
+    const nx = x - y / d;
+    if (!isFinite(nx)) return null;
+    if (Math.abs(nx - x) < 1e-15 * Math.max(1, Math.abs(nx))) return nx;
+    x = nx;
+  }
+  return x;
+}
+function robustSolve(f, hint){
+  const guesses = [hint, 1, -1, 10, 0.1, 100, 0.01, 1000, 0.001, 0];
+  for (const g of guesses){
+    const r = fastNewton(f, g);
+    if (r !== null && isFinite(r)){
+      let chk;
+      try { chk = f(r); } catch(e){ continue; }
+      if (isFinite(chk) && Math.abs(chk) < 1e-7) return r;
+    }
   }
   return null;
 }
@@ -862,16 +895,13 @@ const DATA = [
    6. 状态
    ========================================================= */
 const state = {
-  formula: null,
-  unknown: null,
-  values: {},
-  mode: 'sig',
-  sigfigs: {},
-  decimals: {},
-  sigManual: {},
-  decManual: {},
-  defaultSig: 4,
-  defaultDec: 2
+  formula: null, unknown: null, values: {},
+  mode: 'sig', sigfigs: {}, decimals: {},
+  sigManual: {}, decManual: {},
+  defaultSig: 4, defaultDec: 2,
+  reverseMode: false,
+  revTarget: null, revTargetValue: '', revTargetDigits: 4,
+  revInputValues: {}
 };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -895,15 +925,9 @@ function getDigits(nm){
     return (d >= 0 && d <= 8) ? d : state.defaultDec;
   }
 }
-function getGlobalDigits(){
-  return state.mode === 'sig' ? state.defaultSig : state.defaultDec;
-}
-function roundBy(x, n){
-  return state.mode === 'sig' ? roundSigFig(x, n) : roundDec(x, n);
-}
-function fmtBy(x, n){
-  return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n);
-}
+function getGlobalDigits(){ return state.mode === 'sig' ? state.defaultSig : state.defaultDec; }
+function roundBy(x, n){ return state.mode === 'sig' ? roundSigFig(x, n) : roundDec(x, n); }
+function fmtBy(x, n){ return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n); }
 
 /* =========================================================
    7. 历史记录
@@ -917,30 +941,20 @@ function loadHistory(f) {
     const key = 'chemcalc_history_' + getFormulaKey(f);
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : [];
-  } catch(e) {
-    console.warn('[历史] 读取失败:', e);
-    return [];
-  }
+  } catch(e) { return []; }
 }
 function saveHistory(f, arr) {
   try {
     const key = 'chemcalc_history_' + getFormulaKey(f);
     localStorage.setItem(key, JSON.stringify(arr));
     return true;
-  } catch(e) {
-    console.error('[历史] 保存失败:', e);
-    return false;
-  }
+  } catch(e) { return false; }
 }
 function updateHistoryButtonCount(f) {
-  try {
-    const btn = document.getElementById('btnHistory');
-    if (btn) {
-      const count = loadHistory(f).length;
-      btn.textContent = '📋 历史 (' + count + ')';
-    }
-  } catch(e) {
-    console.warn('[历史] 更新按钮失败:', e);
+  const btn = document.getElementById('btnHistory');
+  if (btn){
+    const count = loadHistory(f).length;
+    btn.textContent = '📋 历史 (' + count + ')';
   }
 }
 function addHistoryRecord(f, record) {
@@ -948,22 +962,14 @@ function addHistoryRecord(f, record) {
     let arr = loadHistory(f);
     arr.push(record);
     if (arr.length > 20) arr = arr.slice(arr.length - 20);
-    const ok = saveHistory(f, arr);
-    if (ok) {
-      console.log('[历史] 已保存，公式:', f.name, '当前条数:', arr.length);
-      updateHistoryButtonCount(f);
-    } else {
-      alert('历史记录保存失败：您的浏览器/WebView 可能禁用了本地存储 (localStorage)。\n请检查打包时是否开启了 DOM Storage 权限。');
-    }
-  } catch(e) {
-    console.error('[历史] 添加记录异常:', e);
-  }
+    if (saveHistory(f, arr)) updateHistoryButtonCount(f);
+  } catch(e){}
 }
 function openHistoryModal(f) {
   const modal = document.getElementById('historyModal');
   const list = document.getElementById('historyList');
   const arr = loadHistory(f);
-  if (!arr.length) {
+  if (!arr.length){
     list.innerHTML = '<div style="padding:20px;text-align:center;color:#8b93a1">暂无历史记录</div>';
   } else {
     const sorted = arr.slice().sort((a, b) => b.time - a.time);
@@ -996,9 +1002,7 @@ function openHistoryModal(f) {
             <span class="h-res">${esc(rec.formattedSolution)}</span>
             ${esc(rec.unknownUnit)}
           </div>
-          <div class="h-inputs">
-            ${inputsHtml || '<div class="h-item" style="color:#8b93a1">无已知量</div>'}
-          </div>
+          <div class="h-inputs">${inputsHtml || '<div class="h-item" style="color:#8b93a1">无已知量</div>'}</div>
         </div>`;
     }).join('');
   }
@@ -1011,10 +1015,68 @@ function closeHistoryModal() {
 /* =========================================================
    8. 侧边栏
    ========================================================= */
+function matchFilter(item, f){
+  return item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f);
+}
+function makeItemEl(item, crumbText){
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.textContent = item.name;
+  el.onclick = () => { markActive(el); openFormula(item, crumbText); };
+  return el;
+}
+function makeCustomItemEl(item, globalIdx, crumbText){
+  const el = document.createElement('div');
+  el.className = 'item';
+  const span = document.createElement('span');
+  span.textContent = item.name;
+  span.style.flex = '1';
+  span.onclick = () => { markActive(el); openFormula(item, crumbText); };
+  const edit = document.createElement('button');
+  edit.className = 'edit';
+  edit.textContent = '✎';
+  edit.title = '编辑';
+  edit.onclick = ev => { ev.stopPropagation(); renderCustomEditor(globalIdx); };
+  const del = document.createElement('button');
+  del.className = 'del';
+  del.textContent = '×';
+  del.title = '删除';
+  del.onclick = ev => {
+    ev.stopPropagation();
+    if (confirm('删除公式「' + item.name + '」？')){
+      const list = loadCustom();
+      list.splice(globalIdx, 1);
+      saveCustomList(list);
+      renderSidebar($('search').value);
+    }
+  };
+  el.appendChild(span); el.appendChild(edit); el.appendChild(del);
+  return el;
+}
+
 function renderSidebar(filter){
   const tree = $('tree');
   tree.innerHTML = '';
   const f = (filter || '').trim().toLowerCase();
+
+  const custom = loadCustom();
+  const customByLoc = {};
+  const unclassified = [];
+  custom.forEach((item, idx) => {
+    if (item.cat && item.sub){
+      const key = item.cat + '|' + item.sub;
+      if (!customByLoc[key]) customByLoc[key] = [];
+      customByLoc[key].push({item, idx});
+    } else {
+      unclassified.push({item, idx});
+    }
+  });
+
+  const isBuiltinLoc = (catName, subName) => {
+    const cat = DATA.find(c => c.cat === catName);
+    if (!cat) return false;
+    return cat.subs.some(s => s.sub === subName);
+  };
 
   DATA.forEach(cat => {
     const catEl = document.createElement('details');
@@ -1023,6 +1085,7 @@ function renderSidebar(filter){
     cs.textContent = cat.cat;
     catEl.appendChild(cs);
     let catHas = false;
+
     cat.subs.forEach(sub => {
       const subEl = document.createElement('details');
       subEl.open = true;
@@ -1030,13 +1093,16 @@ function renderSidebar(filter){
       ss.textContent = sub.sub;
       subEl.appendChild(ss);
       let subHas = false;
+
       sub.items.forEach(item => {
-        if (f && !(item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f))) return;
-        const el = document.createElement('div');
-        el.className = 'item';
-        el.textContent = item.name;
-        el.onclick = () => { markActive(el); openFormula(item, cat.cat + ' / ' + sub.sub); };
-        subEl.appendChild(el);
+        if (f && !matchFilter(item, f)) return;
+        subEl.appendChild(makeItemEl(item, cat.cat + ' / ' + sub.sub));
+        subHas = true;
+      });
+      const key = cat.cat + '|' + sub.sub;
+      (customByLoc[key] || []).forEach(({item, idx}) => {
+        if (f && !matchFilter(item, f)) return;
+        subEl.appendChild(makeCustomItemEl(item, idx, cat.cat + ' / ' + sub.sub));
         subHas = true;
       });
       if (subHas){ catEl.appendChild(subEl); catHas = true; }
@@ -1044,32 +1110,50 @@ function renderSidebar(filter){
     if (catHas || !f) tree.appendChild(catEl);
   });
 
-  const custom = loadCustom();
-  if (custom.length){
+  const userGroups = {};
+  Object.keys(customByLoc).forEach(key => {
+    const idxSep = key.indexOf('|');
+    const catName = key.slice(0, idxSep);
+    const subName = key.slice(idxSep + 1);
+    if (isBuiltinLoc(catName, subName)) return;
+    if (!userGroups[catName]) userGroups[catName] = {};
+    if (!userGroups[catName][subName]) userGroups[catName][subName] = [];
+    userGroups[catName][subName].push(...customByLoc[key]);
+  });
+
+  Object.keys(userGroups).forEach(catName => {
+    const catEl = document.createElement('details');
+    catEl.open = true;
+    const cs = document.createElement('summary');
+    cs.textContent = catName;
+    catEl.appendChild(cs);
+    let catHas = false;
+    Object.keys(userGroups[catName]).forEach(subName => {
+      const subEl = document.createElement('details');
+      subEl.open = true;
+      const ss = document.createElement('summary');
+      ss.textContent = subName;
+      subEl.appendChild(ss);
+      let subHas = false;
+      userGroups[catName][subName].forEach(({item, idx}) => {
+        if (f && !matchFilter(item, f)) return;
+        subEl.appendChild(makeCustomItemEl(item, idx, catName + ' / ' + subName));
+        subHas = true;
+      });
+      if (subHas){ catEl.appendChild(subEl); catHas = true; }
+    });
+    if (catHas || !f) tree.appendChild(catEl);
+  });
+
+  const filteredUnclass = unclassified.filter(({item}) => !f || matchFilter(item, f));
+  if (filteredUnclass.length){
     const d = document.createElement('details');
     d.open = true;
     const s = document.createElement('summary');
-    s.textContent = '自定义公式';
+    s.textContent = '未分类自定义公式';
     d.appendChild(s);
-    custom.forEach((item, idx) => {
-      const el = document.createElement('div');
-      el.className = 'item';
-      const span = document.createElement('span');
-      span.textContent = item.name;
-      span.style.flex = '1';
-      span.onclick = () => { markActive(el); openFormula(item, '自定义公式'); };
-      const del = document.createElement('button');
-      del.className = 'del';
-      del.textContent = '×';
-      del.onclick = ev => {
-        ev.stopPropagation();
-        if (confirm('删除公式「' + item.name + '」？')){
-          const list = loadCustom(); list.splice(idx, 1); saveCustomList(list);
-          renderSidebar($('search').value);
-        }
-      };
-      el.appendChild(span); el.appendChild(del);
-      d.appendChild(el);
+    filteredUnclass.forEach(({item, idx}) => {
+      d.appendChild(makeCustomItemEl(item, idx, '未分类自定义公式'));
     });
     tree.appendChild(d);
   }
@@ -1077,7 +1161,7 @@ function renderSidebar(filter){
   const addBtn = document.createElement('button');
   addBtn.className = 'addbtn';
   addBtn.textContent = '＋ 新建自定义公式';
-  addBtn.onclick = renderCustomEditor;
+  addBtn.onclick = () => renderCustomEditor();
   tree.appendChild(addBtn);
 }
 function markActive(el){
@@ -1087,7 +1171,7 @@ function markActive(el){
 $('search').addEventListener('input', e => renderSidebar(e.target.value));
 
 /* =========================================================
-   9. 公式面板
+   9. 公式面板（含反推模式）
    ========================================================= */
 function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
 function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
@@ -1101,6 +1185,10 @@ function openFormula(f, crumb){
   state.decimals = {};
   state.sigManual = {};
   state.decManual = {};
+  state.reverseMode = false;
+  state.revTarget = null;
+  state.revTargetValue = '';
+  state.revInputValues = {};
 
   let ast;
   try { ast = parseEq(f.eq); }
@@ -1177,6 +1265,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
           <select id="globalDigit">${globalOpts}</select>
         </label>
         <button class="ghost" id="btnHistory" style="margin-left:auto;padding:8px 14px;font-size:13px;">📋 历史 (0)</button>
+        <button class="warn" id="btnReverse" style="padding:8px 14px;font-size:13px;">🔬 反推模式</button>
       </div>
 
       <div id="varlist">${varsHTML || '<div class="vdesc">该公式没有可输入的变量。</div>'}</div>
@@ -1205,18 +1294,12 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
       if (state.mode === 'sig'){
         if (!state.sigManual[nm]){
           const inf = inferSigFigs(inp.value);
-          if (inf && inf >= 1 && inf <= 8){
-            state.sigfigs[nm] = inf;
-            if (sel) sel.value = String(inf);
-          }
+          if (inf && inf >= 1 && inf <= 8){ state.sigfigs[nm] = inf; if (sel) sel.value = String(inf); }
         }
       } else {
         if (!state.decManual[nm]){
           const inf = inferDecimals(inp.value);
-          if (inf !== null && inf >= 0 && inf <= 8){
-            state.decimals[nm] = inf;
-            if (sel) sel.value = String(inf);
-          }
+          if (inf !== null && inf >= 0 && inf <= 8){ state.decimals[nm] = inf; if (sel) sel.value = String(inf); }
         }
       }
     });
@@ -1226,13 +1309,8 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     sel.addEventListener('change', () => {
       const nm = sel.dataset.sig;
       const v = parseInt(sel.value, 10);
-      if (state.mode === 'sig'){
-        state.sigfigs[nm] = v;
-        state.sigManual[nm] = true;
-      } else {
-        state.decimals[nm] = v;
-        state.decManual[nm] = true;
-      }
+      if (state.mode === 'sig'){ state.sigfigs[nm] = v; state.sigManual[nm] = true; }
+      else { state.decimals[nm] = v; state.decManual[nm] = true; }
       hideErr(); hideResult(); hideProc();
     });
   });
@@ -1288,11 +1366,22 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     });
   }
 
-  const btnHist = $('btnHistory');
-  if (btnHist) {
-    btnHist.addEventListener('click', () => openHistoryModal(f));
-  }
+  $('btnHistory').addEventListener('click', () => openHistoryModal(f));
   updateHistoryButtonCount(f);
+
+  $('btnReverse').addEventListener('click', () => {
+    state.reverseMode = true;
+    // 用当前未知量作为反推目标，预填当前值
+    state.revTarget = state.unknown;
+    state.revTargetDigits = getDigits(state.unknown);
+    state.revTargetValue = '';
+    state.revInputValues = {};
+    names.forEach(nm => {
+      if (nm === state.revTarget) return;
+      state.revInputValues[nm] = state.values[nm] || '';
+    });
+    renderReversePanel(f, crumb, ast, names, meta);
+  });
 
   $('btnCalc').addEventListener('click', () => doCompute(f, ast, names, meta));
   $('btnReset').addEventListener('click', () => {
@@ -1310,16 +1399,338 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   10. 计算 + 过程展示 + 历史保存
+   10. 反推模式面板
+   ========================================================= */
+function renderReversePanel(f, crumb, ast, names, meta){
+  const main = $('main');
+  const target = state.revTarget || state.unknown;
+  const targetMeta = meta[target] || {};
+  const otherNames = names.filter(n => n !== target);
+
+  const targetOpts = names.map(nm =>
+    `<option value="${esc(nm)}" ${nm === target ? 'selected' : ''}>${renderFormulaHTML(labelOf(nm, meta))}</option>`
+  ).join('');
+
+  const digitList = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
+  const targetDigitOpts = digitList.map(n =>
+    `<option value="${n}" ${n === state.revTargetDigits ? 'selected' : ''}>${n} ${state.mode === 'sig' ? '位有效' : '位小数'}</option>`
+  ).join('');
+
+  const inputRowsHTML = otherNames.map(nm => {
+    const m = meta[nm] || {};
+    const val = state.revInputValues[nm] || '';
+    return `
+      <div class="var-row" data-rev-row="${esc(nm)}">
+        <div></div>
+        <div class="vlabel" title="${esc(nm)}">${renderFormulaHTML(labelOf(nm, meta))}${m.u ? `<small>${esc(m.u)}</small>` : ''}</div>
+        <input type="number" step="any" inputmode="decimal" data-rev-var="${esc(nm)}" value="${esc(val)}" placeholder="输入数值">
+        <div></div>
+        <div class="vdesc" title="${esc(m.d || '')}">${esc(m.d || '')}</div>
+      </div>`;
+  }).join('');
+
+  main.innerHTML = `
+    <div class="panel">
+      <h2 class="f-title">${esc(f.name)}</h2>
+      <div class="f-crumb">${esc(crumb || '')} <span style="color:#d97706;font-weight:600">· 反推模式</span></div>
+      <div class="f-eq">${renderFormulaHTML(f.eq)}</div>
+
+      <div class="toolbar">
+        <label>舍入方式
+          <select id="rvMode">
+            <option value="sig" ${state.mode === 'sig' ? 'selected' : ''}>有效数字</option>
+            <option value="dec" ${state.mode === 'dec' ? 'selected' : ''}>小数位数</option>
+          </select>
+        </label>
+        <button class="ghost" id="btnBackNormal" style="margin-left:auto;">← 回到普通模式</button>
+      </div>
+
+      <div style="padding:14px 16px;background:#fef3c7;border-radius:10px;border:1px solid #fcd34d;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:600;color:#92400e;margin-bottom:10px">🎯 反推目标</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px">
+          <label style="font-size:13px;color:#4b5563">目标变量</label>
+          <select id="rvTargetName" style="min-width:120px">${targetOpts}</select>
+          <label style="font-size:13px;color:#4b5563;margin-left:10px">舍入到</label>
+          <select id="rvTargetDigits" style="min-width:100px">${targetDigitOpts}</select>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <label style="font-size:13px;color:#4b5563">目标值（已知结果）</label>
+          <input type="number" step="any" inputmode="decimal" id="rvTargetValue"
+                 value="${esc(state.revTargetValue || '')}"
+                 placeholder="例如：101325"
+                 style="flex:1;min-width:160px;padding:9px 10px;border:1px solid #d7dbe0;border-radius:7px;font-size:16px;font-family:ui-monospace,monospace">
+          <span style="font-size:12px;color:#8b93a1">${esc(targetMeta.u || '')}</span>
+        </div>
+      </div>
+
+      <div style="font-size:13px;font-weight:600;color:#4b5563;margin:18px 0 8px">
+        📥 输入变量（填写你输入时用的原始数值）
+      </div>
+      <div id="revInputList">${inputRowsHTML || '<div class="vdesc">该公式没有其他变量。</div>'}</div>
+
+      <div class="actions">
+        <button class="primary" id="btnDoReverse">🔍 开始反推</button>
+        <button class="ghost" id="btnClearReverse">清空</button>
+      </div>
+
+      <div class="info" id="revInfo"></div>
+      <div class="rev-block" id="revResult"></div>
+    </div>`;
+
+  // 输入绑定
+  main.querySelectorAll('input[data-rev-var]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      state.revInputValues[inp.dataset.revVar] = inp.value;
+    });
+  });
+
+  $('rvTargetValue').addEventListener('input', e => {
+    state.revTargetValue = e.target.value;
+  });
+
+  $('rvTargetDigits').addEventListener('change', e => {
+    state.revTargetDigits = parseInt(e.target.value, 10);
+  });
+
+  $('rvTargetName').addEventListener('change', e => {
+    // 切换目标变量时，把它从输入列表移出，把原目标放入输入
+    const oldTarget = state.revTarget;
+    const newTarget = e.target.value;
+    state.revTarget = newTarget;
+    // 重建输入值集合
+    const newInputs = {};
+    names.forEach(nm => {
+      if (nm === newTarget) return;
+      newInputs[nm] = state.revInputValues[nm] !== undefined ? state.revInputValues[nm] :
+                      (state.values[nm] || '');
+    });
+    state.revInputValues = newInputs;
+    state.revTargetDigits = getDigits(newTarget);
+    renderReversePanel(f, crumb, ast, names, meta);
+  });
+
+  $('rvMode').addEventListener('change', e => {
+    state.mode = e.target.value;
+    state.revTargetDigits = state.mode === 'sig' ? Math.min(state.revTargetDigits, 8) : Math.min(state.revTargetDigits, 8);
+    renderReversePanel(f, crumb, ast, names, meta);
+  });
+
+  $('btnBackNormal').addEventListener('click', () => {
+    state.reverseMode = false;
+    renderFormulaPanel(f, crumb, ast, names, meta);
+  });
+
+  $('btnClearReverse').addEventListener('click', () => {
+    state.revTargetValue = '';
+    state.revInputValues = {};
+    names.forEach(nm => {
+      if (nm === state.revTarget) return;
+      state.revInputValues[nm] = '';
+    });
+    renderReversePanel(f, crumb, ast, names, meta);
+  });
+
+  $('btnDoReverse').addEventListener('click', () => doReverseSearch(f, ast, names, meta));
+}
+
+/* =========================================================
+   11. 反推搜索核心
+   ========================================================= */
+function doReverseSearch(f, ast, names, meta){
+  const info = $('revInfo');
+  const block = $('revResult');
+  info.classList.remove('show');
+  block.classList.remove('show');
+  block.innerHTML = '';
+
+  const targetName = state.revTarget;
+  if (!targetName){ info.textContent = '请选择目标变量'; info.classList.add('show'); return; }
+
+  const targetValueRaw = state.revTargetValue;
+  if (targetValueRaw === '' || targetValueRaw === null || targetValueRaw === undefined){
+    info.textContent = '请填写目标值'; info.classList.add('show'); return;
+  }
+  const targetValue = Number(targetValueRaw);
+  if (!isFinite(targetValue)){ info.textContent = '目标值不是有效数字'; info.classList.add('show'); return; }
+
+  const targetDigits = state.revTargetDigits;
+
+  const inputNames = names.filter(n => n !== targetName);
+  if (inputNames.length === 0){
+    info.textContent = '该公式没有其他变量可以反推。'; info.classList.add('show'); return;
+  }
+  if (inputNames.length > 6){
+    info.textContent = '变量数量过多（最多支持 6 个），反推组合会非常大，请简化公式。'; info.classList.add('show'); return;
+  }
+
+  const inputValues = {};
+  for (const nm of inputNames){
+    const raw = state.revInputValues[nm];
+    if (raw === '' || raw === null || raw === undefined){
+      info.textContent = '请填写「' + labelOf(nm, meta) + '」的数值'; info.classList.add('show'); return;
+    }
+    const v = Number(raw);
+    if (!isFinite(v)){ info.textContent = '「' + labelOf(nm, meta) + '」不是有效数字'; info.classList.add('show'); return; }
+    inputValues[nm] = v;
+  }
+
+  info.textContent = '正在反推，请稍候…（变量多时可能需要几秒）';
+  info.classList.add('show');
+
+  // 让 UI 先渲染
+  setTimeout(() => {
+    const t0 = performance.now();
+    let results;
+    try {
+      results = findReverseDigitCombos(ast, inputNames, targetName, targetValue, targetDigits, inputValues);
+    } catch(e){
+      info.textContent = '反推出错：' + e.message;
+      info.classList.add('show');
+      return;
+    }
+    const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+
+    info.classList.remove('show');
+
+    const modeLabel = state.mode === 'sig' ? '位有效数字' : '位小数';
+
+    if (results.length === 0){
+      block.innerHTML = `
+        <div class="rev-h">⚠️ 反推失败</div>
+        <div class="rev-msg">
+          在合理范围内尝试了所有可能的舍入位数组合，<br>
+          没有找到能产生「<b>${esc(cleanNum(targetValue))}</b>」（保留 ${targetDigits} ${modeLabel}）的输入组合。<br><br>
+          可能的原因：<br>
+          · 输入的变量值有误<br>
+          · 目标值或目标位数不对<br>
+          · 输入的数值本身就不是从该公式严格计算得到的<br>
+          · 所用公式与实际计算时用的公式不一致<br><br>
+          建议：核对输入值、目标值、目标位数，或换一个公式再试。
+        </div>`;
+      block.classList.add('show');
+      return;
+    }
+
+    // 按"需要的位数最少"排序（更简洁的解在前）
+    results.sort((a, b) => {
+      const sa = a.digits.reduce((x, y) => x + y, 0);
+      const sb = b.digits.reduce((x, y) => x + y, 0);
+      return sa - sb;
+    });
+
+    // 只展示前 30 条，防止过多
+    const MAX_SHOW = 30;
+    const shown = results.slice(0, MAX_SHOW);
+
+    const cardsHTML = shown.map((r, idx) => {
+      const rowsHTML = r.inputs.map(inp => {
+        const m = meta[inp.name] || {};
+        return `<div class="rev-var">
+          <span class="rev-var-name">${renderFormulaHTML(labelOf(inp.name, meta))}</span>
+          ：原始值 ${esc(cleanNum(inp.raw))} → 
+          按 <span class="rev-var-dig">${inp.digits} ${modeLabel}</span> 舍入得 
+          <span class="rev-var-val">${esc(fmtBy(inp.rounded, inp.digits))}</span>
+          ${m.u ? `<span style="color:#8b93a1">${esc(m.u)}</span>` : ''}
+        </div>`;
+      }).join('');
+      return `
+        <div class="rev-card">
+          <div class="rev-title">方案 ${idx + 1}</div>
+          ${rowsHTML}
+          <div class="rev-var" style="margin-top:8px;padding-top:8px;border-top:1px dashed #fcd34d">
+            代入公式计算得 <span class="rev-var-name">${renderFormulaHTML(labelOf(targetName, meta))}</span>
+            = <span class="rev-var-val">${esc(fmtBy(r.solution, targetDigits))}</span>
+            <span style="color:#8b93a1">（精确 ${esc(cleanNum(r.solution))}）</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    block.innerHTML = `
+      <div class="rev-h">✅ 反推成功（用时 ${elapsed}s，共 ${results.length} 种方案${results.length > MAX_SHOW ? '，仅显示前 ' + MAX_SHOW + ' 种' : ''}）</div>
+      <div style="font-size:12.5px;color:#92400e;margin-bottom:10px">
+        以下方案均能使计算结果按 ${targetDigits} ${modeLabel} 舍入后等于 ${esc(cleanNum(targetValue))}。
+      </div>
+      ${cardsHTML}`;
+    block.classList.add('show');
+  }, 20);
+}
+
+/* 核心：枚举所有输入变量的舍入位数组合，检查是否能产生目标值 */
+function findReverseDigitCombos(ast, inputNames, targetName, targetValue, targetDigits, inputValues){
+  const n = inputNames.length;
+  const digitsRange = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
+  const rangeSize = digitsRange.length;
+  const totalCombos = Math.pow(rangeSize, n);
+
+  let effectiveRange = digitsRange;
+  if (totalCombos > 150000){
+    // 组合过多时收窄范围到常用范围
+    effectiveRange = state.mode === 'sig' ? [1,2,3,4,5,6] : [0,1,2,3,4,5];
+  }
+
+  const results = [];
+  const env = {};
+
+  // 预先算好每个变量在各舍入位数下的值，加速搜索
+  const precomputed = {};
+  for (const nm of inputNames){
+    precomputed[nm] = {};
+    for (const d of effectiveRange){
+      precomputed[nm][d] = roundBy(inputValues[nm], d);
+    }
+  }
+
+  // 用目标值作为牛顿法起始点，通常已经很接近
+  const guess = targetValue;
+  const tol = Math.max(Math.abs(targetValue) * 1e-9, 1e-12);
+
+  function search(idx, currentDigits){
+    if (idx === n){
+      // 构建环境
+      for (let i = 0; i < n; i++){
+        env[inputNames[i]] = precomputed[inputNames[i]][currentDigits[i]];
+      }
+      const fOfX = x => {
+        env[targetName] = x;
+        try { return evalNode(ast.l, env) - evalNode(ast.r, env); } catch(e){ return NaN; }
+      };
+      const sol = robustSolve(fOfX, guess);
+      if (sol === null || !isFinite(sol)) return;
+      const solRounded = roundBy(sol, targetDigits);
+      if (Math.abs(solRounded - targetValue) <= tol){
+        results.push({
+          digits: currentDigits.slice(),
+          solution: sol,
+          inputs: inputNames.map((nm, i) => ({
+            name: nm,
+            raw: inputValues[nm],
+            rounded: precomputed[nm][currentDigits[i]],
+            digits: currentDigits[i]
+          }))
+        });
+      }
+      return;
+    }
+    for (const d of effectiveRange){
+      currentDigits.push(d);
+      search(idx + 1, currentDigits);
+      currentDigits.pop();
+    }
+  }
+
+  search(0, []);
+  return results;
+}
+
+/* =========================================================
+   12. 普通计算
    ========================================================= */
 function doCompute(f, ast, names, meta){
   hideErr(); hideResult(); hideProc();
   const unknown = state.unknown;
   if (!unknown){ showErr('请选择未知量'); return; }
 
-  const env = {};
-  const dispOf = {};
-  const inputs = [];
+  const env = {}, dispOf = {}, inputs = [];
 
   for (const nm of names){
     if (nm === unknown) continue;
@@ -1330,27 +1741,16 @@ function doCompute(f, ast, names, meta){
     }
     const v = Number(raw);
     if (!isFinite(v)){ showErr('「' + labelOf(nm, meta) + '」不是有效数字'); return; }
-
     const digits = getDigits(nm);
     const rv = roundBy(v, digits);
     const rs = fmtBy(rv, digits);
     env[nm] = rv;
     dispOf[nm] = rs;
-    inputs.push({
-      nm, label: labelOf(nm, meta),
-      rawStr: String(raw).trim(),
-      rounded: rv,
-      roundedStr: rs,
-      digits
-    });
+    inputs.push({ nm, label: labelOf(nm, meta), rawStr: String(raw).trim(), rounded: rv, roundedStr: rs, digits });
   }
 
   const resDigits = getDigits(unknown);
-
-  const fOfX = x => {
-    env[unknown] = x;
-    return evalNode(ast.l, env) - evalNode(ast.r, env);
-  };
+  const fOfX = x => { env[unknown] = x; return evalNode(ast.l, env) - evalNode(ast.r, env); };
 
   let res = null;
   try { res = autoSolve(fOfX); }
@@ -1375,41 +1775,34 @@ function doCompute(f, ast, names, meta){
       <td class="sigcol">${inp.digits} ${state.mode === 'sig' ? '位有效' : '位小数'}</td>
     </tr>`).join('');
 
-  const rawEqStr = f.eq.replace(/\*/g, ' × ').replace(/\//g, ' ÷ ').replace(/=/g, ' = ');
   const subL = astToStr(ast.l, env, dispOf);
   const subR = astToStr(ast.r, env, dispOf);
   const modeLabel = state.mode === 'sig' ? '有效数字' : '小数位数';
 
   const procHTML = `
     <div class="proc-h">📋 计算过程（按 ${modeLabel}）</div>
-
     <div class="proc-block">
       <div class="proc-sub">1. 输入值按各自设定的位数取舍</div>
       <table class="ptable">
-        <thead>
-          <tr>
-            <th style="width:20%">变量</th>
-            <th style="width:22%">输入值</th>
-            <th style="width:6%"></th>
-            <th style="width:34%">取舍后</th>
-            <th style="width:18%;text-align:right">位数</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th style="width:20%">变量</th>
+          <th style="width:22%">输入值</th>
+          <th style="width:6%"></th>
+          <th style="width:34%">取舍后</th>
+          <th style="width:18%;text-align:right">位数</th>
+        </tr></thead>
         <tbody>${inputRows || '<tr><td colspan="5" style="color:#8b93a1">无已知量</td></tr>'}</tbody>
       </table>
     </div>
-
     <div class="proc-block">
       <div class="proc-sub">2. 代入公式</div>
       <div class="proc-eq">${renderFormulaHTML(f.eq)}</div>
       <div class="proc-eq proc-eq-sub">${esc(subL)} = ${esc(subR)}</div>
     </div>
-
     <div class="proc-block">
       <div class="proc-sub">3. 数值求解 ${renderFormulaHTML(lab)}（未取舍）</div>
       <div class="proc-eq">${renderFormulaHTML(lab)} = ${esc(rawSolStr)}</div>
     </div>
-
     <div class="proc-block">
       <div class="proc-sub">4. 结果按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}取舍</div>
       <div class="proc-eq">${renderFormulaHTML(lab)} = ${esc(rawSolStr)}  →  <span class="val">${esc(finalStr)}</span>${u ? ' ' + esc(u) : ''}</div>
@@ -1425,28 +1818,15 @@ function doCompute(f, ast, names, meta){
   $('rnote').textContent = `${lab} = ${rawSolStr}  →  按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}输出`;
   $('resultbox').classList.add('show');
 
-  const record = {
-    time: Date.now(),
-    mode: state.mode,
-    unknown: unknown,
-    unknownLabel: lab,
-    unknownUnit: u,
-    inputs: inputs.map(i => ({
-      label: i.label,
-      rawStr: i.rawStr,
-      roundedStr: i.roundedStr,
-      digits: i.digits
-    })),
-    rawSolution: res,
-    roundedSolution: resRounded,
-    formattedSolution: finalStr,
-    resDigits: resDigits
-  };
-  addHistoryRecord(f, record);
+  addHistoryRecord(f, {
+    time: Date.now(), mode: state.mode, unknown, unknownLabel: lab, unknownUnit: u,
+    inputs: inputs.map(i => ({ label: i.label, rawStr: i.rawStr, roundedStr: i.roundedStr, digits: i.digits })),
+    rawSolution: res, roundedSolution: resRounded, formattedSolution: finalStr, resDigits
+  });
 }
 
 /* =========================================================
-   11. 自定义公式编辑器
+   13. 自定义公式编辑器
    ========================================================= */
 const SYM_GROUPS = [
   ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
@@ -1456,8 +1836,30 @@ const SYM_GROUPS = [
                 'R_s','t_R','t_0','t_half','x_bar','Λ_m','K_p','K_c']]
 ];
 
-function renderCustomEditor(){
+function fillCatDatalists(){
+  const catSet = new Set();
+  const subSet = new Set();
+  DATA.forEach(c => { catSet.add(c.cat); c.subs.forEach(s => subSet.add(s.sub)); });
+  loadCustom().forEach(item => {
+    if (item.cat) catSet.add(item.cat);
+    if (item.sub) subSet.add(item.sub);
+  });
+  const catList = document.getElementById('cf-cat-list');
+  const subList = document.getElementById('cf-sub-list');
+  if (catList) catList.innerHTML = [...catSet].map(c => `<option value="${esc(c)}"></option>`).join('');
+  if (subList) subList.innerHTML = [...subSet].map(s => `<option value="${esc(s)}"></option>`).join('');
+}
+
+function renderCustomEditor(editIdx){
   const main = $('main');
+  const isEdit = (typeof editIdx === 'number');
+  const existing = isEdit ? loadCustom()[editIdx] : null;
+
+  const preName = existing ? existing.name : '';
+  const preEq = existing ? existing.eq : '';
+  const preCat = existing && existing.cat ? existing.cat : '';
+  const preSub = existing && existing.sub ? existing.sub : '';
+
   const groupsHTML = SYM_GROUPS.map(([gname, arr]) => `
     <div class="symgroup">
       <div class="glabel">${gname}</div>
@@ -1466,7 +1868,7 @@ function renderCustomEditor(){
 
   main.innerHTML = `
     <div class="panel">
-      <h2 class="f-title">新建自定义公式</h2>
+      <h2 class="f-title">${isEdit ? '编辑自定义公式' : '新建自定义公式'}</h2>
       <p class="hint">
         语法：<code>*</code> 乘法、<code>/</code> 除法、<code>^</code> 乘方；
         函数支持 <code>ln</code>、<code>lg</code>、<code>sqrt</code>、<code>exp</code>、<code>abs</code>、
@@ -1476,21 +1878,46 @@ function renderCustomEditor(){
         多字符下标用花括号：<code>K_{sp}</code>；复杂上标用括号：<code>x^(1/3)</code>。
       </p>
       <label class="field"><span>公式名称</span>
-        <input id="cf-name" placeholder="例如：我的浓度公式" autocomplete="off">
+        <input id="cf-name" placeholder="例如：我的浓度公式" autocomplete="off" value="${esc(preName)}">
       </label>
       <label class="field"><span>公式表达式</span>
-        <input id="cf-eq" placeholder="例如：c = n/V" autocomplete="off">
+        <input id="cf-eq" placeholder="例如：c = n/V" autocomplete="off" value="${esc(preEq)}">
+      </label>
+      <label class="field"><span>所属分类（留空则归入「未分类」；可从列表选已有分类，也可输入新名称创建分类）</span>
+        <div class="row2">
+          <input id="cf-cat" list="cf-cat-list" placeholder="大类，如：物理化学" autocomplete="off" value="${esc(preCat)}">
+          <input id="cf-sub" list="cf-sub-list" placeholder="小类，如：气体与状态方程" autocomplete="off" value="${esc(preSub)}">
+        </div>
+        <datalist id="cf-cat-list"></datalist>
+        <datalist id="cf-sub-list"></datalist>
       </label>
       <div style="margin-bottom:16px">${groupsHTML}</div>
       <div style="font-size:13px;color:#4b5563;margin-bottom:8px">变量设置（点「解析变量」自动生成）</div>
       <div id="cf-vars"></div>
       <div class="row">
-        <button class="primary" id="cf-save">保存公式</button>
+        <button class="primary" id="cf-save">${isEdit ? '保存修改' : '保存公式'}</button>
         <button class="ghost" id="cf-parse">解析变量</button>
         <button class="ghost" id="cf-cancel">取消</button>
       </div>
       <div class="msg" id="cf-msg"></div>
     </div>`;
+
+  fillCatDatalists();
+
+  if (existing && existing.eq){
+    try {
+      const ast = parseEq(existing.eq);
+      const names = varNames(ast);
+      const vars = existing.vars || {};
+      const box = $('cf-vars');
+      box.innerHTML = names.map(nm => `
+        <div class="var-def">
+          <div class="vname">${renderFormulaHTML(nm)}</div>
+          <input data-k="${esc(nm)}" placeholder="单位（可留空）" value="${esc(vars[nm] && vars[nm].u ? vars[nm].u : '')}">
+          <input data-d="${esc(nm)}" placeholder="说明（可留空）" value="${esc(vars[nm] && vars[nm].d ? vars[nm].d : '')}">
+        </div>`).join('');
+    } catch(e){}
+  }
 
   main.querySelectorAll('.sym').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1505,7 +1932,7 @@ function renderCustomEditor(){
   });
 
   $('cf-parse').addEventListener('click', parseCustomVars);
-  $('cf-save').addEventListener('click', saveCustomFormula);
+  $('cf-save').addEventListener('click', () => saveCustomFormula(isEdit ? editIdx : null));
   $('cf-cancel').addEventListener('click', () => {
     $('main').innerHTML = '<div class="panel"><div class="welcome">已取消。</div></div>';
   });
@@ -1541,11 +1968,18 @@ function parseCustomVars(){
   cfMsg('解析成功，共 ' + names.length + ' 个变量：' + names.join('、'), true);
 }
 
-function saveCustomFormula(){
+function saveCustomFormula(editIdx){
   const name = $('cf-name').value.trim();
   const eq = $('cf-eq').value.trim();
+  const catName = ($('cf-cat').value || '').trim();
+  const subName = ($('cf-sub').value || '').trim();
+  const isEdit = (typeof editIdx === 'number');
+
   if (!name){ cfMsg('请填写公式名称', false); return; }
   if (!eq){ cfMsg('请填写公式表达式', false); return; }
+  if ((catName && !subName) || (!catName && subName)){
+    cfMsg('分类需要同时填写「大类」和「小类」，或两者都留空。', false); return;
+  }
 
   let ast;
   try { ast = parseEq(eq); }
@@ -1567,19 +2001,22 @@ function saveCustomFormula(){
   });
   names.forEach(nm => { if (!vars[nm]) vars[nm] = { u:'', d:'' }; });
 
+  const newItem = { name, eq, vars, custom: true };
+  if (catName && subName){ newItem.cat = catName; newItem.sub = subName; }
+
   const list = loadCustom();
-  list.push({ name, eq, vars, custom:true });
+  if (isEdit) list[editIdx] = newItem;
+  else list.push(newItem);
   const ok = saveCustomList(list);
-  if (!ok) {
-    cfMsg('保存失败：本地存储不可用，请检查打包设置中的 DOM Storage 是否开启。', false);
-    return;
-  }
+  if (!ok){ cfMsg('保存失败：本地存储不可用。', false); return; }
+
   renderSidebar($('search').value);
-  openFormula(list[list.length - 1], '自定义公式');
+  const crumb = (catName && subName) ? (catName + ' / ' + subName) : '未分类自定义公式';
+  openFormula(newItem, crumb);
 }
 
 /* =========================================================
-   12. 模态框事件 + 启动
+   14. 模态框 + 启动
    ========================================================= */
 document.getElementById('historyClose').addEventListener('click', closeHistoryModal);
 document.getElementById('historyModal').addEventListener('click', e => {
@@ -1588,7 +2025,7 @@ document.getElementById('historyModal').addEventListener('click', e => {
 document.getElementById('historyClear').addEventListener('click', () => {
   if (confirm('确定清空该公式的全部历史记录吗？')) {
     const f = state.formula;
-    if (f) {
+    if (f){
       saveHistory(f, []);
       updateHistoryButtonCount(f);
       closeHistoryModal();
