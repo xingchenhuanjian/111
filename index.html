@@ -41,9 +41,11 @@
          box-shadow:0 1px 3px rgba(16,24,40,.08)}
   .f-title{font-size:20px;font-weight:700;margin:0 0 4px}
   .f-crumb{font-size:12px;color:#8b93a1;margin-bottom:14px}
-  .f-eq{font-family:"Cambria Math",Georgia,serif;font-size:21px;color:#1d4ed8;
-        background:#f5f8ff;border-left:3px solid #4f7cff;padding:12px 16px;border-radius:6px;
-        margin-bottom:18px;letter-spacing:.5px;word-break:break-all;line-height:1.5}
+  .f-eq{font-family:"Cambria Math",Georgia,serif;font-size:22px;color:#1d4ed8;
+        background:#f5f8ff;border-left:3px solid #4f7cff;padding:14px 16px;border-radius:6px;
+        margin-bottom:18px;letter-spacing:.5px;word-break:break-all;line-height:1.6}
+  .f-eq sub{font-size:.72em;color:#2563eb}
+  .f-eq sup{font-size:.72em;color:#2563eb}
 
   .toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
            padding-bottom:14px;border-bottom:1px solid #eef0f3;margin-bottom:16px}
@@ -59,6 +61,8 @@
   .var-row input[type=radio]{width:18px;height:18px;cursor:pointer;accent-color:#4f7cff}
   .vlabel{font-family:"Cambria Math",Georgia,serif;font-size:16px;color:#111827;
           overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .vlabel sub{font-size:.72em;color:#2563eb}
+  .vlabel sup{font-size:.72em;color:#2563eb}
   .vlabel small{font-family:system-ui;font-size:11px;color:#8b93a1;margin-left:4px}
   .var-row input[type=number],.var-row input[type=text]{
       padding:9px 10px;border:1px solid #d7dbe0;border-radius:7px;font-size:16px;
@@ -110,11 +114,15 @@
   .ptable td.arr{color:#c4cad4;text-align:center}
   .ptable td.sigcol{color:#7c8b82;text-align:right;white-space:nowrap}
   .ptable tbody tr:hover{background:#fff}
-  .proc-eq{font-family:"Cambria Math",Georgia,serif;font-size:14.5px;color:#1f2937;
+  .ptable sub{font-size:.72em;color:#2563eb}
+  .ptable sup{font-size:.72em;color:#2563eb}
+  .proc-eq{font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#1f2937;
            background:#fff;padding:9px 12px;border-radius:6px;margin-top:6px;
            border:1px solid #e4ebf5;word-break:break-all;line-height:1.7}
   .proc-eq-sub{color:#4b5563;font-size:13.5px}
   .proc-eq .val{color:#1d4ed8;font-weight:600}
+  .proc-eq sub{font-size:.72em;color:#2563eb}
+  .proc-eq sup{font-size:.72em;color:#2563eb}
 
   /* ---------- 自定义编辑器 ---------- */
   .field{display:block;margin-bottom:14px}
@@ -131,12 +139,46 @@
   .sym:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
   .var-def{display:grid;grid-template-columns:110px 1fr 1fr;gap:10px;margin-bottom:8px;align-items:center}
   .var-def .vname{font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#111827}
+  .var-def .vname sub{font-size:.72em;color:#2563eb}
+  .var-def .vname sup{font-size:.72em;color:#2563eb}
   .var-def input{padding:8px 10px;border:1px solid #d7dbe0;border-radius:6px;font-size:14px;outline:none;background:#fff}
   .row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
   .msg{margin-top:12px;font-size:13px;line-height:1.6}
   .msg.ok{color:#0f7a4a}
   .msg.bad{color:#b91c1c}
   .welcome{color:#8b93a1;font-size:15px;line-height:2}
+
+  /* ---------- 历史记录模态框 ---------- */
+  .modal-mask{position:fixed;top:0;left:0;width:100%;height:100%;
+              background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+              z-index:999;padding:16px}
+  .modal-content{background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:80vh;
+                 display:flex;flex-direction:column;box-shadow:0 8px 30px rgba(0,0,0,.2)}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;
+                padding:14px 18px;border-bottom:1px solid #eef0f3;
+                font-weight:600;font-size:15px;color:#1f2937}
+  .modal-close{background:none;border:none;font-size:24px;line-height:1;cursor:pointer;
+               color:#8b93a1;padding:0 6px;border-radius:6px}
+  .modal-close:hover{background:#f0f3f9;color:#1f2937}
+  .modal-body{flex:1;overflow-y:auto;padding:12px 16px;-webkit-overflow-scrolling:touch}
+  .modal-footer{padding:12px 16px;border-top:1px solid #eef0f3;
+                display:flex;justify-content:flex-end}
+  .h-card{background:#f9fafb;border-radius:10px;padding:12px 14px;margin-bottom:10px;
+          border:1px solid #eef0f3}
+  .h-card:last-child{margin-bottom:0}
+  .h-head{display:flex;justify-content:space-between;font-size:11.5px;color:#8b93a1;margin-bottom:6px}
+  .h-mode{background:#eef3ff;color:#4f7cff;padding:1px 6px;border-radius:4px;font-weight:500}
+  .h-result{font-size:14px;color:#1f2937;margin-bottom:8px}
+  .h-res{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:#0f7a4a;font-size:16px}
+  .h-inputs{font-size:12px;color:#4b5563;display:flex;flex-direction:column;gap:4px}
+  .h-item{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+  .h-label{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;min-width:60px}
+  .h-label sub{font-size:.72em;color:#2563eb}
+  .h-label sup{font-size:.72em;color:#2563eb}
+  .h-raw{font-family:ui-monospace,monospace;color:#6b7280}
+  .h-arrow{color:#c4cad4}
+  .h-val{font-family:ui-monospace,monospace;color:#1f2937;font-weight:600}
+  .h-digits{color:#8b93a1;font-size:11px;margin-left:4px}
 
   /* ===== 手机竖屏适配 ===== */
   @media (max-width:760px){
@@ -146,7 +188,7 @@
     .main{padding:14px}
     .panel{padding:16px 16px 22px;border-radius:12px}
     .f-title{font-size:17px}
-    .f-eq{font-size:17px;padding:10px 12px;line-height:1.5}
+    .f-eq{font-size:18px;padding:10px 12px;line-height:1.6}
     .toolbar{gap:10px}
     .var-row{grid-template-columns:24px 1fr 100px;gap:6px 8px;padding:10px 6px}
     .var-row input[type=radio]{grid-column:1;grid-row:1}
@@ -164,6 +206,7 @@
     .ptable th{font-size:10.5px;padding:4px 4px}
     .proc-eq{font-size:13px;padding:8px 10px}
     .process{padding:14px 12px}
+    .modal-content{max-height:85vh}
   }
 </style>
 </head>
@@ -179,9 +222,24 @@
       从上方选择一个公式开始计算 👆<br>
       公式中任意一个量都可以留作未知量。<br>
       顶端可切换「有效数字 / 小数位数」两种计算方式，<br>
-      每个变量还能单独设定各自的位数。
+      每个变量还能单独设定各自的位数。<br>
+      每次计算会自动保存历史记录，可点「📋 历史」查看。
     </div></div>
   </main>
+</div>
+
+<!-- 历史记录模态框 -->
+<div class="modal-mask" id="historyModal" style="display:none">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>📋 历史记录</span>
+      <button class="modal-close" id="historyClose">×</button>
+    </div>
+    <div class="modal-body" id="historyList"></div>
+    <div class="modal-footer">
+      <button class="ghost" id="historyClear">清空历史</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -347,26 +405,28 @@ function varNames(ast){
   return [...s].filter(n => !(n in CONSTS));
 }
 
-/* AST → 带数值的可读字符串（用于「代入公式」展示） */
+/* AST → 带数值的可读字符串 */
 function precOf(op){ return op === '+' || op === '-' ? 1 : op === '*' || op === '/' ? 2 : 3; }
-function astToStr(node, env, sigOf){
+function astToStr(node, env, dispOf){
   switch (node.type){
     case 'num': return String(node.value);
     case 'var': {
+      if (dispOf && Object.prototype.hasOwnProperty.call(dispOf, node.name)){
+        return dispOf[node.name];
+      }
       if (env && Object.prototype.hasOwnProperty.call(env, node.name)){
-        const s = sigOf && sigOf[node.name];
-        return s !== undefined ? s : String(env[node.name]);
+        return String(env[node.name]);
       }
       if (node.name in CONSTS) return String(CONSTS[node.name]);
       return node.name;
     }
     case 'neg': {
-      const s = astToStr(node.operand, env, sigOf);
+      const s = astToStr(node.operand, env, dispOf);
       return node.operand.type === 'bin' ? '-(' + s + ')' : '-' + s;
     }
     case 'bin': {
-      const l = astToStr(node.left, env, sigOf);
-      const r = astToStr(node.right, env, sigOf);
+      const l = astToStr(node.left, env, dispOf);
+      const r = astToStr(node.right, env, dispOf);
       let ls = l, rs = r;
       if (node.left.type === 'bin'){
         const pl = precOf(node.left.op), pc = precOf(node.op);
@@ -380,14 +440,68 @@ function astToStr(node, env, sigOf){
       return ls + sym + rs;
     }
     case 'call': {
-      return node.name + '(' + node.args.map(a => astToStr(a, env, sigOf)).join(', ') + ')';
+      return node.name + '(' + node.args.map(a => astToStr(a, env, dispOf)).join(', ') + ')';
     }
   }
   return '';
 }
 
 /* =========================================================
-   2. 数值求解
+   2. 公式字符串渲染（上下标）
+   ========================================================= */
+/* 把 'p*V = n*R*T'、'c_H = sqrt(K_a*c)'、'V^2'、'^(1/3)' 等
+   渲染成带 <sub>、<sup> 的 HTML。 */
+function renderFormulaHTML(eq){
+  if (!eq) return '';
+  let out = '';
+  let i = 0;
+  const n = eq.length;
+  while (i < n){
+    const c = eq[i];
+    if (c === '_' || c === '^'){
+      const isSub = (c === '_');
+      i++;
+      let content = '';
+      if (eq[i] === '{'){
+        i++;
+        let depth = 1;
+        while (i < n && depth > 0){
+          if (eq[i] === '{') depth++;
+          else if (eq[i] === '}'){ depth--; if (depth === 0) break; }
+          content += eq[i]; i++;
+        }
+        i++; // skip '}'
+      } else if (eq[i] === '('){
+        i++;
+        let depth = 1;
+        while (i < n && depth > 0){
+          if (eq[i] === '(') depth++;
+          else if (eq[i] === ')'){ depth--; if (depth === 0) break; }
+          content += eq[i]; i++;
+        }
+        i++; // skip ')'
+      } else {
+        while (i < n && /[A-Za-z0-9_]/.test(eq[i])){
+          content += eq[i]; i++;
+        }
+      }
+      if (!content){
+        out += esc(c);
+      } else {
+        out += isSub
+          ? '<sub>' + esc(content) + '</sub>'
+          : '<sup>' + esc(content) + '</sup>';
+      }
+    } else {
+      out += esc(c);
+      i++;
+    }
+  }
+  return out.replace(/\*/g, '·');
+}
+
+/* =========================================================
+   3. 数值求解
    ========================================================= */
 function bisect(f, a, b, fa){
   let lo = a, hi = b, flo = fa;
@@ -459,12 +573,11 @@ function autoSolve(f){
 }
 
 /* =========================================================
-   3. 数值格式化 —— 有效数字 & 小数位
+   4. 数值格式化
    ========================================================= */
 const SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻','+':'⁺'};
 const supStr = s => String(s).split('').map(c => SUP[c] || c).join('');
 
-/* ---- 有效数字 ---- */
 function toSigFig(x, n){
   if (typeof x !== 'number' || !isFinite(x)) return String(x);
   if (x === 0) return '0';
@@ -486,8 +599,6 @@ function roundSigFig(x, n){
   const factor = Math.pow(10, n - 1 - e);
   return Math.sign(x) * Math.round(Math.abs(x) * factor) / factor;
 }
-
-/* ---- 小数位数 ---- */
 function roundDec(x, n){
   if (typeof x !== 'number' || !isFinite(x)) return x;
   const f = Math.pow(10, n);
@@ -498,12 +609,11 @@ function toDecStr(x, n){
   if (x === 0) return (0).toFixed(n);
   const neg = x < 0;
   const ax = Math.abs(x);
-  // 数值太大或太小，用指数形式（保证显示可读）
   if (ax >= 1e15 || ax < Math.pow(10, -n - 1)){
     const r = roundDec(x, n);
     if (r === 0) return (0).toFixed(n);
     const e = Math.floor(Math.log10(Math.abs(r)));
-    let md = n + e;              // 尾数应保留的小数位
+    let md = n + e;
     if (md < 0) md = 0;
     if (md > 18) md = 18;
     const parts = r.toExponential(md).split('e');
@@ -511,8 +621,6 @@ function toDecStr(x, n){
   }
   return x.toFixed(n);
 }
-
-/* ---- 输入值自动推断位数 ---- */
 function inferSigFigs(str){
   if (str === null || str === undefined) return null;
   str = String(str).trim();
@@ -539,13 +647,11 @@ function inferDecimals(str){
   str = String(str).trim();
   if (!str) return null;
   if (!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(str)) return null;
-  if (/[eE]/.test(str)) return null;      // 科学计数法不推断小数位
+  if (/[eE]/.test(str)) return null;
   const dotIdx = str.indexOf('.');
-  if (dotIdx < 0) return null;            // 整数不自动推断小数位
+  if (dotIdx < 0) return null;
   return str.length - dotIdx - 1;
 }
-
-/* 展示"原始解"等用的干净格式 */
 function cleanNum(x){
   if (typeof x !== 'number' || !isFinite(x)) return String(x);
   if (x === 0) return '0';
@@ -557,7 +663,7 @@ function cleanNum(x){
 }
 
 /* =========================================================
-   4. 公式数据
+   5. 公式数据
    ========================================================= */
 const DATA = [
 {
@@ -753,17 +859,17 @@ const DATA = [
 ];
 
 /* =========================================================
-   5. 状态
+   6. 状态
    ========================================================= */
 const state = {
   formula: null,
   unknown: null,
-  values: {},        // 字符串
-  mode: 'sig',       // 'sig' 有效数字 | 'dec' 小数位数
-  sigfigs: {},       // 每个变量的有效数字位数
-  decimals: {},      // 每个变量的小数位数
-  sigManual: {},     // 用户是否手动改过（sig 模式）
-  decManual: {},     // 用户是否手动改过（dec 模式）
+  values: {},
+  mode: 'sig',
+  sigfigs: {},
+  decimals: {},
+  sigManual: {},
+  decManual: {},
   defaultSig: 4,
   defaultDec: 2
 };
@@ -775,9 +881,11 @@ const LS_KEY = 'chemcalc_custom_v1';
 function loadCustom(){
   try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch(e){ return []; }
 }
-function saveCustomList(list){ localStorage.setItem(LS_KEY, JSON.stringify(list)); }
+function saveCustomList(list){
+  try { localStorage.setItem(LS_KEY, JSON.stringify(list)); return true; }
+  catch(e){ console.error('自定义公式保存失败:', e); return false; }
+}
 
-/* 取某变量在当前模式下的位数 */
 function getDigits(nm){
   if (state.mode === 'sig'){
     const d = state.sigfigs[nm];
@@ -790,20 +898,118 @@ function getDigits(nm){
 function getGlobalDigits(){
   return state.mode === 'sig' ? state.defaultSig : state.defaultDec;
 }
-
-/* 统一的舍入 / 显示入口 */
 function roundBy(x, n){
   return state.mode === 'sig' ? roundSigFig(x, n) : roundDec(x, n);
 }
 function fmtBy(x, n){
   return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n);
 }
-function unitWord(){
-  return state.mode === 'sig' ? '位有效数字' : '位小数';
+
+/* =========================================================
+   7. 历史记录
+   ========================================================= */
+function getFormulaKey(f) {
+  return (f.custom ? 'custom_' : 'builtin_') + (f.name + '|' + f.eq)
+    .replace(/[^a-zA-Z0-9\u4e00-\u9fa5|]/g, '_');
+}
+function loadHistory(f) {
+  try {
+    const key = 'chemcalc_history_' + getFormulaKey(f);
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) {
+    console.warn('[历史] 读取失败:', e);
+    return [];
+  }
+}
+function saveHistory(f, arr) {
+  try {
+    const key = 'chemcalc_history_' + getFormulaKey(f);
+    localStorage.setItem(key, JSON.stringify(arr));
+    return true;
+  } catch(e) {
+    console.error('[历史] 保存失败:', e);
+    return false;
+  }
+}
+function updateHistoryButtonCount(f) {
+  try {
+    const btn = document.getElementById('btnHistory');
+    if (btn) {
+      const count = loadHistory(f).length;
+      btn.textContent = '📋 历史 (' + count + ')';
+    }
+  } catch(e) {
+    console.warn('[历史] 更新按钮失败:', e);
+  }
+}
+function addHistoryRecord(f, record) {
+  try {
+    let arr = loadHistory(f);
+    arr.push(record);
+    if (arr.length > 20) arr = arr.slice(arr.length - 20);
+    const ok = saveHistory(f, arr);
+    if (ok) {
+      console.log('[历史] 已保存，公式:', f.name, '当前条数:', arr.length);
+      updateHistoryButtonCount(f);
+    } else {
+      alert('历史记录保存失败：您的浏览器/WebView 可能禁用了本地存储 (localStorage)。\n请检查打包时是否开启了 DOM Storage 权限。');
+    }
+  } catch(e) {
+    console.error('[历史] 添加记录异常:', e);
+  }
+}
+function openHistoryModal(f) {
+  const modal = document.getElementById('historyModal');
+  const list = document.getElementById('historyList');
+  const arr = loadHistory(f);
+  if (!arr.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:#8b93a1">暂无历史记录</div>';
+  } else {
+    const sorted = arr.slice().sort((a, b) => b.time - a.time);
+    list.innerHTML = sorted.map(rec => {
+      const d = new Date(rec.time);
+      const timeStr = d.getFullYear() + '-' +
+        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+        String(d.getDate()).padStart(2, '0') + ' ' +
+        String(d.getHours()).padStart(2, '0') + ':' +
+        String(d.getMinutes()).padStart(2, '0') + ':' +
+        String(d.getSeconds()).padStart(2, '0');
+      const modeLabel = rec.mode === 'sig' ? '有效数字' : '小数位数';
+      const inputsHtml = rec.inputs.map(inp =>
+        `<div class="h-item">
+          <span class="h-label">${renderFormulaHTML(inp.label)}</span>
+          <span class="h-raw">${esc(inp.rawStr)}</span>
+          <span class="h-arrow">→</span>
+          <span class="h-val">${esc(inp.roundedStr)}</span>
+          <span class="h-digits">${inp.digits}${rec.mode === 'sig' ? '位有效' : '位小数'}</span>
+        </div>`
+      ).join('');
+      return `
+        <div class="h-card">
+          <div class="h-head">
+            <span class="h-time">${timeStr}</span>
+            <span class="h-mode">${modeLabel}</span>
+          </div>
+          <div class="h-result">
+            求 <b>${renderFormulaHTML(rec.unknownLabel)}</b> =
+            <span class="h-res">${esc(rec.formattedSolution)}</span>
+            ${esc(rec.unknownUnit)}
+          </div>
+          <div class="h-inputs">
+            ${inputsHtml || '<div class="h-item" style="color:#8b93a1">无已知量</div>'}
+          </div>
+        </div>`;
+    }).join('');
+  }
+  modal.style.display = 'flex';
+}
+function closeHistoryModal() {
+  document.getElementById('historyModal').style.display = 'none';
 }
 
 /* =========================================================
-   6. 侧边栏
+   8. 侧边栏
    ========================================================= */
 function renderSidebar(filter){
   const tree = $('tree');
@@ -881,7 +1087,7 @@ function markActive(el){
 $('search').addEventListener('input', e => renderSidebar(e.target.value));
 
 /* =========================================================
-   7. 公式面板
+   9. 公式面板
    ========================================================= */
 function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
 function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
@@ -911,7 +1117,6 @@ function openFormula(f, crumb){
   });
   state.unknown = names.find(nm => state.values[nm] === '') || names[names.length - 1];
 
-  // 从已有值推断默认位数
   names.forEach(nm => {
     const infS = inferSigFigs(state.values[nm]);
     state.sigfigs[nm] = infS || state.defaultSig;
@@ -922,7 +1127,6 @@ function openFormula(f, crumb){
   renderFormulaPanel(f, crumb || '', ast, names, meta);
 }
 
-/* 生成一个变量的位数下拉框选项 */
 function digitOptions(nm){
   const cur = getDigits(nm);
   const list = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
@@ -939,7 +1143,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     return `
       <div class="var-row ${isUnk ? 'is-unknown' : ''}" data-row="${esc(nm)}">
         <input type="radio" name="unknown" value="${esc(nm)}" ${isUnk ? 'checked' : ''}>
-        <div class="vlabel" title="${esc(nm)}">${esc(labelOf(nm, meta))}${m.u ? `<small>${esc(m.u)}</small>` : ''}</div>
+        <div class="vlabel" title="${esc(nm)}">${renderFormulaHTML(labelOf(nm, meta))}${m.u ? `<small>${esc(m.u)}</small>` : ''}</div>
         <input type="number" step="any" inputmode="decimal" data-var="${esc(nm)}" value="${esc(val)}"
                ${isUnk ? 'disabled' : ''} placeholder="${isUnk ? '待求' : '输入数值'}">
         <select class="sigsel" data-sig="${esc(nm)}"
@@ -960,7 +1164,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     <div class="panel">
       <h2 class="f-title">${esc(f.name)}</h2>
       ${crumb ? `<div class="f-crumb">${esc(crumb)}</div>` : ''}
-      <div class="f-eq">${esc(f.eq.replace(/\*/g, '·').replace(/\^2/g, '²').replace(/\^3/g, '³'))}</div>
+      <div class="f-eq">${renderFormulaHTML(f.eq)}</div>
 
       <div class="toolbar">
         <label>计算方式
@@ -972,9 +1176,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
         <label>统一位数
           <select id="globalDigit">${globalOpts}</select>
         </label>
-        <span style="font-size:12px;color:#8b93a1;line-height:1.5">
-          选圆圈 → 未知量；每行右侧可单独设位数
-        </span>
+        <button class="ghost" id="btnHistory" style="margin-left:auto;padding:8px 14px;font-size:13px;">📋 历史 (0)</button>
       </div>
 
       <div id="varlist">${varsHTML || '<div class="vdesc">该公式没有可输入的变量。</div>'}</div>
@@ -994,14 +1196,12 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
       </div>
     </div>`;
 
-  /* ---- 输入框：更新值 + 自动推断位数 ---- */
   main.querySelectorAll('input[data-var]').forEach(inp => {
     inp.addEventListener('input', () => {
       const nm = inp.dataset.var;
       state.values[nm] = inp.value;
       const row = inp.closest('.var-row');
       const sel = row ? row.querySelector('.sigsel') : null;
-
       if (state.mode === 'sig'){
         if (!state.sigManual[nm]){
           const inf = inferSigFigs(inp.value);
@@ -1022,7 +1222,6 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     });
   });
 
-  /* ---- 每个变量的位数选择器 ---- */
   main.querySelectorAll('.sigsel').forEach(sel => {
     sel.addEventListener('change', () => {
       const nm = sel.dataset.sig;
@@ -1038,7 +1237,6 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     });
   });
 
-  /* ---- 切换未知量 ---- */
   main.querySelectorAll('input[name="unknown"]').forEach(radio => {
     radio.addEventListener('change', () => {
       state.unknown = radio.value;
@@ -1056,10 +1254,8 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     });
   });
 
-  /* ---- 顶部：切换计算方式 ---- */
   $('modeSel').addEventListener('change', e => {
     state.mode = e.target.value;
-    // 切换后，未手动改过的变量按当前模式的规则重新推断
     names.forEach(nm => {
       if (nm === state.unknown) return;
       if (state.mode === 'sig'){
@@ -1077,7 +1273,6 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
     renderFormulaPanel(f, crumb, ast, names, meta);
   });
 
-  /* ---- 顶部：统一位数 ---- */
   const gsel = $('globalDigit');
   if (gsel){
     gsel.addEventListener('change', () => {
@@ -1092,6 +1287,12 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
       hideErr(); hideResult(); hideProc();
     });
   }
+
+  const btnHist = $('btnHistory');
+  if (btnHist) {
+    btnHist.addEventListener('click', () => openHistoryModal(f));
+  }
+  updateHistoryButtonCount(f);
 
   $('btnCalc').addEventListener('click', () => doCompute(f, ast, names, meta));
   $('btnReset').addEventListener('click', () => {
@@ -1109,15 +1310,15 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   8. 计算 + 过程展示
+   10. 计算 + 过程展示 + 历史保存
    ========================================================= */
 function doCompute(f, ast, names, meta){
   hideErr(); hideResult(); hideProc();
   const unknown = state.unknown;
   if (!unknown){ showErr('请选择未知量'); return; }
 
-  const env = {};         // 舍入后的值，用于求解与展示
-  const dispOf = {};      // 每个变量的展示字符串
+  const env = {};
+  const dispOf = {};
   const inputs = [];
 
   for (const nm of names){
@@ -1132,12 +1333,14 @@ function doCompute(f, ast, names, meta){
 
     const digits = getDigits(nm);
     const rv = roundBy(v, digits);
+    const rs = fmtBy(rv, digits);
     env[nm] = rv;
-    dispOf[nm] = fmtBy(rv, digits);
+    dispOf[nm] = rs;
     inputs.push({
       nm, label: labelOf(nm, meta),
       rawStr: String(raw).trim(),
       rounded: rv,
+      roundedStr: rs,
       digits
     });
   }
@@ -1163,23 +1366,18 @@ function doCompute(f, ast, names, meta){
   const rawSolStr = cleanNum(res);
   const finalStr = fmtBy(resRounded, resDigits);
 
-  /* ---------- 计算过程 ---------- */
   const inputRows = inputs.map(inp => `
     <tr>
-      <td class="vcol">${esc(inp.label)}</td>
+      <td class="vcol">${renderFormulaHTML(inp.label)}</td>
       <td>${esc(inp.rawStr)}</td>
       <td class="arr">→</td>
-      <td class="val">${esc(fmtBy(inp.rounded, inp.digits))}</td>
+      <td class="val">${esc(inp.roundedStr)}</td>
       <td class="sigcol">${inp.digits} ${state.mode === 'sig' ? '位有效' : '位小数'}</td>
     </tr>`).join('');
 
   const rawEqStr = f.eq.replace(/\*/g, ' × ').replace(/\//g, ' ÷ ').replace(/=/g, ' = ');
-
-  const subEnv = Object.assign({}, env);
-  const subDisp = Object.assign({}, dispOf);
-  const subL = astToStr(ast.l, subEnv, subDisp);
-  const subR = astToStr(ast.r, subEnv, subDisp);
-
+  const subL = astToStr(ast.l, env, dispOf);
+  const subR = astToStr(ast.r, env, dispOf);
   const modeLabel = state.mode === 'sig' ? '有效数字' : '小数位数';
 
   const procHTML = `
@@ -1203,34 +1401,52 @@ function doCompute(f, ast, names, meta){
 
     <div class="proc-block">
       <div class="proc-sub">2. 代入公式</div>
-      <div class="proc-eq">${esc(rawEqStr)}</div>
+      <div class="proc-eq">${renderFormulaHTML(f.eq)}</div>
       <div class="proc-eq proc-eq-sub">${esc(subL)} = ${esc(subR)}</div>
     </div>
 
     <div class="proc-block">
-      <div class="proc-sub">3. 数值求解 ${esc(lab)}（未取舍）</div>
-      <div class="proc-eq">${esc(lab)} = ${esc(rawSolStr)}</div>
+      <div class="proc-sub">3. 数值求解 ${renderFormulaHTML(lab)}（未取舍）</div>
+      <div class="proc-eq">${renderFormulaHTML(lab)} = ${esc(rawSolStr)}</div>
     </div>
 
     <div class="proc-block">
       <div class="proc-sub">4. 结果按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}取舍</div>
-      <div class="proc-eq">${esc(lab)} = ${esc(rawSolStr)}  →  <span class="val">${esc(finalStr)}</span>${u ? ' ' + esc(u) : ''}</div>
+      <div class="proc-eq">${renderFormulaHTML(lab)} = ${esc(rawSolStr)}  →  <span class="val">${esc(finalStr)}</span>${u ? ' ' + esc(u) : ''}</div>
     </div>`;
 
   const procBox = $('procbox');
   procBox.innerHTML = procHTML;
   procBox.classList.add('show');
 
-  /* ---------- 结果 ---------- */
   $('rlab').textContent = '最终结果';
   $('rval').textContent = finalStr;
   $('runit').textContent = u ? u : '';
   $('rnote').textContent = `${lab} = ${rawSolStr}  →  按 ${resDigits} ${state.mode === 'sig' ? '位有效数字' : '位小数'}输出`;
   $('resultbox').classList.add('show');
+
+  const record = {
+    time: Date.now(),
+    mode: state.mode,
+    unknown: unknown,
+    unknownLabel: lab,
+    unknownUnit: u,
+    inputs: inputs.map(i => ({
+      label: i.label,
+      rawStr: i.rawStr,
+      roundedStr: i.roundedStr,
+      digits: i.digits
+    })),
+    rawSolution: res,
+    roundedSolution: resRounded,
+    formattedSolution: finalStr,
+    resDigits: resDigits
+  };
+  addHistoryRecord(f, record);
 }
 
 /* =========================================================
-   9. 自定义公式编辑器
+   11. 自定义公式编辑器
    ========================================================= */
 const SYM_GROUPS = [
   ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
@@ -1256,6 +1472,8 @@ function renderCustomEditor(){
         函数支持 <code>ln</code>、<code>lg</code>、<code>sqrt</code>、<code>exp</code>、<code>abs</code>、
         <code>sin</code>、<code>cos</code>、<code>tan</code>；常数支持 <code>pi</code>。
         必须写成 <code>左式 = 右式</code>，例如 <code>c = n/V</code>。
+        <br>下标用 <code>_</code>：<code>c_H</code> → c<sub>H</sub>；上标用 <code>^</code>：<code>V^2</code> → V<sup>2</sup>。
+        多字符下标用花括号：<code>K_{sp}</code>；复杂上标用括号：<code>x^(1/3)</code>。
       </p>
       <label class="field"><span>公式名称</span>
         <input id="cf-name" placeholder="例如：我的浓度公式" autocomplete="off">
@@ -1316,7 +1534,7 @@ function parseCustomVars(){
 
   box.innerHTML = names.map(nm => `
     <div class="var-def">
-      <div class="vname">${esc(nm)}</div>
+      <div class="vname">${renderFormulaHTML(nm)}</div>
       <input data-k="${esc(nm)}" placeholder="单位（可留空）" value="${esc(prevU[nm] || '')}">
       <input data-d="${esc(nm)}" placeholder="说明（可留空）" value="${esc(prevD[nm] || '')}">
     </div>`).join('');
@@ -1351,14 +1569,33 @@ function saveCustomFormula(){
 
   const list = loadCustom();
   list.push({ name, eq, vars, custom:true });
-  saveCustomList(list);
+  const ok = saveCustomList(list);
+  if (!ok) {
+    cfMsg('保存失败：本地存储不可用，请检查打包设置中的 DOM Storage 是否开启。', false);
+    return;
+  }
   renderSidebar($('search').value);
   openFormula(list[list.length - 1], '自定义公式');
 }
 
 /* =========================================================
-   10. 启动
+   12. 模态框事件 + 启动
    ========================================================= */
+document.getElementById('historyClose').addEventListener('click', closeHistoryModal);
+document.getElementById('historyModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('historyModal')) closeHistoryModal();
+});
+document.getElementById('historyClear').addEventListener('click', () => {
+  if (confirm('确定清空该公式的全部历史记录吗？')) {
+    const f = state.formula;
+    if (f) {
+      saveHistory(f, []);
+      updateHistoryButtonCount(f);
+      closeHistoryModal();
+    }
+  }
+});
+
 renderSidebar();
 </script>
 </body>
