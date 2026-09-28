@@ -6,6 +6,79 @@
 <meta name="theme-color" content="#4f7cff">
 <title>化学公式计算器</title>
 <style>
+  :root{
+    --primary:#4f7cff;
+    --primary-hover:#3b6bf0;
+    --primary-dark:#1d4ed8;
+    --primary-light-bg:#f5f8ff;
+    --primary-light-hover:#eef3ff;
+    --primary-border:#b9cbff;
+    --primary-focus:rgba(79,124,255,.15);
+    --primary-focus-light:rgba(79,124,255,.13);
+    --sub-sup:#2563eb;
+    --edit-hover:#e0e9ff;
+    --calc-fn-border:#dce7ff;
+    --calc-fn-bg:#f6f9ff;
+    --calc-fn-hover:#eef3ff;
+    --notice-bg:#f5f8ff;
+    --notice-border:#dce7ff;
+    --theme-color-meta:#4f7cff;
+  }
+  [data-theme="mint"]{
+    --primary:#10b981;
+    --primary-hover:#059669;
+    --primary-dark:#047857;
+    --primary-light-bg:#ecfdf5;
+    --primary-light-hover:#d1fae5;
+    --primary-border:#6ee7b7;
+    --primary-focus:rgba(16,185,129,.15);
+    --primary-focus-light:rgba(16,185,129,.13);
+    --sub-sup:#059669;
+    --edit-hover:#d1fae5;
+    --calc-fn-border:#a7f3d0;
+    --calc-fn-bg:#ecfdf5;
+    --calc-fn-hover:#d1fae5;
+    --notice-bg:#ecfdf5;
+    --notice-border:#a7f3d0;
+    --theme-color-meta:#10b981;
+  }
+  [data-theme="tiffany"]{
+    --primary:#0abab5;
+    --primary-hover:#089e9a;
+    --primary-dark:#067f7b;
+    --primary-light-bg:#e6f9f8;
+    --primary-light-hover:#c8f2f0;
+    --primary-border:#81e6e1;
+    --primary-focus:rgba(10,186,181,.15);
+    --primary-focus-light:rgba(10,186,181,.13);
+    --sub-sup:#089e9a;
+    --edit-hover:#c8f2f0;
+    --calc-fn-border:#9aede9;
+    --calc-fn-bg:#e6f9f8;
+    --calc-fn-hover:#c8f2f0;
+    --notice-bg:#e6f9f8;
+    --notice-border:#9aede9;
+    --theme-color-meta:#0abab5;
+  }
+  [data-theme="sakura"]{
+    --primary:#ec7fa9;
+    --primary-hover:#d95f8c;
+    --primary-dark:#b64a75;
+    --primary-light-bg:#fef1f6;
+    --primary-light-hover:#fce0eb;
+    --primary-border:#f4a8c4;
+    --primary-focus:rgba(236,127,169,.15);
+    --primary-focus-light:rgba(236,127,169,.13);
+    --sub-sup:#d95f8c;
+    --edit-hover:#fce0eb;
+    --calc-fn-border:#f8c8da;
+    --calc-fn-bg:#fef1f6;
+    --calc-fn-hover:#fce0eb;
+    --notice-bg:#fef1f6;
+    --notice-border:#f8c8da;
+    --theme-color-meta:#ec7fa9;
+  }
+
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
        background:#f2f4f7;color:#1f2937;font-size:14px}
@@ -16,7 +89,7 @@
   .sidebar h1{font-size:15px;margin:0 0 10px;color:#111827;letter-spacing:.5px}
   .search{width:100%;padding:10px 12px;border:1px solid #d7dbe0;border-radius:8px;
           outline:none;font-size:16px;margin-bottom:10px}
-  .search:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.15)}
+  .search:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-focus)}
   details{margin-bottom:4px}
   summary{cursor:pointer;padding:8px;border-radius:6px;font-weight:600;color:#374151;
           font-size:13.5px;user-select:none}
@@ -25,62 +98,62 @@
   details details>summary{font-weight:500;color:#5b6472;font-size:13px}
   .item{padding:9px 6px 9px 12px;margin:1px 0;border-radius:6px;cursor:pointer;
         font-size:13.5px;color:#3b4351;display:flex;justify-content:space-between;align-items:center;gap:2px}
-  .item:hover{background:#eef3ff;color:#1d4ed8}
-  .item.active{background:#4f7cff;color:#fff}
+  .item:hover{background:var(--primary-light-hover);color:var(--primary-dark)}
+  .item.active{background:var(--primary);color:#fff}
   .item .del{border:none;background:transparent;color:#b91c1c;cursor:pointer;font-size:17px;
              line-height:1;padding:0 5px;border-radius:4px}
   .item .del:hover{background:#fee2e2}
-  .item .edit{border:none;background:transparent;color:#4f7cff;cursor:pointer;font-size:14px;
+  .item .edit{border:none;background:transparent;color:var(--primary);cursor:pointer;font-size:14px;
               line-height:1;padding:0 5px;border-radius:4px}
-  .item .edit:hover{background:#e0e9ff}
+  .item .edit:hover{background:var(--edit-hover)}
   .addbtn{width:100%;margin-top:10px;padding:10px;border:1px dashed #b6bfcd;background:#fbfcfe;
           border-radius:8px;cursor:pointer;color:#374151;font-size:13.5px}
-  .addbtn:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+  .addbtn:hover{background:var(--primary-light-hover);border-color:var(--primary);color:var(--primary-dark)}
 
   .main{flex:1;overflow-y:auto;padding:26px 34px;-webkit-overflow-scrolling:touch}
   .panel{max-width:920px;background:#fff;border-radius:14px;padding:24px 26px;
          box-shadow:0 1px 3px rgba(16,24,40,.08)}
   .f-title{font-size:20px;font-weight:700;margin:0 0 4px}
   .f-crumb{font-size:12px;color:#8b93a1;margin-bottom:14px}
-  .f-eq{font-family:"Cambria Math",Georgia,serif;font-size:22px;color:#1d4ed8;
-        background:#f5f8ff;border-left:3px solid #4f7cff;padding:14px 16px;border-radius:6px;
+  .f-eq{font-family:"Cambria Math",Georgia,serif;font-size:22px;color:var(--primary-dark);
+        background:var(--primary-light-bg);border-left:3px solid var(--primary);padding:14px 16px;border-radius:6px;
         margin-bottom:18px;letter-spacing:.5px;word-break:break-all;line-height:1.6}
-  .f-eq sub{font-size:.72em;color:#2563eb}
-  .f-eq sup{font-size:.72em;color:#2563eb}
+  .f-eq sub{font-size:.72em;color:var(--sub-sup)}
+  .f-eq sup{font-size:.72em;color:var(--sub-sup)}
 
   .toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
            padding-bottom:14px;border-bottom:1px solid #eef0f3;margin-bottom:16px}
   .toolbar label{font-size:13px;color:#4b5563;display:flex;align-items:center;gap:6px}
   select{padding:8px 10px;border:1px solid #d7dbe0;border-radius:6px;font-size:14px;
          outline:none;background:#fff;color:#1f2937}
-  #modeSel{font-weight:600;color:#1d4ed8;border-color:#b9cbff;background:#f5f8ff}
+  #modeSel{font-weight:600;color:var(--primary-dark);border-color:var(--primary-border);background:var(--primary-light-bg)}
 
   .var-row{display:grid;grid-template-columns:26px minmax(100px,140px) 1fr 104px minmax(0,1fr);
            gap:10px;align-items:center;padding:7px 8px;border-radius:8px}
   .var-row:hover{background:#fafbfd}
   .var-row.is-unknown{background:#fff8e6}
-  .var-row input[type=radio]{width:18px;height:18px;cursor:pointer;accent-color:#4f7cff}
+  .var-row input[type=radio]{width:18px;height:18px;cursor:pointer;accent-color:var(--primary)}
   .vlabel{font-family:"Cambria Math",Georgia,serif;font-size:16px;color:#111827;
           overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .vlabel sub{font-size:.72em;color:#2563eb}
-  .vlabel sup{font-size:.72em;color:#2563eb}
+  .vlabel sub{font-size:.72em;color:var(--sub-sup)}
+  .vlabel sup{font-size:.72em;color:var(--sub-sup)}
   .vlabel small{font-family:system-ui;font-size:11px;color:#8b93a1;margin-left:4px}
   .var-row input[type=number],.var-row input[type=text]{
       padding:9px 10px;border:1px solid #d7dbe0;border-radius:7px;font-size:16px;
       outline:none;width:100%;font-family:ui-monospace,Consolas,monospace;background:#fff}
-  .var-row input:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .var-row input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-focus-light)}
   .var-row input:disabled{background:#f3f4f6;color:#9ca3af}
   .sigsel{padding:8px 4px;border:1px solid #d7dbe0;border-radius:6px;font-size:13px;
           outline:none;background:#fff;width:100%;cursor:pointer;color:#1f2937;
           font-family:ui-monospace,Consolas,monospace;text-align:center}
-  .sigsel:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .sigsel:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-focus-light)}
   .var-row.is-unknown .sigsel{border-color:#f0b429;background:#fffdf5;color:#92570a;font-weight:600}
   .vdesc{font-size:12px;color:#8b93a1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
   .actions{margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  button.primary{background:#4f7cff;color:#fff;border:none;padding:12px 26px;border-radius:8px;
+  button.primary{background:var(--primary);color:#fff;border:none;padding:12px 26px;border-radius:8px;
                  font-size:15px;cursor:pointer;font-weight:600}
-  button.primary:hover{background:#3b6bf0}
+  button.primary:hover{background:var(--primary-hover)}
   button.ghost{background:#fff;border:1px solid #d7dbe0;padding:12px 18px;border-radius:8px;
                cursor:pointer;font-size:15px;color:#374151}
   button.ghost:hover{background:#f5f7fb}
@@ -110,25 +183,25 @@
           display:flex;align-items:center;gap:6px}
   .proc-block{margin-bottom:16px;padding-bottom:16px;border-bottom:1px dashed #e4ebf5}
   .proc-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
-  .proc-sub{font-size:13px;font-weight:600;color:#4f7cff;margin-bottom:8px}
+  .proc-sub{font-size:13px;font-weight:600;color:var(--primary);margin-bottom:8px}
   .ptable{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
   .ptable th{text-align:left;color:#8b93a1;font-weight:500;padding:5px 6px;
              border-bottom:1px solid #e4ebf5;font-size:11.5px}
   .ptable td{padding:6px;font-family:ui-monospace,Consolas,monospace;color:#1f2937;
              font-size:12.5px;word-break:break-all}
-  .ptable td.vcol{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;font-weight:600}
+  .ptable td.vcol{font-family:"Cambria Math",Georgia,serif;color:var(--primary-dark);font-weight:600}
   .ptable td.arr{color:#c4cad4;text-align:center}
   .ptable td.sigcol{color:#7c8b82;text-align:right;white-space:nowrap}
   .ptable tbody tr:hover{background:#fff}
-  .ptable sub{font-size:.72em;color:#2563eb}
-  .ptable sup{font-size:.72em;color:#2563eb}
+  .ptable sub{font-size:.72em;color:var(--sub-sup)}
+  .ptable sup{font-size:.72em;color:var(--sub-sup)}
   .proc-eq{font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#1f2937;
            background:#fff;padding:9px 12px;border-radius:6px;margin-top:6px;
            border:1px solid #e4ebf5;word-break:break-all;line-height:1.7}
   .proc-eq-sub{color:#4b5563;font-size:13.5px}
-  .proc-eq .val{color:#1d4ed8;font-weight:600}
-  .proc-eq sub{font-size:.72em;color:#2563eb}
-  .proc-eq sup{font-size:.72em;color:#2563eb}
+  .proc-eq .val{color:var(--primary-dark);font-weight:600}
+  .proc-eq sub{font-size:.72em;color:var(--sub-sup)}
+  .proc-eq sup{font-size:.72em;color:var(--sub-sup)}
 
   .sci-wrap{margin-top:20px}
   .sci-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;
@@ -155,19 +228,19 @@
             user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
   .calc-key:hover{background:#f3f6fb}
   .calc-key:active{transform:scale(.96);background:#e8eef8}
-  .calc-key.calc-fn{font-size:13.5px;color:#4f7cff;font-weight:600;
-                    background:#f6f9ff;border-color:#dce7ff}
-  .calc-key.calc-fn:hover{background:#eef3ff}
+  .calc-key.calc-fn{font-size:13.5px;color:var(--primary);font-weight:600;
+                    background:var(--calc-fn-bg);border-color:var(--calc-fn-border)}
+  .calc-key.calc-fn:hover{background:var(--calc-fn-hover)}
   .calc-key.calc-clr{color:#b91c1c;font-weight:600;background:#fef7f7;border-color:#f5dada}
   .calc-key.calc-clr:hover{background:#fdecec}
-  .calc-key.calc-op{color:#1d4ed8;font-weight:600;background:#f6f9ff;border-color:#dce7ff}
-  .calc-key.calc-op:hover{background:#eef3ff}
-  .calc-key.calc-eq{grid-column:1 / -1;background:#4f7cff;color:#fff;font-weight:700;
-                    border-color:#4f7cff;padding:13px 4px}
-  .calc-key.calc-eq:hover{background:#3b6bf0}
+  .calc-key.calc-op{color:var(--primary-dark);font-weight:600;background:var(--calc-fn-bg);border-color:var(--calc-fn-border)}
+  .calc-key.calc-op:hover{background:var(--calc-fn-hover)}
+  .calc-key.calc-eq{grid-column:1 / -1;background:var(--primary);color:#fff;font-weight:700;
+                    border-color:var(--primary);padding:13px 4px}
+  .calc-key.calc-eq:hover{background:var(--primary-hover)}
   .calc-hint{font-size:11.5px;color:#8b93a1;padding:8px 4px 0;line-height:1.7}
   .calc-hint code{background:#eef0f3;padding:1px 5px;border-radius:4px;
-                  font-family:ui-monospace,Consolas,monospace;color:#4f7cff}
+                  font-family:ui-monospace,Consolas,monospace;color:var(--primary)}
 
   .rev-block{margin-top:20px;padding:18px 20px;border-radius:12px;background:#fef3c7;
              border:1px solid #fcd34d;display:none}
@@ -179,9 +252,9 @@
   .rev-title{font-size:13.5px;font-weight:600;color:#92400e;margin-bottom:8px}
   .rev-var{font-size:13px;color:#1f2937;margin-bottom:4px;
            font-family:ui-monospace,Consolas,monospace;line-height:1.6}
-  .rev-var-name{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;font-weight:600}
-  .rev-var-name sub{font-size:.72em;color:#2563eb}
-  .rev-var-name sup{font-size:.72em;color:#2563eb}
+  .rev-var-name{font-family:"Cambria Math",Georgia,serif;color:var(--primary-dark);font-weight:600}
+  .rev-var-name sub{font-size:.72em;color:var(--sub-sup)}
+  .rev-var-name sup{font-size:.72em;color:var(--sub-sup)}
   .rev-var-dig{color:#d97706;font-weight:600}
   .rev-var-val{color:#0f7a4a;font-weight:600}
   .rev-msg{font-size:13px;color:#7c2d12;line-height:1.7}
@@ -190,7 +263,7 @@
   .field span{display:block;font-size:13px;color:#4b5563;margin-bottom:6px}
   .field input{width:100%;padding:11px 12px;border:1px solid #d7dbe0;border-radius:8px;
                font-size:16px;outline:none;font-family:ui-monospace,Consolas,monospace;background:#fff}
-  .field input:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-focus-light)}
   .field .row2{display:flex;gap:8px;flex-wrap:wrap}
   .field .row2 input{flex:1;min-width:120px}
   .hint{font-size:12.5px;color:#8b93a1;line-height:1.8;margin:0 0 16px}
@@ -199,11 +272,11 @@
   .symgroup .glabel{font-size:11.5px;color:#9aa2b1;width:100%;margin-bottom:2px}
   .sym{padding:7px 11px;border:1px solid #dfe3ea;background:#fff;border-radius:6px;
        cursor:pointer;font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#374151}
-  .sym:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+  .sym:hover{background:var(--primary-light-hover);border-color:var(--primary);color:var(--primary-dark)}
   .var-def{display:grid;grid-template-columns:110px 1fr 1fr;gap:10px;margin-bottom:8px;align-items:center}
   .var-def .vname{font-family:"Cambria Math",Georgia,serif;font-size:15px;color:#111827}
-  .var-def .vname sub{font-size:.72em;color:#2563eb}
-  .var-def .vname sup{font-size:.72em;color:#2563eb}
+  .var-def .vname sub{font-size:.72em;color:var(--sub-sup)}
+  .var-def .vname sup{font-size:.72em;color:var(--sub-sup)}
   .var-def input{padding:8px 10px;border:1px solid #d7dbe0;border-radius:6px;font-size:14px;outline:none;background:#fff}
   .row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
   .msg{margin-top:12px;font-size:13px;line-height:1.6}
@@ -229,14 +302,14 @@
           border:1px solid #eef0f3}
   .h-card:last-child{margin-bottom:0}
   .h-head{display:flex;justify-content:space-between;font-size:11.5px;color:#8b93a1;margin-bottom:6px}
-  .h-mode{background:#eef3ff;color:#4f7cff;padding:1px 6px;border-radius:4px;font-weight:500}
+  .h-mode{background:var(--primary-light-hover);color:var(--primary);padding:1px 6px;border-radius:4px;font-weight:500}
   .h-result{font-size:14px;color:#1f2937;margin-bottom:8px}
   .h-res{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:#0f7a4a;font-size:16px}
   .h-inputs{font-size:12px;color:#4b5563;display:flex;flex-direction:column;gap:4px}
   .h-item{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
-  .h-label{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;min-width:60px}
-  .h-label sub{font-size:.72em;color:#2563eb}
-  .h-label sup{font-size:.72em;color:#2563eb}
+  .h-label{font-family:"Cambria Math",Georgia,serif;color:var(--primary-dark);min-width:60px}
+  .h-label sub{font-size:.72em;color:var(--sub-sup)}
+  .h-label sup{font-size:.72em;color:var(--sub-sup)}
   .h-raw{font-family:ui-monospace,monospace;color:#6b7280}
   .h-arrow{color:#c4cad4}
   .h-val{font-family:ui-monospace,monospace;color:#1f2937;font-weight:600}
@@ -246,16 +319,34 @@
              border-top:1px solid #eef0f3}
   .data-btn{flex:1;padding:9px 10px;border:1px solid #d7dbe0;background:#fff;
             border-radius:8px;cursor:pointer;font-size:13px;color:#374151}
-  .data-btn:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+  .data-btn:hover{background:var(--primary-light-hover);border-color:var(--primary);color:var(--primary-dark)}
   .data-textarea{width:100%;min-height:180px;max-height:50vh;padding:10px 12px;
                  border:1px solid #d7dbe0;border-radius:8px;font-size:12px;
                  font-family:ui-monospace,Consolas,monospace;outline:none;
                  resize:vertical;line-height:1.5;background:#fbfcfe}
-  .data-textarea:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .data-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-focus-light)}
   .export-notice{font-size:12.5px;color:#4b5563;line-height:1.7;margin:0 0 12px;
-                 padding:10px 12px;background:#f5f8ff;border-radius:8px;
-                 border:1px solid #dce7ff}
-  .export-notice b{color:#1d4ed8}
+                 padding:10px 12px;background:var(--notice-bg);border-radius:8px;
+                 border:1px solid var(--notice-border)}
+  .export-notice b{color:var(--primary-dark)}
+
+  /* ---------- 主题选择器 ---------- */
+  .theme-mgmt{margin-top:14px;padding-top:14px;border-top:1px solid #eef0f3;
+              display:flex;align-items:center;gap:12px}
+  .theme-label{font-size:13px;color:#4b5563;font-weight:600;flex:0 0 auto}
+  .theme-options{display:flex;gap:10px;flex:1;justify-content:flex-start}
+  .theme-dot{width:30px;height:30px;border-radius:50%;border:2px solid #d7dbe0;
+             cursor:pointer;padding:0;position:relative;
+             transition:transform .15s,border-color .15s,box-shadow .15s}
+  .theme-dot:hover{transform:scale(1.12)}
+  .theme-dot.active{border-color:#1f2937;box-shadow:0 0 0 3px #fff,0 0 0 5px rgba(31,41,55,.15)}
+  .theme-dot::after{content:'';position:absolute;inset:4px;border-radius:50%;
+                    background:rgba(255,255,255,.35);opacity:0;transition:opacity .15s}
+  .theme-dot.active::after{opacity:1}
+  .theme-dot[data-theme="default"]{background:linear-gradient(135deg,#4f7cff,#3b6bf0)}
+  .theme-dot[data-theme="mint"]{background:linear-gradient(135deg,#10b981,#059669)}
+  .theme-dot[data-theme="tiffany"]{background:linear-gradient(135deg,#0abab5,#089e9a)}
+  .theme-dot[data-theme="sakura"]{background:linear-gradient(135deg,#ec7fa9,#d95f8c)}
 
   @media (max-width:760px){
     .app{flex-direction:column}
@@ -291,6 +382,7 @@
     .sci-panel{padding:10px}
     .calc-hint{font-size:11px}
     .data-mgmt{flex-direction:row}
+    .theme-dot{width:26px;height:26px}
   }
 </style>
 </head>
@@ -304,6 +396,15 @@
       <button class="data-btn" id="btnExport">⬆ 导出数据</button>
       <button class="data-btn" id="btnImport">⬇ 导入数据</button>
     </div>
+    <div class="theme-mgmt">
+      <div class="theme-label">🎨 主题</div>
+      <div class="theme-options">
+        <button class="theme-dot" data-theme="default" title="默认蓝"></button>
+        <button class="theme-dot" data-theme="mint" title="薄荷绿"></button>
+        <button class="theme-dot" data-theme="tiffany" title="蒂芙尼蓝"></button>
+        <button class="theme-dot" data-theme="sakura" title="樱花粉"></button>
+      </div>
+    </div>
   </aside>
   <main class="main" id="main">
     <div class="panel"><div class="welcome">
@@ -314,7 +415,7 @@
       每次计算会自动保存历史记录，可点「📋 历史」查看。<br>
       点击「🔬 反推模式」可根据已知结果反推输入的舍入位数。<br>
       页面底部还有「🧮 科学计算器」可随时展开，支持 ∫ 定积分。<br>
-      侧边栏底部可「导出/导入数据」，换机重装不丢公式。
+      侧边栏底部可「导出/导入数据」和切换主题配色。
     </div></div>
   </main>
 </div>
@@ -370,7 +471,34 @@
 
 <script>
 /* =========================================================
-   1. 表达式引擎
+   1. 主题
+   ========================================================= */
+const THEME_KEY = 'chemcalc_theme';
+function applyTheme(name){
+  const html = document.documentElement;
+  if (!name || name === 'default'){
+    html.removeAttribute('data-theme');
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4f7cff');
+  } else {
+    html.setAttribute('data-theme', name);
+    const map = { mint:'#10b981', tiffany:'#0abab5', sakura:'#ec7fa9' };
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', map[name] || '#4f7cff');
+  }
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.theme === (name || 'default'));
+  });
+}
+function saveTheme(name){
+  try { localStorage.setItem(THEME_KEY, name); } catch(e){}
+}
+function loadTheme(){
+  let t = 'default';
+  try { t = localStorage.getItem(THEME_KEY) || 'default'; } catch(e){}
+  applyTheme(t);
+}
+
+/* =========================================================
+   2. 表达式引擎
    ========================================================= */
 const FUNCS = {
   ln:Math.log, lg:Math.log10, log:Math.log10, exp:Math.exp,
@@ -600,7 +728,7 @@ function astToStr(node, env, dispOf){
 }
 
 /* =========================================================
-   2. 公式字符串渲染（上下标）
+   3. 公式字符串渲染（上下标）
    ========================================================= */
 function renderFormulaHTML(eq){
   if (!eq) return '';
@@ -644,7 +772,7 @@ function renderFormulaHTML(eq){
 }
 
 /* =========================================================
-   3. 数值求解
+   4. 数值求解
    ========================================================= */
 function bisect(f, a, b, fa){
   let lo = a, hi = b, flo = fa;
@@ -747,7 +875,7 @@ function autoSolve(f){
 }
 
 /* =========================================================
-   4. 数值格式化
+   5. 数值格式化
    ========================================================= */
 const SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻','+':'⁺'};
 const supStr = s => String(s).split('').map(c => SUP[c] || c).join('');
@@ -837,7 +965,7 @@ function cleanNum(x){
 }
 
 /* =========================================================
-   5. 科学计算器核心
+   6. 科学计算器核心
    ========================================================= */
 function calcEval(disp){
   if (!disp || !disp.trim()) return { ok:false, err:'空表达式' };
@@ -1029,7 +1157,7 @@ function setupScientificCalculator(container){
 }
 
 /* =========================================================
-   6. 公式数据
+   7. 公式数据
    ========================================================= */
 const DATA = [
 {
@@ -1225,7 +1353,7 @@ const DATA = [
 ];
 
 /* =========================================================
-   7. 状态
+   8. 状态
    ========================================================= */
 const state = {
   formula: null, unknown: null, values: {},
@@ -1264,7 +1392,7 @@ function roundBy(x, n){ return state.mode === 'sig' ? roundSigFig(x, n) : roundD
 function fmtBy(x, n){ return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n); }
 
 /* =========================================================
-   8. 历史记录
+   9. 历史记录
    ========================================================= */
 function getFormulaKey(f) {
   return (f.custom ? 'custom_' : 'builtin_') + (f.name + '|' + f.eq)
@@ -1347,7 +1475,7 @@ function closeHistoryModal() {
 }
 
 /* =========================================================
-   9. 侧边栏
+   10. 侧边栏
    ========================================================= */
 function matchFilter(item, f){
   return item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f);
@@ -1505,7 +1633,7 @@ function markActive(el){
 $('search').addEventListener('input', e => renderSidebar(e.target.value));
 
 /* =========================================================
-   10. 公式面板
+   11. 公式面板
    ========================================================= */
 function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
 function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
@@ -1767,7 +1895,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   11. 反推模式面板
+   12. 反推模式面板
    ========================================================= */
 function renderReversePanel(f, crumb, ast, names, meta){
   const main = $('main');
@@ -1891,7 +2019,7 @@ function renderReversePanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   12. 反推搜索
+   13. 反推搜索
    ========================================================= */
 function doReverseSearch(f, ast, names, meta){
   const info = $('revInfo');
@@ -2070,7 +2198,7 @@ function findReverseDigitCombos(ast, inputNames, targetName, targetValue, target
 }
 
 /* =========================================================
-   13. 普通计算
+   14. 普通计算
    ========================================================= */
 function doCompute(f, ast, names, meta){
   hideErr(); hideResult(); hideProc();
@@ -2173,7 +2301,7 @@ function doCompute(f, ast, names, meta){
 }
 
 /* =========================================================
-   14. 自定义公式编辑器
+   15. 自定义公式编辑器
    ========================================================= */
 const SYM_GROUPS = [
   ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
@@ -2363,7 +2491,7 @@ function saveCustomFormula(editIdx){
 }
 
 /* =========================================================
-   15. 数据导出 / 导入
+   16. 数据导出 / 导入
    ========================================================= */
 const EXPORT_APP_ID = 'chemcalc';
 const EXPORT_VERSION = 1;
@@ -2527,7 +2655,7 @@ function doImport(){
 }
 
 /* =========================================================
-   16. 模态框事件 + 启动
+   17. 模态框事件 + 启动
    ========================================================= */
 document.getElementById('historyClose').addEventListener('click', closeHistoryModal);
 document.getElementById('historyModal').addEventListener('click', e => {
@@ -2557,6 +2685,16 @@ document.getElementById('exportModal').addEventListener('click', e => {
 document.getElementById('importModal').addEventListener('click', e => {
   if (e.target.id === 'importModal') closeImportModal();
 });
+
+// 主题绑定
+document.querySelectorAll('.theme-dot').forEach(dot => {
+  dot.addEventListener('click', () => {
+    const name = dot.dataset.theme;
+    applyTheme(name);
+    saveTheme(name);
+  });
+});
+loadTheme();
 
 renderSidebar();
 </script>
