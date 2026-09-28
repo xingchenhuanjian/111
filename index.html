@@ -130,6 +130,45 @@
   .proc-eq sub{font-size:.72em;color:#2563eb}
   .proc-eq sup{font-size:.72em;color:#2563eb}
 
+  .sci-wrap{margin-top:20px}
+  .sci-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;
+              padding:10px 14px;font-size:14px;font-weight:600;color:#374151;
+              background:#f9fafb;border:1px solid #e4e7ec;border-radius:10px;cursor:pointer}
+  .sci-toggle:hover{background:#f0f3f9}
+  .sci-toggle .arrow{color:#8b93a1;font-size:12px}
+  .sci-panel{margin-top:10px;padding:12px;background:#f9fafb;border:1px solid #eef0f3;
+             border-radius:12px}
+  .calc-display{background:#fff;border:1px solid #e4e7ec;border-radius:8px;
+                padding:10px 14px;margin-bottom:10px;text-align:right;min-height:64px;
+                display:flex;flex-direction:column;justify-content:center}
+  .calc-preview{font-size:12px;color:#8b93a1;font-family:ui-monospace,Consolas,monospace;
+                min-height:16px;word-break:break-all;margin-bottom:2px}
+  .calc-preview.calc-err{color:#b91c1c}
+  .calc-expr{font-size:22px;font-weight:600;color:#1f2937;
+             font-family:ui-monospace,Consolas,monospace;word-break:break-all;line-height:1.3}
+  .calc-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:6px}
+  .calc-row:last-child{margin-bottom:0}
+  .calc-key{padding:11px 4px;border:1px solid #e4e7ec;background:#fff;border-radius:8px;
+            font-size:15px;font-weight:500;color:#1f2937;cursor:pointer;
+            font-family:ui-monospace,Consolas,monospace;
+            transition:background .08s,transform .08s;
+            user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+  .calc-key:hover{background:#f3f6fb}
+  .calc-key:active{transform:scale(.96);background:#e8eef8}
+  .calc-key.calc-fn{font-size:13.5px;color:#4f7cff;font-weight:600;
+                    background:#f6f9ff;border-color:#dce7ff}
+  .calc-key.calc-fn:hover{background:#eef3ff}
+  .calc-key.calc-clr{color:#b91c1c;font-weight:600;background:#fef7f7;border-color:#f5dada}
+  .calc-key.calc-clr:hover{background:#fdecec}
+  .calc-key.calc-op{color:#1d4ed8;font-weight:600;background:#f6f9ff;border-color:#dce7ff}
+  .calc-key.calc-op:hover{background:#eef3ff}
+  .calc-key.calc-eq{grid-column:1 / -1;background:#4f7cff;color:#fff;font-weight:700;
+                    border-color:#4f7cff;padding:13px 4px}
+  .calc-key.calc-eq:hover{background:#3b6bf0}
+  .calc-hint{font-size:11.5px;color:#8b93a1;padding:8px 4px 0;line-height:1.7}
+  .calc-hint code{background:#eef0f3;padding:1px 5px;border-radius:4px;
+                  font-family:ui-monospace,Consolas,monospace;color:#4f7cff}
+
   .rev-block{margin-top:20px;padding:18px 20px;border-radius:12px;background:#fef3c7;
              border:1px solid #fcd34d;display:none}
   .rev-block.show{display:block}
@@ -139,7 +178,7 @@
   .rev-card:last-child{margin-bottom:0}
   .rev-title{font-size:13.5px;font-weight:600;color:#92400e;margin-bottom:8px}
   .rev-var{font-size:13px;color:#1f2937;margin-bottom:4px;
-           font-family:ui-monospace,Consolas,monospace}
+           font-family:ui-monospace,Consolas,monospace;line-height:1.6}
   .rev-var-name{font-family:"Cambria Math",Georgia,serif;color:#1d4ed8;font-weight:600}
   .rev-var-name sub{font-size:.72em;color:#2563eb}
   .rev-var-name sup{font-size:.72em;color:#2563eb}
@@ -185,7 +224,7 @@
   .modal-close:hover{background:#f0f3f9;color:#1f2937}
   .modal-body{flex:1;overflow-y:auto;padding:12px 16px;-webkit-overflow-scrolling:touch}
   .modal-footer{padding:12px 16px;border-top:1px solid #eef0f3;
-                display:flex;justify-content:flex-end}
+                display:flex;justify-content:flex-end;gap:10px}
   .h-card{background:#f9fafb;border-radius:10px;padding:12px 14px;margin-bottom:10px;
           border:1px solid #eef0f3}
   .h-card:last-child{margin-bottom:0}
@@ -202,6 +241,21 @@
   .h-arrow{color:#c4cad4}
   .h-val{font-family:ui-monospace,monospace;color:#1f2937;font-weight:600}
   .h-digits{color:#8b93a1;font-size:11px;margin-left:4px}
+
+  .data-mgmt{display:flex;gap:6px;margin-top:14px;padding-top:14px;
+             border-top:1px solid #eef0f3}
+  .data-btn{flex:1;padding:9px 10px;border:1px solid #d7dbe0;background:#fff;
+            border-radius:8px;cursor:pointer;font-size:13px;color:#374151}
+  .data-btn:hover{background:#eef3ff;border-color:#4f7cff;color:#1d4ed8}
+  .data-textarea{width:100%;min-height:180px;max-height:50vh;padding:10px 12px;
+                 border:1px solid #d7dbe0;border-radius:8px;font-size:12px;
+                 font-family:ui-monospace,Consolas,monospace;outline:none;
+                 resize:vertical;line-height:1.5;background:#fbfcfe}
+  .data-textarea:focus{border-color:#4f7cff;box-shadow:0 0 0 3px rgba(79,124,255,.13)}
+  .export-notice{font-size:12.5px;color:#4b5563;line-height:1.7;margin:0 0 12px;
+                 padding:10px 12px;background:#f5f8ff;border-radius:8px;
+                 border:1px solid #dce7ff}
+  .export-notice b{color:#1d4ed8}
 
   @media (max-width:760px){
     .app{flex-direction:column}
@@ -231,6 +285,12 @@
     .modal-content{max-height:85vh}
     .rev-block{padding:14px 12px}
     .rev-card{padding:12px}
+    .calc-key{padding:13px 4px;font-size:16px}
+    .calc-key.calc-fn{font-size:13px}
+    .calc-expr{font-size:18px}
+    .sci-panel{padding:10px}
+    .calc-hint{font-size:11px}
+    .data-mgmt{flex-direction:row}
   }
 </style>
 </head>
@@ -240,6 +300,10 @@
     <h1>⚗️ 化学公式计算器</h1>
     <input id="search" class="search" placeholder="🔍 搜索公式…">
     <div id="tree" class="tree"></div>
+    <div class="data-mgmt">
+      <button class="data-btn" id="btnExport">⬆ 导出数据</button>
+      <button class="data-btn" id="btnImport">⬇ 导入数据</button>
+    </div>
   </aside>
   <main class="main" id="main">
     <div class="panel"><div class="welcome">
@@ -248,7 +312,9 @@
       顶端可切换「有效数字 / 小数位数」两种计算方式，<br>
       每个变量还能单独设定各自的位数。<br>
       每次计算会自动保存历史记录，可点「📋 历史」查看。<br>
-      点击「🔬 反推模式」可以根据已知结果反推输入的舍入位数。
+      点击「🔬 反推模式」可根据已知结果反推输入的舍入位数。<br>
+      页面底部还有「🧮 科学计算器」可随时展开，支持 ∫ 定积分。<br>
+      侧边栏底部可「导出/导入数据」，换机重装不丢公式。
     </div></div>
   </main>
 </div>
@@ -266,6 +332,42 @@
   </div>
 </div>
 
+<div class="modal-mask" id="exportModal" style="display:none">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>⬆ 导出数据</span>
+      <button class="modal-close" id="exportClose">×</button>
+    </div>
+    <div class="modal-body">
+      <textarea id="exportText" class="data-textarea" readonly></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="ghost" id="exportCopy">📋 复制全部</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-mask" id="importModal" style="display:none">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>⬇ 导入数据</span>
+      <button class="modal-close" id="importClose">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12.5px;color:#8b93a1;line-height:1.7;margin:0 0 10px">
+        把之前导出的文本粘贴到下面，点「确认导入」。
+        <b style="color:#b91c1c">这会覆盖当前所有自定义公式和历史记录！</b>
+      </p>
+      <textarea id="importText" class="data-textarea" placeholder="在这里粘贴 JSON 文本…"></textarea>
+      <div id="importMsg" style="margin-top:10px;font-size:13px;line-height:1.6"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="ghost" id="importCancel">取消</button>
+      <button class="primary" id="importDo">确认导入</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* =========================================================
    1. 表达式引擎
@@ -277,7 +379,7 @@ const FUNCS = {
   asin:Math.asin, acos:Math.acos, atan:Math.atan,
   pow:Math.pow, min:Math.min, max:Math.max
 };
-const CONSTS = { pi: Math.PI };
+const CONSTS = { pi: Math.PI, e: Math.E };
 
 function tokenize(src){
   const tokens = [];
@@ -376,6 +478,38 @@ function parse(tokens){
   return ast;
 }
 
+function integrateNumerical(exprAst, a, b){
+  if (!isFinite(a) || !isFinite(b)) throw new Error('积分上下限必须为有限值');
+  if (a === b) return 0;
+  const f = x => {
+    const v = evalNode(exprAst, { x: x });
+    if (typeof v !== 'number') throw new Error('被积函数在 x=' + x + ' 处返回非数值');
+    return v;
+  };
+  function simpsonN(N){
+    const h = (b - a) / N;
+    let sum = 0;
+    for (let i = 0; i <= N; i++){
+      const x = a + i * h;
+      const v = f(x);
+      if (!isFinite(v)) throw new Error('被积函数在 x=' + x + ' 处不可计算');
+      let w;
+      if (i === 0 || i === N) w = 1;
+      else if (i % 2 === 1) w = 4;
+      else w = 2;
+      sum += w * v;
+    }
+    return sum * h / 3;
+  }
+  let prev = simpsonN(100);
+  for (let N = 200; N <= 12800; N *= 2){
+    const cur = simpsonN(N);
+    if (Math.abs(cur - prev) <= 1e-10 * Math.max(1, Math.abs(cur))) return cur;
+    prev = cur;
+  }
+  return prev;
+}
+
 function evalNode(node, env){
   switch (node.type){
     case 'num': return node.value;
@@ -397,6 +531,14 @@ function evalNode(node, env){
       throw new Error('未知运算符');
     }
     case 'call': {
+      if (node.name === 'integ'){
+        if (node.args.length !== 3) throw new Error('积分需要 3 个参数：∫(表达式, 下限, 上限)');
+        const a = evalNode(node.args[1], env);
+        const b = evalNode(node.args[2], env);
+        if (typeof a !== 'number' || !isFinite(a)) throw new Error('积分下限必须是有效数值');
+        if (typeof b !== 'number' || !isFinite(b)) throw new Error('积分上限必须是有效数值');
+        return integrateNumerical(node.args[0], a, b);
+      }
       const fn = FUNCS[node.name];
       if (!fn) throw new Error('未知函数：' + node.name);
       return fn.apply(null, node.args.map(a => evalNode(a, env)));
@@ -537,7 +679,6 @@ function newton(f, x0){
   return null;
 }
 function fastNewton(f, x0){
-  // 快速牛顿迭代，用于反推模式（大量重复调用）
   let x = x0;
   for (let i = 0; i < 25; i++){
     let y;
@@ -696,7 +837,199 @@ function cleanNum(x){
 }
 
 /* =========================================================
-   5. 公式数据
+   5. 科学计算器核心
+   ========================================================= */
+function calcEval(disp){
+  if (!disp || !disp.trim()) return { ok:false, err:'空表达式' };
+  let s = disp
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/−/g, '-')
+    .replace(/π/g, 'pi')
+    .replace(/√/g, 'sqrt')
+    .replace(/²/g, '^2')
+    .replace(/%/g, '/100')
+    .replace(/∫/g, 'integ')
+    .replace(/\s+/g, '');
+  try {
+    const ast = parse(tokenize(s));
+    const v = evalNode(ast, {});
+    if (typeof v !== 'number') throw new Error('不是有效数值');
+    if (!isFinite(v)) throw new Error('结果溢出或无效');
+    return { ok:true, value:v };
+  } catch(e){
+    return { ok:false, err: e.message };
+  }
+}
+
+function formatCalcResult(v){
+  if (!isFinite(v)) return '错误';
+  if (v === 0) return '0';
+  const a = Math.abs(v);
+  if (a >= 1e10 || a < 1e-6){
+    let s = v.toExponential(8);
+    s = s.replace(/\.?0+e/, 'e');
+    return s;
+  }
+  let s = v.toPrecision(12);
+  if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
+  if (parseFloat(s) === 0) return '0';
+  return s;
+}
+
+function buildCalculatorHTML(){
+  return `
+    <div class="calc-display">
+      <div class="calc-preview" id="calcPreview"></div>
+      <div class="calc-expr" id="calcExpr">0</div>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key calc-fn" data-k="fn" data-v="sin(">sin</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="cos(">cos</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="tan(">tan</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="ln(">ln</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="log(">log</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key calc-fn" data-k="fn" data-v="√(">√</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="²">x²</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="^">xʸ</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="π">π</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="e">e</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key calc-fn" data-k="fn" data-v="∫(" title="定积分：∫(表达式, 下限, 上限)">∫</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="x">x</button>
+      <button class="calc-key calc-fn" data-k="fn" data-v="abs(">abs</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="(">(</button>
+      <button class="calc-key calc-op" data-k="fn" data-v=")">)</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key" data-k="fn" data-v="7">7</button>
+      <button class="calc-key" data-k="fn" data-v="8">8</button>
+      <button class="calc-key" data-k="fn" data-v="9">9</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="÷">÷</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="%">%</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key" data-k="fn" data-v="4">4</button>
+      <button class="calc-key" data-k="fn" data-v="5">5</button>
+      <button class="calc-key" data-k="fn" data-v="6">6</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="×">×</button>
+      <button class="calc-key calc-clr" data-k="clear">C</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key" data-k="fn" data-v="1">1</button>
+      <button class="calc-key" data-k="fn" data-v="2">2</button>
+      <button class="calc-key" data-k="fn" data-v="3">3</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="-">−</button>
+      <button class="calc-key calc-clr" data-k="back">⌫</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key" data-k="fn" data-v="0">0</button>
+      <button class="calc-key" data-k="fn" data-v=".">.</button>
+      <button class="calc-key calc-op" data-k="fn" data-v=",">,</button>
+      <button class="calc-key calc-op" data-k="fn" data-v="+" style="grid-column: span 2">+</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-key calc-eq" data-k="eq" style="grid-column: 1 / -1">= 计算</button>
+    </div>
+    <div class="calc-hint">
+      💡 积分用法：<code>∫(表达式, 下限, 上限)</code>，变量用 <code>x</code>，
+      例如 <code>∫(x^2, 0, 1)</code> 得 1/3；<code>∫(1/x, 1, 2)</code> 得 ln2。
+    </div>`;
+}
+
+function setupScientificCalculator(container){
+  const exprEl = container.querySelector('#calcExpr');
+  const previewEl = container.querySelector('#calcPreview');
+  let expr = state.calcExpr || '';
+
+  function updateUI(){
+    exprEl.textContent = expr || '0';
+    if (!expr){
+      previewEl.textContent = '';
+      previewEl.classList.remove('calc-err');
+      return;
+    }
+    if (expr.indexOf('∫') >= 0){
+      previewEl.textContent = '（含积分，按 = 计算）';
+      previewEl.classList.remove('calc-err');
+      return;
+    }
+    const r = calcEval(expr);
+    if (r.ok){
+      previewEl.textContent = '= ' + formatCalcResult(r.value);
+      previewEl.classList.remove('calc-err');
+    } else {
+      previewEl.textContent = '…';
+      previewEl.classList.remove('calc-err');
+    }
+  }
+
+  function append(s){
+    expr += s;
+    state.calcExpr = expr;
+    updateUI();
+  }
+  function back(){
+    expr = expr.slice(0, -1);
+    state.calcExpr = expr;
+    updateUI();
+  }
+  function clearAll(){
+    expr = '';
+    state.calcExpr = '';
+    updateUI();
+  }
+  function evaluate(){
+    if (!expr) return;
+    if (expr.indexOf('∫') >= 0){
+      previewEl.textContent = '计算中…';
+      previewEl.classList.remove('calc-err');
+      setTimeout(() => {
+        const r = calcEval(expr);
+        if (r.ok){
+          expr = formatCalcResult(r.value);
+          state.calcExpr = expr;
+          exprEl.textContent = expr;
+          previewEl.textContent = '';
+          previewEl.classList.remove('calc-err');
+        } else {
+          previewEl.textContent = '错误：' + r.err;
+          previewEl.classList.add('calc-err');
+        }
+      }, 20);
+    } else {
+      const r = calcEval(expr);
+      if (r.ok){
+        expr = formatCalcResult(r.value);
+        state.calcExpr = expr;
+        exprEl.textContent = expr;
+        previewEl.textContent = '';
+        previewEl.classList.remove('calc-err');
+      } else {
+        previewEl.textContent = '错误：' + r.err;
+        previewEl.classList.add('calc-err');
+      }
+    }
+  }
+
+  container.querySelectorAll('.calc-key').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const kind = btn.dataset.k;
+      if (kind === 'clear') return clearAll();
+      if (kind === 'back') return back();
+      if (kind === 'eq') return evaluate();
+      if (kind === 'fn') return append(btn.dataset.v);
+    });
+  });
+
+  updateUI();
+}
+
+/* =========================================================
+   6. 公式数据
    ========================================================= */
 const DATA = [
 {
@@ -892,7 +1225,7 @@ const DATA = [
 ];
 
 /* =========================================================
-   6. 状态
+   7. 状态
    ========================================================= */
 const state = {
   formula: null, unknown: null, values: {},
@@ -901,7 +1234,8 @@ const state = {
   defaultSig: 4, defaultDec: 2,
   reverseMode: false,
   revTarget: null, revTargetValue: '', revTargetDigits: 4,
-  revInputValues: {}
+  revInputValues: {},
+  sciOpen: false, calcExpr: ''
 };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -930,7 +1264,7 @@ function roundBy(x, n){ return state.mode === 'sig' ? roundSigFig(x, n) : roundD
 function fmtBy(x, n){ return state.mode === 'sig' ? toSigFig(x, n) : toDecStr(x, n); }
 
 /* =========================================================
-   7. 历史记录
+   8. 历史记录
    ========================================================= */
 function getFormulaKey(f) {
   return (f.custom ? 'custom_' : 'builtin_') + (f.name + '|' + f.eq)
@@ -1013,7 +1347,7 @@ function closeHistoryModal() {
 }
 
 /* =========================================================
-   8. 侧边栏
+   9. 侧边栏
    ========================================================= */
 function matchFilter(item, f){
   return item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f);
@@ -1171,7 +1505,7 @@ function markActive(el){
 $('search').addEventListener('input', e => renderSidebar(e.target.value));
 
 /* =========================================================
-   9. 公式面板（含反推模式）
+   10. 公式面板
    ========================================================= */
 function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
 function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
@@ -1189,6 +1523,8 @@ function openFormula(f, crumb){
   state.revTarget = null;
   state.revTargetValue = '';
   state.revInputValues = {};
+  state.sciOpen = false;
+  state.calcExpr = '';
 
   let ast;
   try { ast = parseEq(f.eq); }
@@ -1283,6 +1619,14 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
         <div><span class="rval" id="rval"></span><span class="runit" id="runit"></span></div>
         <div class="rnote" id="rnote"></div>
       </div>
+
+      <div class="sci-wrap">
+        <button class="sci-toggle" id="btnSciToggle">
+          <span>🧮 科学计算器</span>
+          <span class="arrow" id="sciArrow">${state.sciOpen ? '▲' : '▼'}</span>
+        </button>
+        <div class="sci-panel" id="sciPanel" style="display:${state.sciOpen ? 'block' : 'none'}"></div>
+      </div>
     </div>`;
 
   main.querySelectorAll('input[data-var]').forEach(inp => {
@@ -1371,7 +1715,6 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 
   $('btnReverse').addEventListener('click', () => {
     state.reverseMode = true;
-    // 用当前未知量作为反推目标，预填当前值
     state.revTarget = state.unknown;
     state.revTargetDigits = getDigits(state.unknown);
     state.revTargetValue = '';
@@ -1381,6 +1724,31 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
       state.revInputValues[nm] = state.values[nm] || '';
     });
     renderReversePanel(f, crumb, ast, names, meta);
+  });
+
+  const sciToggle = $('btnSciToggle');
+  const sciPanel = $('sciPanel');
+  const sciArrow = $('sciArrow');
+  function ensureSciBuilt(){
+    if (!sciPanel.dataset.ready){
+      sciPanel.innerHTML = buildCalculatorHTML();
+      setupScientificCalculator(sciPanel);
+      sciPanel.dataset.ready = '1';
+    }
+  }
+  if (state.sciOpen){
+    ensureSciBuilt();
+  }
+  sciToggle.addEventListener('click', () => {
+    state.sciOpen = !state.sciOpen;
+    if (state.sciOpen){
+      ensureSciBuilt();
+      sciPanel.style.display = 'block';
+      sciArrow.textContent = '▲';
+    } else {
+      sciPanel.style.display = 'none';
+      sciArrow.textContent = '▼';
+    }
   });
 
   $('btnCalc').addEventListener('click', () => doCompute(f, ast, names, meta));
@@ -1399,7 +1767,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   10. 反推模式面板
+   11. 反推模式面板
    ========================================================= */
 function renderReversePanel(f, crumb, ast, names, meta){
   const main = $('main');
@@ -1477,32 +1845,22 @@ function renderReversePanel(f, crumb, ast, names, meta){
       <div class="rev-block" id="revResult"></div>
     </div>`;
 
-  // 输入绑定
   main.querySelectorAll('input[data-rev-var]').forEach(inp => {
     inp.addEventListener('input', () => {
       state.revInputValues[inp.dataset.revVar] = inp.value;
     });
   });
 
-  $('rvTargetValue').addEventListener('input', e => {
-    state.revTargetValue = e.target.value;
-  });
-
-  $('rvTargetDigits').addEventListener('change', e => {
-    state.revTargetDigits = parseInt(e.target.value, 10);
-  });
+  $('rvTargetValue').addEventListener('input', e => { state.revTargetValue = e.target.value; });
+  $('rvTargetDigits').addEventListener('change', e => { state.revTargetDigits = parseInt(e.target.value, 10); });
 
   $('rvTargetName').addEventListener('change', e => {
-    // 切换目标变量时，把它从输入列表移出，把原目标放入输入
-    const oldTarget = state.revTarget;
     const newTarget = e.target.value;
     state.revTarget = newTarget;
-    // 重建输入值集合
     const newInputs = {};
     names.forEach(nm => {
       if (nm === newTarget) return;
-      newInputs[nm] = state.revInputValues[nm] !== undefined ? state.revInputValues[nm] :
-                      (state.values[nm] || '');
+      newInputs[nm] = state.revInputValues[nm] !== undefined ? state.revInputValues[nm] : (state.values[nm] || '');
     });
     state.revInputValues = newInputs;
     state.revTargetDigits = getDigits(newTarget);
@@ -1511,7 +1869,6 @@ function renderReversePanel(f, crumb, ast, names, meta){
 
   $('rvMode').addEventListener('change', e => {
     state.mode = e.target.value;
-    state.revTargetDigits = state.mode === 'sig' ? Math.min(state.revTargetDigits, 8) : Math.min(state.revTargetDigits, 8);
     renderReversePanel(f, crumb, ast, names, meta);
   });
 
@@ -1534,7 +1891,7 @@ function renderReversePanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   11. 反推搜索核心
+   12. 反推搜索
    ========================================================= */
 function doReverseSearch(f, ast, names, meta){
   const info = $('revInfo');
@@ -1554,8 +1911,8 @@ function doReverseSearch(f, ast, names, meta){
   if (!isFinite(targetValue)){ info.textContent = '目标值不是有效数字'; info.classList.add('show'); return; }
 
   const targetDigits = state.revTargetDigits;
-
   const inputNames = names.filter(n => n !== targetName);
+
   if (inputNames.length === 0){
     info.textContent = '该公式没有其他变量可以反推。'; info.classList.add('show'); return;
   }
@@ -1577,7 +1934,6 @@ function doReverseSearch(f, ast, names, meta){
   info.textContent = '正在反推，请稍候…（变量多时可能需要几秒）';
   info.classList.add('show');
 
-  // 让 UI 先渲染
   setTimeout(() => {
     const t0 = performance.now();
     let results;
@@ -1589,7 +1945,6 @@ function doReverseSearch(f, ast, names, meta){
       return;
     }
     const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
-
     info.classList.remove('show');
 
     const modeLabel = state.mode === 'sig' ? '位有效数字' : '位小数';
@@ -1611,14 +1966,12 @@ function doReverseSearch(f, ast, names, meta){
       return;
     }
 
-    // 按"需要的位数最少"排序（更简洁的解在前）
     results.sort((a, b) => {
       const sa = a.digits.reduce((x, y) => x + y, 0);
       const sb = b.digits.reduce((x, y) => x + y, 0);
       return sa - sb;
     });
 
-    // 只展示前 30 条，防止过多
     const MAX_SHOW = 30;
     const shown = results.slice(0, MAX_SHOW);
 
@@ -1655,23 +2008,19 @@ function doReverseSearch(f, ast, names, meta){
   }, 20);
 }
 
-/* 核心：枚举所有输入变量的舍入位数组合，检查是否能产生目标值 */
 function findReverseDigitCombos(ast, inputNames, targetName, targetValue, targetDigits, inputValues){
   const n = inputNames.length;
   const digitsRange = state.mode === 'sig' ? [1,2,3,4,5,6,7,8] : [0,1,2,3,4,5,6,7,8];
-  const rangeSize = digitsRange.length;
-  const totalCombos = Math.pow(rangeSize, n);
+  const totalCombos = Math.pow(digitsRange.length, n);
 
   let effectiveRange = digitsRange;
   if (totalCombos > 150000){
-    // 组合过多时收窄范围到常用范围
     effectiveRange = state.mode === 'sig' ? [1,2,3,4,5,6] : [0,1,2,3,4,5];
   }
 
   const results = [];
   const env = {};
 
-  // 预先算好每个变量在各舍入位数下的值，加速搜索
   const precomputed = {};
   for (const nm of inputNames){
     precomputed[nm] = {};
@@ -1680,13 +2029,11 @@ function findReverseDigitCombos(ast, inputNames, targetName, targetValue, target
     }
   }
 
-  // 用目标值作为牛顿法起始点，通常已经很接近
   const guess = targetValue;
   const tol = Math.max(Math.abs(targetValue) * 1e-9, 1e-12);
 
   function search(idx, currentDigits){
     if (idx === n){
-      // 构建环境
       for (let i = 0; i < n; i++){
         env[inputNames[i]] = precomputed[inputNames[i]][currentDigits[i]];
       }
@@ -1723,7 +2070,7 @@ function findReverseDigitCombos(ast, inputNames, targetName, targetValue, target
 }
 
 /* =========================================================
-   12. 普通计算
+   13. 普通计算
    ========================================================= */
 function doCompute(f, ast, names, meta){
   hideErr(); hideResult(); hideProc();
@@ -1826,7 +2173,7 @@ function doCompute(f, ast, names, meta){
 }
 
 /* =========================================================
-   13. 自定义公式编辑器
+   14. 自定义公式编辑器
    ========================================================= */
 const SYM_GROUPS = [
   ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
@@ -1872,7 +2219,7 @@ function renderCustomEditor(editIdx){
       <p class="hint">
         语法：<code>*</code> 乘法、<code>/</code> 除法、<code>^</code> 乘方；
         函数支持 <code>ln</code>、<code>lg</code>、<code>sqrt</code>、<code>exp</code>、<code>abs</code>、
-        <code>sin</code>、<code>cos</code>、<code>tan</code>；常数支持 <code>pi</code>。
+        <code>sin</code>、<code>cos</code>、<code>tan</code>；常数支持 <code>pi</code>、<code>e</code>。
         必须写成 <code>左式 = 右式</code>，例如 <code>c = n/V</code>。
         <br>下标用 <code>_</code>：<code>c_H</code> → c<sub>H</sub>；上标用 <code>^</code>：<code>V^2</code> → V<sup>2</sup>。
         多字符下标用花括号：<code>K_{sp}</code>；复杂上标用括号：<code>x^(1/3)</code>。
@@ -2016,7 +2363,171 @@ function saveCustomFormula(editIdx){
 }
 
 /* =========================================================
-   14. 模态框 + 启动
+   15. 数据导出 / 导入
+   ========================================================= */
+const EXPORT_APP_ID = 'chemcalc';
+const EXPORT_VERSION = 1;
+
+function collectAllData(){
+  const data = {
+    app: EXPORT_APP_ID,
+    version: EXPORT_VERSION,
+    exportedAt: new Date().toISOString(),
+    custom: null,
+    history: {}
+  };
+  try {
+    const raw = localStorage.getItem('chemcalc_custom_v1');
+    if (raw) data.custom = JSON.parse(raw);
+  } catch(e){ console.warn('读取自定义公式失败:', e); }
+  try {
+    for (let i = 0; i < localStorage.length; i++){
+      const k = localStorage.key(i);
+      if (k && k.indexOf('chemcalc_history_') === 0){
+        const raw = localStorage.getItem(k);
+        if (raw){
+          try { data.history[k] = JSON.parse(raw); } catch(e){}
+        }
+      }
+    }
+  } catch(e){ console.warn('读取历史失败:', e); }
+  return data;
+}
+
+function applyAllData(data){
+  if (!data || typeof data !== 'object') throw new Error('数据格式不正确');
+  if (data.app !== EXPORT_APP_ID) throw new Error('这不是本应用导出的数据');
+
+  if (data.custom !== undefined){
+    if (data.custom === null){
+      localStorage.removeItem('chemcalc_custom_v1');
+    } else {
+      localStorage.setItem('chemcalc_custom_v1', JSON.stringify(data.custom));
+    }
+  }
+
+  try {
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i++){
+      const k = localStorage.key(i);
+      if (k && k.indexOf('chemcalc_history_') === 0) toRemove.push(k);
+    }
+    toRemove.forEach(k => localStorage.removeItem(k));
+  } catch(e){}
+
+  if (data.history && typeof data.history === 'object'){
+    for (const k in data.history){
+      if (k.indexOf('chemcalc_history_') === 0){
+        try { localStorage.setItem(k, JSON.stringify(data.history[k])); } catch(e){}
+      }
+    }
+  }
+}
+
+function openExportModal(){
+  const modal = document.getElementById('exportModal');
+  const body = modal.querySelector('.modal-body');
+  const textarea = document.getElementById('exportText');
+  const data = collectAllData();
+
+  const customCount = Array.isArray(data.custom) ? data.custom.length : 0;
+  let historyCount = 0;
+  for (const k in data.history){
+    if (Array.isArray(data.history[k])) historyCount += data.history[k].length;
+  }
+
+  let notice = body.querySelector('.export-notice');
+  if (!notice){
+    notice = document.createElement('div');
+    notice.className = 'export-notice';
+    body.insertBefore(notice, textarea);
+  }
+  notice.innerHTML = `本次导出包含 <b>${customCount}</b> 个自定义公式、共 <b>${historyCount}</b> 条历史记录。<br>
+    复制下面的文本妥善保存（建议存到备忘录或发给自己）。<br>
+    换设备或重装后用「导入数据」粘贴恢复即可。`;
+
+  textarea.value = JSON.stringify(data, null, 2);
+  modal.style.display = 'flex';
+}
+
+function closeExportModal(){
+  document.getElementById('exportModal').style.display = 'none';
+}
+
+async function copyExportText(){
+  const textarea = document.getElementById('exportText');
+  const btn = document.getElementById('exportCopy');
+  const oldText = btn.textContent;
+  try {
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(0, 9999999);
+    let ok = false;
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      try {
+        await navigator.clipboard.writeText(textarea.value);
+        ok = true;
+      } catch(e){ ok = false; }
+    }
+    if (!ok){
+      ok = document.execCommand('copy');
+    }
+    btn.textContent = ok ? '✅ 已复制' : '❌ 复制失败，请手动长按选中';
+  } catch(e){
+    btn.textContent = '❌ 复制失败，请手动长按选中';
+  }
+  setTimeout(() => { btn.textContent = oldText; }, 2000);
+}
+
+function openImportModal(){
+  const modal = document.getElementById('importModal');
+  document.getElementById('importText').value = '';
+  const msg = document.getElementById('importMsg');
+  msg.textContent = '';
+  msg.style.color = '';
+  modal.style.display = 'flex';
+}
+
+function closeImportModal(){
+  document.getElementById('importModal').style.display = 'none';
+}
+
+function doImport(){
+  const raw = (document.getElementById('importText').value || '').trim();
+  const msg = document.getElementById('importMsg');
+  if (!raw){
+    msg.textContent = '请先粘贴要导入的文本';
+    msg.style.color = '#b91c1c';
+    return;
+  }
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch(e){
+    msg.textContent = 'JSON 解析失败：' + e.message;
+    msg.style.color = '#b91c1c';
+    return;
+  }
+  if (!confirm('导入会覆盖当前所有自定义公式和历史记录，确定继续吗？')) return;
+
+  try {
+    applyAllData(data);
+    msg.textContent = '✅ 导入成功，正在刷新…';
+    msg.style.color = '#0f7a4a';
+    setTimeout(() => {
+      closeImportModal();
+      renderSidebar();
+      const main = document.getElementById('main');
+      main.innerHTML = '<div class="panel"><div class="welcome">✅ 数据已导入。<br>请从左侧重新选择一个公式开始计算 👈</div></div>';
+    }, 400);
+  } catch(e){
+    msg.textContent = '导入失败：' + e.message;
+    msg.style.color = '#b91c1c';
+  }
+}
+
+/* =========================================================
+   16. 模态框事件 + 启动
    ========================================================= */
 document.getElementById('historyClose').addEventListener('click', closeHistoryModal);
 document.getElementById('historyModal').addEventListener('click', e => {
@@ -2031,6 +2542,20 @@ document.getElementById('historyClear').addEventListener('click', () => {
       closeHistoryModal();
     }
   }
+});
+
+document.getElementById('btnExport').addEventListener('click', openExportModal);
+document.getElementById('btnImport').addEventListener('click', openImportModal);
+document.getElementById('exportClose').addEventListener('click', closeExportModal);
+document.getElementById('exportCopy').addEventListener('click', copyExportText);
+document.getElementById('importClose').addEventListener('click', closeImportModal);
+document.getElementById('importCancel').addEventListener('click', closeImportModal);
+document.getElementById('importDo').addEventListener('click', doImport);
+document.getElementById('exportModal').addEventListener('click', e => {
+  if (e.target.id === 'exportModal') closeExportModal();
+});
+document.getElementById('importModal').addEventListener('click', e => {
+  if (e.target.id === 'importModal') closeImportModal();
 });
 
 renderSidebar();
