@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APKname: Build APK
 on: [push, workflow_dispatch]
 
 jobs:
@@ -16,6 +16,12 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Decode fixed keystore
+        run: |
+          mkdir -p ~/.android
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ~/.android/debug.keystore
+          ls -la ~/.android/debug.keystore
+
       - name: Install Capacitor & Build Android
         run: |
           npm init -y
@@ -28,6 +34,9 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
