@@ -22,7 +22,6 @@
     --calc-fn-hover:#eef3ff;
     --notice-bg:#f5f8ff;
     --notice-border:#dce7ff;
-    --theme-color-meta:#4f7cff;
   }
   [data-theme="mint"]{
     --primary:#10b981;
@@ -40,7 +39,6 @@
     --calc-fn-hover:#d1fae5;
     --notice-bg:#ecfdf5;
     --notice-border:#a7f3d0;
-    --theme-color-meta:#10b981;
   }
   [data-theme="tiffany"]{
     --primary:#0abab5;
@@ -58,7 +56,6 @@
     --calc-fn-hover:#c8f2f0;
     --notice-bg:#e6f9f8;
     --notice-border:#9aede9;
-    --theme-color-meta:#0abab5;
   }
   [data-theme="sakura"]{
     --primary:#ec7fa9;
@@ -76,7 +73,6 @@
     --calc-fn-hover:#fce0eb;
     --notice-bg:#fef1f6;
     --notice-border:#f8c8da;
-    --theme-color-meta:#ec7fa9;
   }
 
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -330,7 +326,6 @@
                  border:1px solid var(--notice-border)}
   .export-notice b{color:var(--primary-dark)}
 
-  /* ---------- 主题选择器 ---------- */
   .theme-mgmt{margin-top:14px;padding-top:14px;border-top:1px solid #eef0f3;
               display:flex;align-items:center;gap:12px}
   .theme-label{font-size:13px;color:#4b5563;font-weight:600;flex:0 0 auto}
@@ -347,6 +342,39 @@
   .theme-dot[data-theme="mint"]{background:linear-gradient(135deg,#10b981,#059669)}
   .theme-dot[data-theme="tiffany"]{background:linear-gradient(135deg,#0abab5,#089e9a)}
   .theme-dot[data-theme="sakura"]{background:linear-gradient(135deg,#ec7fa9,#d95f8c)}
+
+  /* ---------- 搜索预览框 ---------- */
+  .search-wrap{position:relative;margin-bottom:10px}
+  .search-wrap .search{margin-bottom:0}
+  .search-preview{position:absolute;top:100%;left:0;right:0;
+    background:#fff;border:1px solid #d7dbe0;border-radius:8px;
+    box-shadow:0 4px 16px rgba(16,24,40,.15);
+    max-height:440px;overflow-y:auto;z-index:60;margin-top:4px;
+    -webkit-overflow-scrolling:touch}
+  .sp-count{padding:6px 12px;font-size:11.5px;color:#8b93a1;
+    background:#f9fafb;border-bottom:1px solid #eef0f3;font-weight:500;
+    position:sticky;top:0;z-index:1}
+  .sp-item{padding:10px 12px;cursor:pointer;border-bottom:1px solid #f0f3f9;
+    transition:background .08s}
+  .sp-item:last-child{border-bottom:none}
+  .sp-item:hover, .sp-item.active{background:var(--primary-light-hover)}
+  .sp-name{font-size:13.5px;font-weight:600;color:#1f2937;margin-bottom:3px;
+    display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .sp-name .sp-tag{font-size:10px;padding:1px 6px;border-radius:4px;
+    background:var(--primary-light-hover);color:var(--primary-dark);
+    font-weight:500;flex:0 0 auto}
+  .sp-eq{font-family:"Cambria Math",Georgia,serif;font-size:12.5px;
+    color:var(--primary-dark);margin-bottom:3px;word-break:break-all;
+    line-height:1.4}
+  .sp-eq sub{font-size:.72em;color:var(--sub-sup)}
+  .sp-eq sup{font-size:.72em;color:var(--sub-sup)}
+  .sp-path{font-size:11px;color:#8b93a1;margin-bottom:3px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sp-reason{font-size:11.5px;color:var(--primary-dark);font-weight:500;
+    line-height:1.5;word-break:break-all}
+  .sp-reason em{font-style:normal;background:var(--primary-light-hover);
+    padding:0 3px;border-radius:3px;color:var(--primary-dark);font-weight:600}
+  .sp-empty{padding:14px 12px;font-size:13px;color:#8b93a1;text-align:center}
 
   @media (max-width:760px){
     .app{flex-direction:column}
@@ -383,6 +411,7 @@
     .calc-hint{font-size:11px}
     .data-mgmt{flex-direction:row}
     .theme-dot{width:26px;height:26px}
+    .search-preview{max-height:300px}
   }
 </style>
 </head>
@@ -390,7 +419,10 @@
 <div class="app">
   <aside class="sidebar">
     <h1>⚗️ 化学公式计算器</h1>
-    <input id="search" class="search" placeholder="🔍 搜索公式…">
+    <div class="search-wrap">
+      <input id="search" class="search" placeholder="🔍 搜索公式、变量…" autocomplete="off">
+      <div class="search-preview" id="searchPreview" style="display:none"></div>
+    </div>
     <div id="tree" class="tree"></div>
     <div class="data-mgmt">
       <button class="data-btn" id="btnExport">⬆ 导出数据</button>
@@ -409,9 +441,9 @@
   <main class="main" id="main">
     <div class="panel"><div class="welcome">
       从上方选择一个公式开始计算 👆<br>
+      搜索框支持按公式名、变量名、变量说明检索，会弹出预览。<br>
       公式中任意一个量都可以留作未知量。<br>
-      顶端可切换「有效数字 / 小数位数」两种计算方式，<br>
-      每个变量还能单独设定各自的位数。<br>
+      顶端可切换「有效数字 / 小数位数」两种计算方式。<br>
       每次计算会自动保存历史记录，可点「📋 历史」查看。<br>
       点击「🔬 反推模式」可根据已知结果反推输入的舍入位数。<br>
       页面底部还有「🧮 科学计算器」可随时展开，支持 ∫ 定积分。<br>
@@ -1478,7 +1510,18 @@ function closeHistoryModal() {
    10. 侧边栏
    ========================================================= */
 function matchFilter(item, f){
-  return item.name.toLowerCase().includes(f) || item.eq.toLowerCase().includes(f);
+  if (!f) return true;
+  const q = f.toLowerCase();
+  if (item.name.toLowerCase().includes(q)) return true;
+  if (q.length >= 2 && item.eq.toLowerCase().includes(q)) return true;
+  const meta = item.vars || {};
+  for (const nm in meta){
+    const m = meta[nm] || {};
+    if (nm.toLowerCase().includes(q)) return true;
+    if (m.label && m.label.toLowerCase().includes(q)) return true;
+    if (m.d && m.d.toLowerCase().includes(q)) return true;
+  }
+  return false;
 }
 function makeItemEl(item, crumbText){
   const el = document.createElement('div');
@@ -1630,10 +1673,205 @@ function markActive(el){
   document.querySelectorAll('#tree .item').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
 }
-$('search').addEventListener('input', e => renderSidebar(e.target.value));
 
 /* =========================================================
-   11. 公式面板
+   11. 搜索预览
+   ========================================================= */
+let searchResults = [];
+let searchCursor = -1;
+
+function collectAllFormulas(){
+  const list = [];
+  DATA.forEach(cat => {
+    cat.subs.forEach(sub => {
+      sub.items.forEach(item => {
+        list.push({ item, cat: cat.cat, sub: sub.sub, custom: false });
+      });
+    });
+  });
+  loadCustom().forEach((item, idx) => {
+    list.push({
+      item,
+      cat: item.cat || '',
+      sub: item.sub || '',
+      custom: true,
+      idx
+    });
+  });
+  return list;
+}
+
+function buildSearchResults(q){
+  if (!q) return [];
+  const ql = q.toLowerCase();
+  const results = [];
+  collectAllFormulas().forEach(entry => {
+    const item = entry.item;
+    const meta = item.vars || {};
+    const reasons = [];
+    let score = 0;
+
+    const nameHit = item.name.toLowerCase().includes(ql);
+    const eqHit = q.length >= 2 && item.eq.toLowerCase().includes(ql);
+    const matchedVars = [];
+    Object.keys(meta).forEach(nm => {
+      const m = meta[nm] || {};
+      const nmL = nm.toLowerCase();
+      const labL = (m.label || '').toLowerCase();
+      const dL = (m.d || '').toLowerCase();
+      if (nmL.includes(ql) || labL.includes(ql) || dL.includes(ql)){
+        matchedVars.push(m.label || nm);
+      }
+    });
+
+    if (nameHit){ reasons.push({ type:'名称', html:'名称匹配' }); score += 100; }
+    if (eqHit){ reasons.push({ type:'公式', html:'公式表达式匹配' }); score += 20; }
+    if (matchedVars.length > 0){
+      const shown = matchedVars.slice(0, 4);
+      const more = matchedVars.length > 4 ? ' 等' + matchedVars.length + '个' : '';
+      const html = '变量：' +
+        shown.map(v => '<em>' + esc(v) + '</em>').join('、') + more;
+      reasons.push({ type:'变量', html });
+      score += 50 + matchedVars.length * 5;
+    }
+
+    if (score > 0){
+      results.push({ entry, reasons, score });
+    }
+  });
+
+  results.sort((a, b) => b.score - a.score);
+  return results;
+}
+
+function renderSearchPreview(q){
+  const preview = $('searchPreview');
+  if (!q || !q.trim()){
+    preview.style.display = 'none';
+    preview.innerHTML = '';
+    searchResults = [];
+    searchCursor = -1;
+    return;
+  }
+
+  const results = buildSearchResults(q.trim());
+  searchResults = results;
+  searchCursor = -1;
+
+  if (!results.length){
+    preview.innerHTML = '<div class="sp-empty">没有找到匹配的公式或变量</div>';
+    preview.style.display = 'block';
+    return;
+  }
+
+  const MAX_SHOW = 40;
+  const shown = results.slice(0, MAX_SHOW);
+
+  const itemsHTML = shown.map((r, i) => {
+    const item = r.entry.item;
+    const path = r.entry.custom
+      ? (r.entry.cat && r.entry.sub ? r.entry.cat + ' / ' + r.entry.sub : '未分类自定义公式')
+      : r.entry.cat + ' / ' + r.entry.sub;
+    const tag = r.entry.custom ? '<span class="sp-tag">自定义</span>' : '';
+    return `
+      <div class="sp-item" data-idx="${i}">
+        <div class="sp-name">${esc(item.name)}${tag}</div>
+        <div class="sp-eq">${renderFormulaHTML(item.eq)}</div>
+        <div class="sp-path">${esc(path)}</div>
+        <div class="sp-reason">${r.reasons.map(rr => rr.html).join(' · ')}</div>
+      </div>`;
+  }).join('');
+
+  const countHTML = `<div class="sp-count">找到 ${results.length} 条${results.length > MAX_SHOW ? '（仅显示前 ' + MAX_SHOW + ' 条）' : ''}</div>`;
+
+  preview.innerHTML = countHTML + itemsHTML;
+  preview.style.display = 'block';
+
+  preview.querySelectorAll('.sp-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = parseInt(el.dataset.idx, 10);
+      if (searchResults[idx]) selectSearchResult(searchResults[idx]);
+    });
+  });
+}
+
+function updatePreviewCursor(){
+  const preview = $('searchPreview');
+  preview.querySelectorAll('.sp-item').forEach((el, i) => {
+    el.classList.toggle('active', i === searchCursor);
+  });
+  const active = preview.querySelector('.sp-item.active');
+  if (active) active.scrollIntoView({ block: 'nearest' });
+}
+
+function selectSearchResult(result){
+  const item = result.entry.item;
+  const path = result.entry.custom
+    ? (result.entry.cat && result.entry.sub ? result.entry.cat + ' / ' + result.entry.sub : '未分类自定义公式')
+    : result.entry.cat + ' / ' + result.entry.sub;
+
+  const preview = $('searchPreview');
+  preview.style.display = 'none';
+  const input = $('search');
+  input.value = '';
+  input.blur();
+  searchResults = [];
+  searchCursor = -1;
+
+  renderSidebar('');
+
+  document.querySelectorAll('#tree .item').forEach(el => {
+    if (el.textContent === item.name) el.classList.add('active');
+  });
+
+  openFormula(item, path);
+}
+
+const searchInput = $('search');
+searchInput.addEventListener('input', e => {
+  const q = e.target.value;
+  renderSidebar(q);
+  renderSearchPreview(q);
+});
+
+searchInput.addEventListener('focus', () => {
+  const q = searchInput.value.trim();
+  if (q) renderSearchPreview(q);
+});
+
+searchInput.addEventListener('keydown', e => {
+  const preview = $('searchPreview');
+  if (preview.style.display === 'none') return;
+
+  if (e.key === 'ArrowDown'){
+    e.preventDefault();
+    if (searchResults.length){
+      searchCursor = Math.min(searchCursor + 1, Math.min(searchResults.length, 40) - 1);
+      updatePreviewCursor();
+    }
+  } else if (e.key === 'ArrowUp'){
+    e.preventDefault();
+    searchCursor = Math.max(searchCursor - 1, 0);
+    updatePreviewCursor();
+  } else if (e.key === 'Enter'){
+    e.preventDefault();
+    const idx = searchCursor >= 0 ? searchCursor : 0;
+    if (searchResults[idx]) selectSearchResult(searchResults[idx]);
+  } else if (e.key === 'Escape'){
+    preview.style.display = 'none';
+    searchInput.blur();
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap')){
+    const preview = $('searchPreview');
+    if (preview) preview.style.display = 'none';
+  }
+});
+
+/* =========================================================
+   12. 公式面板
    ========================================================= */
 function hideErr(){ const e = $('errbox'); if (e) e.classList.remove('show'); }
 function hideResult(){ const r = $('resultbox'); if (r) r.classList.remove('show'); }
@@ -1895,7 +2133,7 @@ function renderFormulaPanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   12. 反推模式面板
+   13. 反推模式面板
    ========================================================= */
 function renderReversePanel(f, crumb, ast, names, meta){
   const main = $('main');
@@ -2019,7 +2257,7 @@ function renderReversePanel(f, crumb, ast, names, meta){
 }
 
 /* =========================================================
-   13. 反推搜索
+   14. 反推搜索
    ========================================================= */
 function doReverseSearch(f, ast, names, meta){
   const info = $('revInfo');
@@ -2198,7 +2436,7 @@ function findReverseDigitCombos(ast, inputNames, targetName, targetValue, target
 }
 
 /* =========================================================
-   14. 普通计算
+   15. 普通计算
    ========================================================= */
 function doCompute(f, ast, names, meta){
   hideErr(); hideResult(); hideProc();
@@ -2301,7 +2539,7 @@ function doCompute(f, ast, names, meta){
 }
 
 /* =========================================================
-   15. 自定义公式编辑器
+   16. 自定义公式编辑器
    ========================================================= */
 const SYM_GROUPS = [
   ['常用量', ['p','V','T','n','m','c','C','R','k','K','x','N','M','t','E','Q','W','U','H','S','G','A','F','I','z','q','w','b','d','r','s','f','a','Λ','ε','λ']],
@@ -2491,7 +2729,7 @@ function saveCustomFormula(editIdx){
 }
 
 /* =========================================================
-   16. 数据导出 / 导入
+   17. 数据导出 / 导入
    ========================================================= */
 const EXPORT_APP_ID = 'chemcalc';
 const EXPORT_VERSION = 1;
@@ -2655,7 +2893,7 @@ function doImport(){
 }
 
 /* =========================================================
-   17. 模态框事件 + 启动
+   18. 模态框事件 + 启动
    ========================================================= */
 document.getElementById('historyClose').addEventListener('click', closeHistoryModal);
 document.getElementById('historyModal').addEventListener('click', e => {
@@ -2686,7 +2924,6 @@ document.getElementById('importModal').addEventListener('click', e => {
   if (e.target.id === 'importModal') closeImportModal();
 });
 
-// 主题绑定
 document.querySelectorAll('.theme-dot').forEach(dot => {
   dot.addEventListener('click', () => {
     const name = dot.dataset.theme;
